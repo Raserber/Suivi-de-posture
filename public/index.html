@@ -9,38 +9,50 @@
       <script src="./js/bottomControlConfiguration.js"></script>
       <script src="./js/initVisualPoints.js"></script>
       <script>
+         // création de la scene Threejs
          createScene();
 
+         // ajout des points visuels à la scene Threejs (./js/initVisualPoints.js)
          scene.add(lfeet1, lfeet2, lfeet3, lfeet4, rfeet1, rfeet2, rfeet3, rfeet4, lleg1, lleg2, rleg1, rleg2, torso1, torso2, pelvis1, head1, head2, head3, lfinger, rfinger)
          
+         // creation d'un objet mannequin
          man = new Male();
 
+         // definition des positions
          debout = {"version":7,"data":[[0,3.8,15.7],[0,-90,0],[0,0,-2],[0,0,5],[6,0,0],[0],[-6,-6,-0.6],[-6,0,0],[0],[6,6,-0.6],[7,-0.6,-5],[15],[5,0,0],[-90,70,75,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[-7,0.6,-5],[15],[-5,0,0],[90,-70,75,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10]]}
          assis = {"version":7,"data":[[0,-10.3,0],[0,-90,0],[0,0,-2],[0,0,5],[6,0,87.7],[86.9],[-6,-6,-0.6],[-6,0,88.3],[89.1],[6,6,-0.6],[7,-0.6,-5],[15],[5,0,0],[-90,70,75,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[-7,0.6,-5],[15],[-5,0,0],[90,-70,75,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10]]}
          coucher = {"version":7,"data":[[0,-25.6,0],[0,-2.9,90],[0,0,-2],[0,0,5],[6,0,0],[0],[-6,-6,-0.6],[-6,0,0],[0],[6,6,-0.6],[7,-0.6,-5],[15],[5,0,0],[-90,70,75,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[-7,0.6,-5],[15],[-5,0,0],[90,-70,75,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10]]}
 
+         // definition de la position prise par le mannequin
          man.posture = debout
          man.l_knee.bend = 0
+         man.r_knee.bend = 0
 
-         
+         // permet à l'utilisateur de tourner la vue
          var controls = new THREE.OrbitControls(camera, renderer.domElement);
 
+         // fonction d'animation
          function animate(t)
          {
 
+            // changement de posture animé
             man.posture = Mannequin.blend(debout, assis, Math.abs(sin(t*0.5)))
             man.l_knee.bend = 0
             man.r_knee.bend = 0
 
+            // extraction de la hauteur du point du mannequin le plus bas (./js/bottomControlConfiguration.js)
             var bottom = configBottom()
 
+            // boucle relevant les mains si proche du sol
             while (man.l_wrist.point(1, 5, 0).y+29.5 <= 0) {
                man.l_arm.raise += 0.01
                man.r_arm.raise += 0.01
             }
 
+            // relevage de la position y du mannequin si proche du sol
 				man.position.y += (-29.5 - bottom);
          
+         // affichage des points rouges PIEDS
          lfeet1.position.copy(man.l_ankle.point(6, 2, 0));
          lfeet2.position.copy(man.l_ankle.point(-2, 2.5, 0));
          lfeet3.position.copy(man.l_ankle.point(2, 2.5, 2));
@@ -50,19 +62,25 @@
          rfeet3.position.copy(man.r_ankle.point(2, 2.5, 2));
          rfeet4.position.copy(man.r_ankle.point(2, 2.5, -2));
 
+         // affichage des points rouges JAMBES
          lleg1.position.copy(man.l_leg.point(2.75, -5, 0));
          lleg2.position.copy(man.l_leg.point(-2.75, -5, 0));
          rleg1.position.copy(man.r_leg.point(2.75, -5, 0));
          rleg2.position.copy(man.r_leg.point(-2.75, -5, 0));
          
+         // affichage des points rouges TORSE
          torso1.position.copy(man.torso.point(-3.5, 13, 0));
          torso2.position.copy(man.torso.point(3.2, 11.3, 0));
+
+         // affichage du point rouge PELVIEN
          pelvis1.position.copy(man.pelvis.point(-5, -0.5, 0))
 
+         // affichage des points rouges TETE
          head1.position.copy(man.head.point(-3.5, 4, 0))
          head2.position.copy(man.head.point(3, 1.75, 0))
          head3.position.copy(man.head.point(0, 7, 0))
 
+         // affichages des points noires MAINS
          lfinger.position.copy(man.l_wrist.point(1, 5, 0))
          rfinger.position.copy(man.r_wrist.point(1, 5, 0))
 
