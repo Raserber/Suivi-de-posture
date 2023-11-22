@@ -34,5 +34,5 @@ head2 = new THREE.Mesh(geometry, material);
 head3 = new THREE.Mesh(geometry, material);
 
 // mains
-lfinger = new THREE.Mesh(geometry, material2);
-rfinger = new THREE.Mesh(geometry, material2);
+lfinger1 = new THREE.Mesh(geometry, material2);
+rfinger1 = new THREE.Mesh(geometry, material2);
