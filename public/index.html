@@ -9,6 +9,7 @@
       <script src="./js/bottomControlConfiguration.js"></script>
       <script src="./js/initVisualPoints.js"></script>
       <script>
+         var angleTorse = 0, angleJambes = 0, angleGenoux = 0
          // création de la scene Threejs
          createScene();
 
@@ -25,6 +26,7 @@
 
          // definition de la position prise par le mannequin
          man.posture = debout
+         man.position.y -= 20
 
          // permet à l'utilisateur de tourner la vue
          var controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -32,13 +34,13 @@
          // fonction d'animation
          function animate(t)
          {
+            angleTorse = Math.abs(sin(t*0.5))*0
+            angleJambes = Math.abs(sin(t*0.5))*0
 
             // changement de posture animé
-            man.bend = Math.abs(sin(t)) * -90
-            man.l_leg.raise = 90 + man.bend
-            man.r_leg.raise = 90 + man.bend
-            man.l_knee.bend = 0
-            man.r_knee.bend = 0
+            man.bend = angleTorse
+            man.l_knee.bend = man.l_leg.raise > 90 || man.l_leg.raise < -90 ? man.l_leg.raise-(man.l_leg.raise-90) : man.l_leg.raise
+            man.r_knee.bend = man.r_leg.raise > 90 || man.r_leg.raise < -90 ?  man.r_leg.raise-( man.r_leg.raise-90) :  man.r_leg.raise
 
             // extraction de la hauteur du point du mannequin le plus bas (./js/bottomControlConfiguration.js)
             var bottom = configBottom()
@@ -53,8 +55,8 @@
 
             // boucle descendant les bras si loin du sol
             else if (man.l_arm.raise > 0) {
-                  man.l_arm.raise -= 0.5
-                  man.r_arm.raise -= 0.5
+                  man.l_arm.raise -= 0.3
+                  man.r_arm.raise -= 0.3
             }
 
             // relevage de la position y du mannequin si proche du sol
@@ -77,14 +79,14 @@
          rleg2.position.copy(man.r_leg.point(-2.75, -5, 0));
          
          // affichage des points rouges TORSE
-         torso1.position.copy(man.torso.point(-3.5, 13, 0));
-         torso2.position.copy(man.torso.point(3.2, 11.3, 0));
+         torso1.position.copy(man.torso.point(3.2, 11.3, 0));
+         torso2.position.copy(man.torso.point(-3.5, 13, 0));
 
          // affichage du point rouge PELVIEN
          pelvis1.position.copy(man.pelvis.point(-5, -0.5, 0))
 
          // affichage des points rouges TETE
-         head1.position.copy(man.head.point(-3.5, 4, 0))
+         head1.position.copy(man.head.point(0, 7, 0))
          head2.position.copy(man.head.point(3, 1.75, 0))
          head3.position.copy(man.head.point(0, 7, 0))
 
