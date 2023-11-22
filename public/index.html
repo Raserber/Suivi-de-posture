@@ -15,7 +15,7 @@
          createScene();
 
          // ajout des points visuels à la scene Threejs (./js/initVisualPoints.js)
-         scene.add(lfeet1, lfeet2, lfeet3, lfeet4, rfeet1, rfeet2, rfeet3, rfeet4, lleg1, lleg2, rleg1, rleg2, torso1, torso2, pelvis1, pelvis2, head1, head2, head3, lfinger, rfinger)
+         scene.add(lfeet1, lfeet2, lfeet3, lfeet4, rfeet1, rfeet2, rfeet3, rfeet4, lleg1, lleg2, rleg1, rleg2, torso1, torso2, pelvis1, pelvis2, head1, head2, head3, lfinger1, rfinger1)
          
          // creation d'un objet mannequin
          man = new Male();
@@ -32,34 +32,44 @@
          // permet à l'utilisateur de tourner la vue
          var controls = new THREE.OrbitControls(camera, renderer.domElement);
 
+         console.log(man.l_wrist.bend)
+
          // fonction d'animation
          function animate(t)
          {
-            angleTorse = sin(t*0.125)*360
-            angleJambes = Math.abs(sin(t*0.5))*0
 
             // changement de posture animé
             man.bend = angleTorse
-            man.l_leg.raise = angleJambes
-            man.r_leg.raise = angleJambes
-            man.l_knee.bend = man.l_leg.raise
-            man.r_knee.bend = man.r_leg.raise
+            man.l_leg.raise = angleJambes + angleTorse
+            man.r_leg.raise = angleJambes + angleTorse
 
-            // extraction de la hauteur du point du mannequin le plus bas (./js/bottomControlConfiguration.js)
+            // extraction de la hauteur du point le plus bas du mannequin (./js/bottomControlConfiguration.js)
             var bottom = configBottom()
 
             // boucle relevant les bras si proche du sol
-            if (man.l_wrist.point(1, 5, 0).y+29.5 <= 0) {
-               while (man.l_wrist.point(1, 5, 0).y+29.5 <= 0) {
-                  man.l_arm.raise += 0.01
-                  man.r_arm.raise += 0.01
+            if (man.l_wrist.point(1, 5, 0).y+29.5 <= 0 || man.l_wrist.point(1, 2, -1.5).y+29.5 <= 0) {
+               while (man.l_wrist.point(1, 5, 0).y+29.5 <= 0 || man.l_wrist.point(1, 2, -1.5).y+29.5 <= 0) {
+                  man.l_arm.raise   += 0.005
+                  man.r_arm.raise   += 0.005
+                  man.l_elbow.bend  += man.l_elbow.bend >= 90 ? 0 : 0.01
+                  man.r_elbow.bend  += man.r_elbow.bend >= 90 ? 0 : 0.01
+
                }
             }
 
             // boucle descendant les bras si loin du sol
-            else if (man.l_arm.raise > 0) {
-                  man.l_arm.raise -= 0.3
-                  man.r_arm.raise -= 0.3
+            else {
+               
+               if (man.l_arm.raise > 0) {
+                  man.l_arm.raise   -= 0.3 + man.l_arm.raise * 0.005
+                  man.r_arm.raise   -= 0.3 + man.r_arm.raise * 0.005
+               }
+
+               else if (man.l_elbow.bend > 15) {
+                  
+                  man.l_elbow.bend  -= 0.6 + man.l_elbow.bend * 0.02
+                  man.r_elbow.bend  -= 0.6 + man.r_elbow.bend * 0.02
+               }
             }
 
             // relevage de la position y du mannequin si proche du sol
@@ -95,9 +105,26 @@
          head3.position.copy(man.head.point(-3.5, 4, 0))
 
          // affichages des points noires MAINS
-         lfinger.position.copy(man.l_wrist.point(1, 5, 0))
-         rfinger.position.copy(man.r_wrist.point(1, 5, 0))
+         lfinger1.position.copy(man.l_wrist.point(1, 5, 0))
+         rfinger1.position.copy(man.r_wrist.point(1, 5, 0))
          }
+
+
+         setInterval(() => {
+            axios.get("http://192.168.1.30:1880/angles_ED3").then((promise) => {
+   
+               angleTorse = (promise.data.data.angleZ) * (180/Math.PI)
+
+               console.log(promise.data.data)
+            })
+
+            axios.get("http://192.168.1.30:1880/angles_ED4").then((promise) => {
+   
+               angleJambes = -(promise.data.data.angleY) * (180/Math.PI)
+
+               console.log(promise.data.data)
+            })
+         }, 500)
 
 
       </script>
