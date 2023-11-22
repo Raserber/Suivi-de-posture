@@ -10,6 +10,7 @@
       <script src="./js/initVisualPoints.js"></script>
       <script>
          var angleTorse = 0, angleJambes = 0
+
          // création de la scene Threejs
          createScene();
 
@@ -34,13 +35,15 @@
          // fonction d'animation
          function animate(t)
          {
-            angleTorse = Math.abs(sin(t*0.5))*0
+            angleTorse = sin(t*0.125)*360
             angleJambes = Math.abs(sin(t*0.5))*0
 
             // changement de posture animé
             man.bend = angleTorse
-            man.l_knee.bend = man.l_leg.raise > 90 || man.l_leg.raise < -90 ? man.l_leg.raise-(man.l_leg.raise-90) : man.l_leg.raise
-            man.r_knee.bend = man.r_leg.raise > 90 || man.r_leg.raise < -90 ?  man.r_leg.raise-( man.r_leg.raise-90) :  man.r_leg.raise
+            man.l_leg.raise = angleJambes
+            man.r_leg.raise = angleJambes
+            man.l_knee.bend = man.l_leg.raise
+            man.r_knee.bend = man.r_leg.raise
 
             // extraction de la hauteur du point du mannequin le plus bas (./js/bottomControlConfiguration.js)
             var bottom = configBottom()
@@ -82,14 +85,14 @@
          torso1.position.copy(man.torso.point(3.2, 11.3, 0));
          torso2.position.copy(man.torso.point(-3.5, 13, 0));
 
-         // affichage du point rouge PELVIEN
+         // affichage des points rouges PELVIEN
          pelvis1.position.copy(man.pelvis.point(-5, -0.5, 0))
          pelvis2.position.copy(man.pelvis.point(-1.5, -4, 0))
 
          // affichage des points rouges TETE
          head1.position.copy(man.head.point(0, 7, 0))
          head2.position.copy(man.head.point(3, 1.75, 0))
-         head3.position.copy(man.head.point(0, 7, 0))
+         head3.position.copy(man.head.point(-3.5, 4, 0))
 
          // affichages des points noires MAINS
          lfinger.position.copy(man.l_wrist.point(1, 5, 0))
