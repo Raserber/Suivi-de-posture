@@ -9,12 +9,12 @@
       <script src="./js/bottomControlConfiguration.js"></script>
       <script src="./js/initVisualPoints.js"></script>
       <script>
-         var angleTorse = 0, angleJambes = 0, angleGenoux = 0
+         var angleTorse = 0, angleJambes = 0
          // création de la scene Threejs
          createScene();
 
          // ajout des points visuels à la scene Threejs (./js/initVisualPoints.js)
-         scene.add(lfeet1, lfeet2, lfeet3, lfeet4, rfeet1, rfeet2, rfeet3, rfeet4, lleg1, lleg2, rleg1, rleg2, torso1, torso2, pelvis1, head1, head2, head3, lfinger, rfinger)
+         scene.add(lfeet1, lfeet2, lfeet3, lfeet4, rfeet1, rfeet2, rfeet3, rfeet4, lleg1, lleg2, rleg1, rleg2, torso1, torso2, pelvis1, pelvis2, head1, head2, head3, lfinger, rfinger)
          
          // creation d'un objet mannequin
          man = new Male();
@@ -84,6 +84,7 @@
 
          // affichage du point rouge PELVIEN
          pelvis1.position.copy(man.pelvis.point(-5, -0.5, 0))
+         pelvis2.position.copy(man.pelvis.point(-1.5, -4, 0))
 
          // affichage des points rouges TETE
          head1.position.copy(man.head.point(0, 7, 0))

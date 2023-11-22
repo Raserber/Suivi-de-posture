@@ -21,10 +21,13 @@ function configBottom() {
         man.r_leg.point(2.75, -5, 0).y,
         man.r_leg.point(-2.75, -5, 0).y,
 
-        // torse et bassin
+        // torse
         man.torso.point(-3.5, 13, 0).y,
         man.torso.point(3.2, 11.3, 0).y,
+
+        // bassin
         man.pelvis.point(-5, -0.5, 0).y,
+        man.pelvis.point(-1.5, -4, 0).y,
 
         // tête
         man.head.point(-3.5, 4, 0).y,

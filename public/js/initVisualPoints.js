@@ -26,6 +26,7 @@ torso2 = new THREE.Mesh(geometry, material);
 
 // pelvien
 pelvis1 = new THREE.Mesh(geometry, material);
+pelvis2 = new THREE.Mesh(geometry, material);
 
 // tete
 head1 = new THREE.Mesh(geometry, material);
