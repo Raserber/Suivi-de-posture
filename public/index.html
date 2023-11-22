@@ -8,6 +8,7 @@
 
       <script src="./js/bottomControlConfiguration.js"></script>
       <script src="./js/initVisualPoints.js"></script>
+      <script src="./js/jsFunctions.js"></script>
       <script>
          var angleTorse = 0, angleJambes = 0
 
@@ -20,28 +21,20 @@
          // creation d'un objet mannequin
          man = new Male();
 
-         // definition des positions
-         debout = {"version":7,"data":[[0,3.8,15.7],[0,-90,0],[0,0,-2],[0,0,5],[6,0,0],[0],[-6,-6,-0.6],[-6,0,0],[0],[6,6,-0.6],[7,-0.6,-5],[15],[5,0,0],[-90,70,75,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[-7,0.6,-5],[15],[-5,0,0],[90,-70,75,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10]]}
-         assis = {"version":7,"data":[[0,-10.3,0],[0,-90,0],[0,0,-2],[0,0,5],[6,0,87.7],[86.9],[-6,-6,-0.6],[-6,0,88.3],[89.1],[6,6,-0.6],[7,-0.6,-5],[15],[5,0,0],[-90,70,75,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[-7,0.6,-5],[15],[-5,0,0],[90,-70,75,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10]]}
-         coucher = {"version":7,"data":[[0,-25.6,0],[0,-2.9,90],[0,0,-2],[0,0,5],[6,0,0],[0],[-6,-6,-0.6],[-6,0,0],[0],[6,6,-0.6],[7,-0.6,-5],[15],[5,0,0],[-90,70,75,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[-7,0.6,-5],[15],[-5,0,0],[90,-70,75,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10]]}
-
-         // definition de la position prise par le mannequin
-         man.posture = debout
-         man.position.y -= 20
-
          // permet à l'utilisateur de tourner la vue
          var controls = new THREE.OrbitControls(camera, renderer.domElement);
 
-         console.log(man.l_wrist.bend)
 
+         var startTime
+         var startAngleTorse
+         var startAngleJambes
+         var inMove = false
          // fonction d'animation
          function animate(t)
          {
 
             // changement de posture animé
-            man.bend = angleTorse
-            man.l_leg.raise = angleJambes + angleTorse
-            man.r_leg.raise = angleJambes + angleTorse
+            man.posture = Mannequin.blend(man.posture, posture(angleTorse, angleJambes+angleTorse), 0.03)
 
             // extraction de la hauteur du point le plus bas du mannequin (./js/bottomControlConfiguration.js)
             var bottom = configBottom()
@@ -75,57 +68,52 @@
             // relevage de la position y du mannequin si proche du sol
 				man.position.y += (-29.5 - bottom);
          
-         // affichage des points rouges PIEDS
-         lfeet1.position.copy(man.l_ankle.point(6, 2, 0));
-         lfeet2.position.copy(man.l_ankle.point(-2, 2.5, 0));
-         lfeet3.position.copy(man.l_ankle.point(2, 2.5, 2));
-         lfeet4.position.copy(man.l_ankle.point(2, 2.5, -2));
-         rfeet1.position.copy(man.r_ankle.point(6, 2, 0));
-         rfeet2.position.copy(man.r_ankle.point(-2, 2.5, 0));
-         rfeet3.position.copy(man.r_ankle.point(2, 2.5, 2));
-         rfeet4.position.copy(man.r_ankle.point(2, 2.5, -2));
+            // affichage des points rouges PIEDS
+            lfeet1.position.copy(man.l_ankle.point(6, 2, 0));
+            lfeet2.position.copy(man.l_ankle.point(-2, 2.5, 0));
+            lfeet3.position.copy(man.l_ankle.point(2, 2.5, 2));
+            lfeet4.position.copy(man.l_ankle.point(2, 2.5, -2));
+            rfeet1.position.copy(man.r_ankle.point(6, 2, 0));
+            rfeet2.position.copy(man.r_ankle.point(-2, 2.5, 0));
+            rfeet3.position.copy(man.r_ankle.point(2, 2.5, 2));
+            rfeet4.position.copy(man.r_ankle.point(2, 2.5, -2));
 
-         // affichage des points rouges JAMBES
-         lleg1.position.copy(man.l_leg.point(2.75, -5, 0));
-         lleg2.position.copy(man.l_leg.point(-2.75, -5, 0));
-         rleg1.position.copy(man.r_leg.point(2.75, -5, 0));
-         rleg2.position.copy(man.r_leg.point(-2.75, -5, 0));
-         
-         // affichage des points rouges TORSE
-         torso1.position.copy(man.torso.point(3.2, 11.3, 0));
-         torso2.position.copy(man.torso.point(-3.5, 13, 0));
+            // affichage des points rouges JAMBES
+            lleg1.position.copy(man.l_leg.point(2.75, -5, 0));
+            lleg2.position.copy(man.l_leg.point(-2.75, -5, 0));
+            rleg1.position.copy(man.r_leg.point(2.75, -5, 0));
+            rleg2.position.copy(man.r_leg.point(-2.75, -5, 0));
+            
+            // affichage des points rouges TORSE
+            torso1.position.copy(man.torso.point(3.2, 11.3, 0));
+            torso2.position.copy(man.torso.point(-3.5, 13, 0));
 
-         // affichage des points rouges PELVIEN
-         pelvis1.position.copy(man.pelvis.point(-5, -0.5, 0))
-         pelvis2.position.copy(man.pelvis.point(-1.5, -4, 0))
+            // affichage des points rouges PELVIEN
+            pelvis1.position.copy(man.pelvis.point(-5, -0.5, 0))
+            pelvis2.position.copy(man.pelvis.point(-1.5, -4, 0))
 
-         // affichage des points rouges TETE
-         head1.position.copy(man.head.point(0, 7, 0))
-         head2.position.copy(man.head.point(3, 1.75, 0))
-         head3.position.copy(man.head.point(-3.5, 4, 0))
+            // affichage des points rouges TETE
+            head1.position.copy(man.head.point(0, 7, 0))
+            head2.position.copy(man.head.point(3, 1.75, 0))
+            head3.position.copy(man.head.point(-3.5, 4, 0))
 
-         // affichages des points noires MAINS
-         lfinger1.position.copy(man.l_wrist.point(1, 5, 0))
-         rfinger1.position.copy(man.r_wrist.point(1, 5, 0))
+            // affichages des points noires MAINS
+            lfinger1.position.copy(man.l_wrist.point(1, 5, 0))
+            rfinger1.position.copy(man.r_wrist.point(1, 5, 0))
          }
 
+         const socket = new WebSocket("ws://192.168.1.30:1880/ws/angles_ED3_ED4");
 
-         setInterval(() => {
-            axios.get("http://192.168.1.30:1880/angles_ED3").then((promise) => {
-   
-               angleTorse = (promise.data.data.angleZ) * (180/Math.PI)
+         socket.addEventListener("open", (event) => {});
 
-               console.log(promise.data.data)
-            })
+         socket.addEventListener("message", (event) => {
+            
+            angleTorse = searchAndReturnEndDevice(event, 3).angleY
+            angleJambes = -searchAndReturnEndDevice(event, 4).angleY
 
-            axios.get("http://192.168.1.30:1880/angles_ED4").then((promise) => {
-   
-               angleJambes = -(promise.data.data.angleY) * (180/Math.PI)
+            console.log("Torse : " + angleTorse + "\n Jambes : " + angleJambes)
 
-               console.log(promise.data.data)
-            })
-         }, 500)
-
+          });
 
       </script>
    </body>
