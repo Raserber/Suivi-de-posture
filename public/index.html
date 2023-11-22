@@ -14,10 +14,7 @@
 
          // création de la scene Threejs
          createScene();
-
-         // ajout des points visuels à la scene Threejs (./js/initVisualPoints.js)
-         scene.add(lfeet1, lfeet2, lfeet3, lfeet4, rfeet1, rfeet2, rfeet3, rfeet4, lleg1, lleg2, rleg1, rleg2, torso1, torso2, pelvis1, pelvis2, head1, head2, head3, lfinger1, rfinger1)
-         
+   
          // creation d'un objet mannequin
          man = new Male();
 
@@ -32,6 +29,8 @@
          // fonction d'animation
          function animate(t)
          {
+            scene.rotation.y = -1
+            scene.rotation.x = 0.5
 
             // changement de posture animé
             man.posture = Mannequin.blend(man.posture, posture(angleTorse, angleJambes+angleTorse), 0.03)
@@ -67,39 +66,6 @@
 
             // relevage de la position y du mannequin si proche du sol
 				man.position.y += (-29.5 - bottom);
-         
-            // affichage des points rouges PIEDS
-            lfeet1.position.copy(man.l_ankle.point(6, 2, 0));
-            lfeet2.position.copy(man.l_ankle.point(-2, 2.5, 0));
-            lfeet3.position.copy(man.l_ankle.point(2, 2.5, 2));
-            lfeet4.position.copy(man.l_ankle.point(2, 2.5, -2));
-            rfeet1.position.copy(man.r_ankle.point(6, 2, 0));
-            rfeet2.position.copy(man.r_ankle.point(-2, 2.5, 0));
-            rfeet3.position.copy(man.r_ankle.point(2, 2.5, 2));
-            rfeet4.position.copy(man.r_ankle.point(2, 2.5, -2));
-
-            // affichage des points rouges JAMBES
-            lleg1.position.copy(man.l_leg.point(2.75, -5, 0));
-            lleg2.position.copy(man.l_leg.point(-2.75, -5, 0));
-            rleg1.position.copy(man.r_leg.point(2.75, -5, 0));
-            rleg2.position.copy(man.r_leg.point(-2.75, -5, 0));
-            
-            // affichage des points rouges TORSE
-            torso1.position.copy(man.torso.point(3.2, 11.3, 0));
-            torso2.position.copy(man.torso.point(-3.5, 13, 0));
-
-            // affichage des points rouges PELVIEN
-            pelvis1.position.copy(man.pelvis.point(-5, -0.5, 0))
-            pelvis2.position.copy(man.pelvis.point(-1.5, -4, 0))
-
-            // affichage des points rouges TETE
-            head1.position.copy(man.head.point(0, 7, 0))
-            head2.position.copy(man.head.point(3, 1.75, 0))
-            head3.position.copy(man.head.point(-3.5, 4, 0))
-
-            // affichages des points noires MAINS
-            lfinger1.position.copy(man.l_wrist.point(1, 5, 0))
-            rfinger1.position.copy(man.r_wrist.point(1, 5, 0))
          }
 
          const socket = new WebSocket("ws://192.168.1.30:1880/ws/angles_ED3_ED4");
@@ -110,8 +76,6 @@
             
             angleTorse = searchAndReturnEndDevice(event, 3).angleY
             angleJambes = -searchAndReturnEndDevice(event, 4).angleY
-
-            console.log("Torse : " + angleTorse + "\n Jambes : " + angleJambes)
 
           });
 
