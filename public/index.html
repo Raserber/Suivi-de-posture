@@ -14,6 +14,8 @@
 
          // création de la scene Threejs
          createScene();
+
+         scene.add(lfeet1, lfeet2, lfeet3, lfeet4, lfeet5, rfeet1, rfeet2, rfeet3, rfeet4, rfeet5, lleg1, lleg2, rleg1, rleg2, torso1, torso2, pelvis1, pelvis2, head1, head2, head3, lfinger1, rfinger1, genoux1, genoux2, genoux3, genoux4)
    
          // creation d'un objet mannequin
          man = new Male();
@@ -61,10 +63,51 @@
             }
 
             // relevage de la position y du mannequin si proche du sol
-				man.position.y += (-29.5 - bottom);
+            man.position.y += (-29.5 - bottom);
+
+            // affichage des points rouges PIEDS
+            lfeet1.position.copy(man.l_ankle.point(6, 2, 0));
+            lfeet2.position.copy(man.l_ankle.point(-2, 2.5, 0));
+            lfeet3.position.copy(man.l_ankle.point(2, 2.5, 2));
+            lfeet4.position.copy(man.l_ankle.point(2, 2.5, -2));
+            lfeet5.position.copy(man.l_ankle.point(1.35, -0.35, 0))
+            rfeet1.position.copy(man.r_ankle.point(6, 2, 0));
+            rfeet2.position.copy(man.r_ankle.point(-2, 2.5, 0));
+            rfeet3.position.copy(man.r_ankle.point(2, 2.5, 2));
+            rfeet4.position.copy(man.r_ankle.point(2, 2.5, -2));
+            rfeet5.position.copy(man.r_ankle.point(1.35, -0.35, 0))
+
+            // affichage des points rouges JAMBES
+            lleg1.position.copy(man.l_leg.point(2.75, -5, 0));
+            lleg2.position.copy(man.l_leg.point(-2.75, -5, 0));
+            rleg1.position.copy(man.r_leg.point(2.75, -5, 0));
+            rleg2.position.copy(man.r_leg.point(-2.75, -5, 0));
+
+            // affichage des points rouges TORSE
+            torso1.position.copy(man.torso.point(3.2, 11.3, 0));
+            torso2.position.copy(man.torso.point(-3.5, 13, 0));
+
+            // affichage des points rouges PELVIEN
+            pelvis1.position.copy(man.pelvis.point(-5, -0.5, 0))
+            pelvis2.position.copy(man.pelvis.point(-1.5, -4, 0))
+
+            // affichage des points rouges TETE
+            head1.position.copy(man.head.point(0, 7, 0))
+            head2.position.copy(man.head.point(3, 1.75, 0))
+            head3.position.copy(man.head.point(-3.5, 4, 0))
+
+            // affichages des points noires MAINS
+            lfinger1.position.copy(man.l_wrist.point(1, 5, 0))
+            rfinger1.position.copy(man.r_wrist.point(1, 5, 0))
+            
+            // affichages des points noires MAINS
+            genoux1.position.copy(man.l_knee.point(1.25, 0, 0))
+            genoux2.position.copy(man.r_knee.point(1.25, 0, 0))
+            genoux3.position.copy(man.l_knee.point(-1.25, 0, 0))
+            genoux4.position.copy(man.r_knee.point(-1.25, 0, 0))
          }
 
-         const socket = new WebSocket("ws://192.168.1.30:1880/ws/angles/3_ED");
+         // const socket = new WebSocket("ws://192.168.1.30:1880/ws/angles/3_ED");
 
          socket.onerror = (e) => {
 

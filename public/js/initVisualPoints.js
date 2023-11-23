@@ -9,10 +9,12 @@ lfeet1 = new THREE.Mesh(geometry, material);
 lfeet2 = new THREE.Mesh(geometry, material);
 lfeet3 = new THREE.Mesh(geometry, material);
 lfeet4 = new THREE.Mesh(geometry, material);
+lfeet5 = new THREE.Mesh(geometry, material);
 rfeet1 = new THREE.Mesh(geometry, material);
 rfeet2 = new THREE.Mesh(geometry, material);
 rfeet3 = new THREE.Mesh(geometry, material);
 rfeet4 = new THREE.Mesh(geometry, material);
+rfeet5 = new THREE.Mesh(geometry, material);
 
 // jambes
 lleg1 = new THREE.Mesh(geometry, material);
@@ -37,9 +39,15 @@ head3 = new THREE.Mesh(geometry, material);
 lfinger1 = new THREE.Mesh(geometry, material2);
 rfinger1 = new THREE.Mesh(geometry, material2);
 
+// genoux
+genoux1 = new THREE.Mesh(geometry, material);
+genoux2 = new THREE.Mesh(geometry, material);
+genoux3 = new THREE.Mesh(geometry, material);
+genoux4 = new THREE.Mesh(geometry, material);
+
 
 // ajout des points visuels à la scene Threejs (./js/initVisualPoints.js)
-// scene.add(lfeet1, lfeet2, lfeet3, lfeet4, rfeet1, rfeet2, rfeet3, rfeet4, lleg1, lleg2, rleg1, rleg2, torso1, torso2, pelvis1, pelvis2, head1, head2, head3, lfinger1, rfinger1)
+// scene.add(lfeet1, lfeet2, lfeet3, lfeet4, rfeet1, rfeet2, rfeet3, rfeet4, lleg1, lleg2, rleg1, rleg2, torso1, torso2, pelvis1, pelvis2, head1, head2, head3, lfinger1, rfinger1, genoux1, genoux2, genoux3, genoux4)
       
 
 // affichage des points rouges PIEDS
