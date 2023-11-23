@@ -21,16 +21,12 @@
          // permet à l'utilisateur de tourner la vue
          var controls = new THREE.OrbitControls(camera, renderer.domElement);
 
+         scene.rotation.y = -0.8
+         scene.rotation.x = 0.5
 
-         var startTime
-         var startAngleTorse
-         var startAngleJambes
-         var inMove = false
          // fonction d'animation
          function animate(t)
          {
-            scene.rotation.y = -1
-            scene.rotation.x = 0.5
 
             // changement de posture animé
             man.posture = Mannequin.blend(man.posture, posture(angleTorse, angleJambes+angleTorse), 0.03)
@@ -68,7 +64,7 @@
 				man.position.y += (-29.5 - bottom);
          }
 
-         const socket = new WebSocket("ws://192.168.1.30:1880/ws/angles_ED3_ED4");
+         const socket = new WebSocket("ws://192.168.1.30:1880/ws/angles/2_ED");
 
          socket.addEventListener("open", (event) => {});
 

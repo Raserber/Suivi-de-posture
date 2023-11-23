@@ -427,7 +427,7 @@ class TorsoShape extends ParametricShape
 			dAlpha = params[4],
 			offset = params[5],
 			scale = params[6];
-		super(Mannequin.texLimb, Mannequin.colors[5], function (u, v, target)
+		super(texTorse, Mannequin.colors[5], function (u, v, target)
 		{
 			var r = offset + scale * cos(alpha + dAlpha * u);
 			if (feminine) r += Mannequin.cossers(u, v, [
@@ -1716,6 +1716,13 @@ Mannequin.texHead = new THREE.TextureLoader().load("data:image/png;base64,iVBORw
 // limb and body texture
 Mannequin.texLimb = new THREE.TextureLoader().load("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABAAQMAAACQp+OdAAAABlBMVEX////Ly8vsgL9iAAAAHElEQVQoz2OgEPyHAjgDjxoKGWTaRRkYDR/8AAAU9d8hJ6+ZxgAAAABJRU5ErkJggg==");
 
+try  {
+	var texTorse = new THREE.TextureLoader().load("./img/IUT1.png");
+}
+
+catch(e) {
+	var textTorse = new THREE.TextureLoader().load("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABAAQMAAACQp+OdAAAABlBMVEX////Ly8vsgL9iAAAAHElEQVQoz2OgEPyHAjgDjxoKGWTaRRkYDR/8AAAU9d8hJ6+ZxgAAAABJRU5ErkJggg==");
+}
 
 // joint object-template
 Mannequin.sphereGeometry = new THREE.IcosahedronGeometry(1, 3);
