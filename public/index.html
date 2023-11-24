@@ -23,15 +23,15 @@
          // permet à l'utilisateur de tourner la vue
          var controls = new THREE.OrbitControls(camera, renderer.domElement);
 
-         scene.rotation.y = -0.8
-         scene.rotation.x = 0.5
+         scene.rotation.y = -1.6
+         //scene.rotation.x = 0.5
 
          // fonction d'animation
          function animate(t)
          {
 
             // changement de posture animé
-            man.posture = Mannequin.blend(man.posture, posture(angleTorse, angleJambes+angleTorse, anglesGenoux), 0.03)
+            man.posture = Mannequin.blend(man.posture, posture(angleTorse, angleJambes+angleTorse, anglesGenoux-angleJambes+angleTorse), 0.03)
 
             // extraction de la hauteur du point le plus bas du mannequin (./js/bottomControlConfiguration.js)
             var bottom = configBottom()
@@ -106,26 +106,25 @@
             genoux3.position.copy(man.l_knee.point(-1.25, 0, 0))
             genoux4.position.copy(man.r_knee.point(-1.25, 0, 0))
          }
-
-         // const socket = new WebSocket("ws://192.168.1.30:1880/ws/angles/3_ED");
+         
+         const socket = new WebSocket("ws://192.168.1.30:1880/ws/angles/3_ED");
 
          socket.onerror = (e) => {
 
             alert("Connexion au serveur perdu, veuillez recharger la page")
          }
 
-         socket.addEventListener("open", (event) => {});
 
+         socket.addEventListener("open", (event) => {})
+         
          socket.addEventListener("message", (event) => {
             
-            angleTorse = searchAndReturnEndDevice(event, 3).angleY
-            angleJambes = -searchAndReturnEndDevice(event, 4).angleY
-            anglesGenoux = searchAndReturnEndDevice(event, 5).angleY
-
-            console.log(event)
-
-          });
-
+               angleTorse = searchAndReturnEndDevice(event, 3).angleY
+               angleJambes = -searchAndReturnEndDevice(event, 4).angleY
+               anglesGenoux = searchAndReturnEndDevice(event, 5).angleY
+               
+               console.log(angleTorse, angleJambes, anglesGenoux)
+            });
       </script>
    </body>
 </html>
