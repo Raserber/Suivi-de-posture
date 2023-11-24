@@ -15,7 +15,7 @@
          // création de la scene Threejs
          createScene();
 
-         scene.add(lfeet1, lfeet2, lfeet3, lfeet4, lfeet5, rfeet1, rfeet2, rfeet3, rfeet4, rfeet5, lleg1, lleg2, rleg1, rleg2, torso1, torso2, pelvis1, pelvis2, head1, head2, head3, lfinger1, rfinger1, genoux1, genoux2, genoux3, genoux4)
+         scene.add(lfeet1, lfeet2, lfeet3, lfeet4, lfeet5, lfeet6, rfeet1, rfeet2, rfeet3, rfeet4, rfeet5, rfeet6, lleg1, lleg2, rleg1, rleg2, torso1, torso2, pelvis1, pelvis2, head1, head2, head3, lfinger1, rfinger1, genoux1, genoux2, genoux3, genoux4)
    
          // creation d'un objet mannequin
          man = new Male();
@@ -31,7 +31,7 @@
          {
 
             // changement de posture animé
-            man.posture = Mannequin.blend(man.posture, posture(angleTorse, angleJambes+angleTorse, anglesGenoux-angleJambes+angleTorse), 0.03)
+            man.posture = Mannequin.blend(man.posture, posture(angleTorse, -(angleJambes+angleTorse), anglesGenoux-angleJambes-angleTorse-angleTorse), 0.03)
 
             // extraction de la hauteur du point le plus bas du mannequin (./js/bottomControlConfiguration.js)
             var bottom = configBottom()
@@ -71,11 +71,13 @@
             lfeet3.position.copy(man.l_ankle.point(2, 2.5, 2));
             lfeet4.position.copy(man.l_ankle.point(2, 2.5, -2));
             lfeet5.position.copy(man.l_ankle.point(1.35, -0.35, 0))
+            lfeet6.position.copy(man.l_ankle.point(-1.35, -0.35, 0))
             rfeet1.position.copy(man.r_ankle.point(6, 2, 0));
             rfeet2.position.copy(man.r_ankle.point(-2, 2.5, 0));
             rfeet3.position.copy(man.r_ankle.point(2, 2.5, 2));
             rfeet4.position.copy(man.r_ankle.point(2, 2.5, -2));
             rfeet5.position.copy(man.r_ankle.point(1.35, -0.35, 0))
+            rfeet6.position.copy(man.r_ankle.point(-1.35, -0.35, 0))
 
             // affichage des points rouges JAMBES
             lleg1.position.copy(man.l_leg.point(2.75, -5, 0));
@@ -120,9 +122,9 @@
          socket.addEventListener("message", (event) => {
             
                angleTorse = searchAndReturnEndDevice(event, 3).angleY
-               angleJambes = -searchAndReturnEndDevice(event, 4).angleY
+               angleJambes = searchAndReturnEndDevice(event, 4).angleY
                anglesGenoux = searchAndReturnEndDevice(event, 5).angleY
-               
+
                console.log(angleTorse, angleJambes, anglesGenoux)
             });
       </script>

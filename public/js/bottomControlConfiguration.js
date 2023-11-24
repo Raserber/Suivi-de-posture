@@ -9,6 +9,7 @@ function configBottom() {
         man.l_ankle.point(2, 2.5, 2).y,
         man.l_ankle.point(2, 2.5, -2).y,
         man.l_ankle.point(1.35, -0.35, 0).y,
+        man.l_ankle.point(-1.35, -0.35, 0).y,
 
         // pied droit
         man.r_ankle.point(6, 2, 0).y,
@@ -16,6 +17,7 @@ function configBottom() {
         man.r_ankle.point(2, 2.5, 2).y,
         man.r_ankle.point(2, 2.5, -2).y,
         man.r_ankle.point(1.35, -0.35, 0).y,
+        man.r_ankle.point(-1.35, -0.35, 0).y,
 
         // jambes gauche et droite
         man.l_leg.point(2.75, -5, 0).y,

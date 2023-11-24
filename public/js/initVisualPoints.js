@@ -10,11 +10,13 @@ lfeet2 = new THREE.Mesh(geometry, material);
 lfeet3 = new THREE.Mesh(geometry, material);
 lfeet4 = new THREE.Mesh(geometry, material);
 lfeet5 = new THREE.Mesh(geometry, material);
+lfeet6 = new THREE.Mesh(geometry, material);
 rfeet1 = new THREE.Mesh(geometry, material);
 rfeet2 = new THREE.Mesh(geometry, material);
 rfeet3 = new THREE.Mesh(geometry, material);
 rfeet4 = new THREE.Mesh(geometry, material);
 rfeet5 = new THREE.Mesh(geometry, material);
+rfeet6 = new THREE.Mesh(geometry, material);
 
 // jambes
 lleg1 = new THREE.Mesh(geometry, material);
