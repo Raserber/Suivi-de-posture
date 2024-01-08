@@ -44,7 +44,7 @@ return {"version":7,"data":[[0,3.8,0],[CORPS,-90,0],[0,0,-2],[0,0,5],[6,0,JAMBE]
 // fonction utilisée dans la fonction changementEtatBoutons (même .js, la suivante)
 function changementEtatAssise(angleTorse, angleJambes) {
 
-  if (Math.abs(angleTorse) <= 30 && Math.abs(angleJambes) <= 30) {
+  if (Math.abs(angleJambes) <= 30) {
     return 0
   }
 
@@ -76,4 +76,9 @@ switch (changementEtatAssise(angleTorse, angleJambes)) {
 
 function toggleOrbitsControls(toggle) {
   controls.enabled = toggle
+}
+
+function rebaseAngle(angle) {
+
+  return angle <= -180 ? angle + 360 : angle
 }

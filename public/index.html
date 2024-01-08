@@ -103,12 +103,16 @@
 
             
 
-            if (man.l_ankle.bend <= -80) {
+            if (man.l_ankle.bend <= -90) {
                man.l_ankle.bend = man.r_ankle.bend = 0
             }
 
-            if (man.l_ankle.bend >= 84) {
+            else if (man.l_ankle.bend >= 84) {
                man.l_ankle.bend = man.r_ankle.bend = -50
+            }
+
+            if (angleJambes <= -80) {
+               man.l_ankle.bend = man.r_ankle.bend = 0
             }
 
             // extraction de la hauteur du point le plus bas du mannequin (./js/bottomControlConfiguration.js)
@@ -181,11 +185,10 @@
                angleJambes = searchAndReturnEndDevice(event, 4).angleZ
                angleGenoux = searchAndReturnEndDevice(event, 5).angleZ
 
+               angleTorse = rebaseAngle(angleTorse)
+               angleJambes = rebaseAngle(angleJambes)
+               angleGenoux = rebaseAngle(angleGenoux)
             });
-         
-         angleTorse = 25
-         angleJambes = -70
-         angleGenoux = -70
       </script>
    </body>
 </html>
