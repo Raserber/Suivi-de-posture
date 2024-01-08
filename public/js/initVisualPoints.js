@@ -48,6 +48,39 @@ genoux3 = new THREE.Mesh(geometry, material);
 genoux4 = new THREE.Mesh(geometry, material);
 
 
+function toggleRedPoints(redPointsVisibility) {
+
+    lfeet1.visible = redPointsVisibility
+    lfeet2.visible = redPointsVisibility
+    lfeet3.visible = redPointsVisibility
+    lfeet4.visible = redPointsVisibility
+    lfeet5.visible = redPointsVisibility
+    lfeet6.visible = redPointsVisibility
+    rfeet1.visible = redPointsVisibility
+    rfeet2.visible = redPointsVisibility
+    rfeet3.visible = redPointsVisibility
+    rfeet4.visible = redPointsVisibility
+    rfeet5.visible = redPointsVisibility
+    rfeet6.visible = redPointsVisibility
+    lleg1.visible = redPointsVisibility
+    lleg2.visible = redPointsVisibility
+    rleg1.visible = redPointsVisibility
+    rleg2.visible = redPointsVisibility
+    torso1.visible = redPointsVisibility
+    torso2.visible = redPointsVisibility
+    pelvis1.visible = redPointsVisibility
+    pelvis2.visible = redPointsVisibility
+    head1.visible = redPointsVisibility
+    head2.visible = redPointsVisibility
+    head3.visible = redPointsVisibility
+    lfinger1.visible = redPointsVisibility
+    rfinger1.visible = redPointsVisibility
+    genoux1.visible = redPointsVisibility
+    genoux2.visible = redPointsVisibility
+    genoux3.visible = redPointsVisibility
+    genoux4.visible = redPointsVisibility
+}
+
 // ajout des points visuels à la scene Threejs (./js/initVisualPoints.js)
 // scene.add(lfeet1, lfeet2, lfeet3, lfeet4, rfeet1, rfeet2, rfeet3, rfeet4, lleg1, lleg2, rleg1, rleg2, torso1, torso2, pelvis1, pelvis2, head1, head2, head3, lfinger1, rfinger1, genoux1, genoux2, genoux3, genoux4)
       

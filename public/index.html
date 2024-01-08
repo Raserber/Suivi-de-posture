@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
    <body>
+      <link rel="stylesheet" href="./css/style.css">
       <script src="./libs/three.min.js"></script>
       <script src="./libs/OrbitControls.min.js"></script>
       <script src="./libs/axios.min.js"></script>
@@ -9,8 +10,37 @@
       <script src="./js/bottomControlConfiguration.js"></script>
       <script src="./js/initVisualPoints.js"></script>
       <script src="./js/jsFunctions.js"></script>
+
+      <div class="panel" style="left = 0;">
+
+         <label><input id="toggle_restrain" type="checkbox" class="toggle"><span>Restrain<br>movements</span></label><br>
+         <label><input id="toggle_rightPanel" type="checkbox" class="toggle" checked=""><span>Panel droit</span></label><hr>
+         <label><input id="toggle_redPoints" type="checkbox" class="toggle" checked=""><span>red points</span></label><br>
+         <label><input id="toggle_posture" type="checkbox" class="toggle"><span>Changement<br>progressif pose</span></label><br>
+         <label><input id="toggle_orbitsControls" type="checkbox" class="toggle"><span>Orbits controls</span></label>
+      
+      </div>
+
+      <div class="panel" id="rightPanel" style="right: 0px; visibility: visible;">
+	     <span class="button-group">
+			 <button id="debout" class="notButton">Debout</button><br>
+			 <button id="assis" class="notButton buttonActivate">Assis</button><br>
+			 <button id="allonge" class="notButton">Allongé</button>
+      </span></div>
       <script>
-         var angleTorse = 0, angleJambes = 0, anglesGenoux = 0
+         var angleTorse = 0, angleJambes = 0, angleGenoux = 0
+
+         // définition des variables correspondant aux boutons et toggle
+         toggle_restrain = document.getElementById("toggle_restrain")
+         toggle_panelDroit = document.getElementById("toggle_rightPanel")
+         toggle_redPoints = document.getElementById("toggle_redPoints")
+         toggle_posture = document.getElementById("toggle_posture")
+         toggle_orbitsControls = document.getElementById("toggle_orbitsControls")
+         rightPanel = document.getElementById("rightPanel")
+         bouton_debout = document.getElementById("debout")
+         bouton_assis = document.getElementById("assis")
+         bouton_allonge = document.getElementById("allonge")
+
 
          // création de la scene Threejs
          createScene();
@@ -30,11 +60,20 @@
          function animate(t)
          {
 
-            // changement de posture animé
-            man.posture = Mannequin.blend(man.posture, posture(angleTorse, -(angleJambes-angleTorse), anglesGenoux-angleJambes), 0.03)
+            if (toggle_posture.checked) {
+               // changement de posture animé
+               man.posture = Mannequin.blend(man.posture, posture(angleTorse, angleJambes, angleGenoux), 0.03)
+            }
+            else {
+               man.posture = posture(angleTorse, angleJambes, angleGenoux)
+            }
 
-            // extraction de la hauteur du point le plus bas du mannequin (./js/bottomControlConfiguration.js)
-            var bottom = configBottom()
+
+            // changements liés aux boutons et toggles (./js/jsFunctions.js:45)
+            toggle_panelDroit.checked ? rightPanel.style.visibility = "visible" : rightPanel.style.visibility = "hidden"
+            changementEtatBoutons(angleTorse, angleJambes)
+            toggleRedPoints(toggle_redPoints.checked)
+            toggleOrbitsControls(toggle_orbitsControls.checked)
 
             // boucle relevant les bras si proche du sol
             if (man.l_wrist.point(1, 5, 0).y+29.5 <= 0 || man.l_wrist.point(1, 2, -1.5).y+29.5 <= 0) {
@@ -62,8 +101,24 @@
                }
             }
 
+            
+
+            if (man.l_ankle.bend <= -80) {
+               man.l_ankle.bend = man.r_ankle.bend = 0
+            }
+
+            if (man.l_ankle.bend >= 84) {
+               man.l_ankle.bend = man.r_ankle.bend = -50
+            }
+
+            // extraction de la hauteur du point le plus bas du mannequin (./js/bottomControlConfiguration.js)
+            var bottom = configBottom()
+
             // relevage de la position y du mannequin si proche du sol
             man.position.y += (-29.5 - bottom);
+
+            // mets les pieds en position initiale si le talon ou la pointe des pieds ne touchent pas le sol
+            
             
 
             // affichage des points rouges PIEDS
@@ -71,14 +126,14 @@
             lfeet2.position.copy(man.l_ankle.point(-2, 2.5, 0));
             lfeet3.position.copy(man.l_ankle.point(2, 2.5, 2));
             lfeet4.position.copy(man.l_ankle.point(2, 2.5, -2));
-            lfeet5.position.copy(man.l_ankle.point(1.35, -0.35, 0))
-            lfeet6.position.copy(man.l_ankle.point(-1.35, -0.35, 0))
+            lfeet5.position.copy(man.l_ankle.point(1.35, -0.35, 0));
+            lfeet6.position.copy(man.l_ankle.point(-1.35, -0.35, 0));
             rfeet1.position.copy(man.r_ankle.point(6, 2, 0));
             rfeet2.position.copy(man.r_ankle.point(-2, 2.5, 0));
             rfeet3.position.copy(man.r_ankle.point(2, 2.5, 2));
             rfeet4.position.copy(man.r_ankle.point(2, 2.5, -2));
-            rfeet5.position.copy(man.r_ankle.point(1.35, -0.35, 0))
-            rfeet6.position.copy(man.r_ankle.point(-1.35, -0.35, 0))
+            rfeet5.position.copy(man.r_ankle.point(1.35, -0.35, 0));
+            rfeet6.position.copy(man.r_ankle.point(-1.35, -0.35, 0));
 
             // affichage des points rouges JAMBES
             lleg1.position.copy(man.l_leg.point(2.75, -5, 0));
@@ -91,30 +146,30 @@
             torso2.position.copy(man.torso.point(-3.5, 13, 0));
 
             // affichage des points rouges PELVIEN
-            pelvis1.position.copy(man.pelvis.point(-5, -0.5, 0))
-            pelvis2.position.copy(man.pelvis.point(-1.5, -4, 0))
+            pelvis1.position.copy(man.pelvis.point(-5, -0.5, 0));
+            pelvis2.position.copy(man.pelvis.point(-1.5, -4, 0));
 
             // affichage des points rouges TETE
-            head1.position.copy(man.head.point(0, 7, 0))
-            head2.position.copy(man.head.point(3, 1.75, 0))
-            head3.position.copy(man.head.point(-3.5, 4, 0))
+            head1.position.copy(man.head.point(0, 7, 0));
+            head2.position.copy(man.head.point(3, 1.75, 0));
+            head3.position.copy(man.head.point(-3.5, 4, 0));
 
             // affichages des points noires MAINS
-            lfinger1.position.copy(man.l_wrist.point(1, 5, 0))
-            rfinger1.position.copy(man.r_wrist.point(1, 5, 0))
+            lfinger1.position.copy(man.l_wrist.point(1, 5, 0));
+            rfinger1.position.copy(man.r_wrist.point(1, 5, 0));
             
             // affichages des points noires MAINS
-            genoux1.position.copy(man.l_knee.point(1.25, 0, 0))
-            genoux2.position.copy(man.r_knee.point(1.25, 0, 0))
-            genoux3.position.copy(man.l_knee.point(-1.25, 0, 0))
-            genoux4.position.copy(man.r_knee.point(-1.25, 0, 0))
+            genoux1.position.copy(man.l_knee.point(1.25, 0, 0));
+            genoux2.position.copy(man.r_knee.point(1.25, 0, 0));
+            genoux3.position.copy(man.l_knee.point(-1.25, 0, 0));
+            genoux4.position.copy(man.r_knee.point(-1.25, 0, 0));
          }
          
          const socket = new WebSocket("ws://192.168.1.30:1880/ws/angles/3_ED");
 
          socket.onerror = (e) => {
 
-            alert("Connexion au serveur perdu, veuillez recharger la page")
+            // alert("Connexion au serveur perdu, veuillez recharger la page")
          }
 
 
@@ -124,11 +179,13 @@
             
                angleTorse = searchAndReturnEndDevice(event, 3).angleZ
                angleJambes = searchAndReturnEndDevice(event, 4).angleZ
-               anglesGenoux = searchAndReturnEndDevice(event, 5).angleZ
+               angleGenoux = searchAndReturnEndDevice(event, 5).angleZ
 
-               
-               console.log(angleTorse, angleJambes, anglesGenoux)
             });
+         
+         angleTorse = 25
+         angleJambes = -70
+         angleGenoux = -70
       </script>
    </body>
 </html>
