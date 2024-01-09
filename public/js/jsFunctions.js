@@ -74,23 +74,31 @@ switch (changementEtatAssise(angleTorse, angleJambes)) {
 }
 }
 
+// fonction pour activer ou non le déplacement au clique de la souris
 function toggleOrbitsControls(toggle) {
   controls.enabled = toggle
 }
 
+// fonction ramenant une valeur comprise entre +/- 360 à +/- 180
+// necessaire car le Mannequin.blend() (../index.html:84)
+// nécessite des valeurs comprises entre -180 et +180 sinon
+// il tournera sur lui même n'atteignant jamais la valeur cherchée
 function rebaseAngle(angle) {
 
   return Math.abs(angle) >= 180 ? angle <= 0 ? angle + 360 : angle - 360 : angle
 }
 
 
-previousPosition = -1
-tempsAvantAlerte = 10
+previousPosition = -1 // état n-1 de 'etatAssise'
+tempsAvantAlerte = 10 // temps défini en dur pouvant être redéfini par l'utilisateur
+
+// fonction lançant un setInterval de 1000ms changeant la valeur de la variable de comptage
 function setTimeInPosition() {
   setInterval(() => {
-    time = parseInt(compteurVariable.innerText)
+    time = parseInt(compteurVariable.innerText) // valeur actuelle de comptage
   
-    const etatAssise = changementEtatAssise(angleTorse, angleJambes)
+    const etatAssise = changementEtatAssise(angleTorse, angleJambes) // position actuelle
+
     if (previousPosition != etatAssise) {
   
       compteurVariable.innerText = time = 0
@@ -105,8 +113,9 @@ function setTimeInPosition() {
 
     if (time < tempsAvantAlerte) {
 
+      //change la couleur de sombre à rouge en fonction de tempsAvantAlerte
       compteur.style.color = `rgb(${time*(255/(tempsAvantAlerte + 1))}, 25, 25)`
-      compteurAlerte.innerText = null
+      compteurAlerte.innerText = null // n'affiche pas le paneau attention
     }
 
     else {
@@ -116,9 +125,8 @@ function setTimeInPosition() {
   }, 1000)
 }
 
+// fonction affichant une boite de dialogue pour parametrer le temps avant alerte
 function setTimeBeforeAlert() {
-
-  var temps
 
   do {
 

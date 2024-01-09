@@ -212,3 +212,17 @@ textarea {
 	font-size: 25px;
 	color: black;
 }
+
+
+#logoIUT1 {
+
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+
+	margin: 2.5vw;
+
+	width: 15vw;
+
+	z-index: 100000;
+}
