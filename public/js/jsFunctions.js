@@ -44,7 +44,7 @@ return {"version":7,"data":[[0,3.8,0],[CORPS,-90,0],[0,0,-2],[0,0,5],[6,0,JAMBE]
 // fonction utilisée dans la fonction changementEtatBoutons (même .js, la suivante)
 function changementEtatAssise(angleTorse, angleJambes) {
 
-  if (Math.abs(angleJambes) <= 30) {
+  if (Math.abs(angleJambes) <= 50) {
     return 0
   }
 
@@ -81,4 +81,48 @@ function toggleOrbitsControls(toggle) {
 function rebaseAngle(angle) {
 
   return Math.abs(angle) >= 180 ? angle <= 0 ? angle + 360 : angle - 360 : angle
+}
+
+
+previousPosition = -1
+tempsAvantAlerte = 10
+function setTimeInPosition() {
+  setInterval(() => {
+    time = parseInt(compteurVariable.innerText)
+  
+    const etatAssise = changementEtatAssise(angleTorse, angleJambes)
+    if (previousPosition != etatAssise) {
+  
+      compteurVariable.innerText = time = 0
+  
+      previousPosition = etatAssise
+    }
+  
+    else if (etatAssise != 0) {
+  
+      compteurVariable.innerText = time = time + 1
+    }
+
+    if (time < tempsAvantAlerte) {
+
+      compteur.style.color = `rgb(${time*(255/(tempsAvantAlerte + 1))}, 25, 25)`
+      compteurAlerte.innerText = null
+    }
+
+    else {
+
+      compteurAlerte.innerText = "⚠"
+    }
+  }, 1000)
+}
+
+function setTimeBeforeAlert() {
+
+  var temps
+
+  do {
+
+    tempsAvantAlerte = parseInt(prompt("écrivez une valeur entière positive :"))
+
+  } while (tempsAvantAlerte <= 0)
 }
