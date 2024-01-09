@@ -16,12 +16,12 @@
          <label><input id="toggle_restrain" type="checkbox" class="toggle"><span>Restrain<br>movements</span></label><br>
          <label><input id="toggle_rightPanel" type="checkbox" class="toggle" checked=""><span>Panel droit</span></label><hr>
          <label><input id="toggle_redPoints" type="checkbox" class="toggle" checked=""><span>red points</span></label><br>
-         <label><input id="toggle_posture" type="checkbox" class="toggle"><span>Changement<br>progressif pose</span></label><br>
+         <label><input id="toggle_posture" type="checkbox" class="toggle" checked><span>Changement<br>progressif pos</span></label><br>
          <label><input id="toggle_orbitsControls" type="checkbox" class="toggle"><span>Orbits controls</span></label>
       
       </div>
 
-      <div class="panel" id="rightPanel" style="right: 0px; visibility: visible;">
+      <div class="panel" id="rightPanel" style="right: 0px;">
 	     <span class="button-group">
 			 <button id="debout" class="notButton">Debout</button><br>
 			 <button id="assis" class="notButton buttonActivate">Assis</button><br>
@@ -74,7 +74,7 @@
             changementEtatBoutons(angleTorse, angleJambes)
             toggleRedPoints(toggle_redPoints.checked)
             toggleOrbitsControls(toggle_orbitsControls.checked)
-
+            
             // boucle relevant les bras si proche du sol
             if (man.l_wrist.point(1, 5, 0).y+29.5 <= 0 || man.l_wrist.point(1, 2, -1.5).y+29.5 <= 0) {
                while (man.l_wrist.point(1, 5, 0).y+29.5 <= 0 || man.l_wrist.point(1, 2, -1.5).y+29.5 <= 0) {
@@ -111,7 +111,7 @@
                man.l_ankle.bend = man.r_ankle.bend = -50
             }
 
-            if (angleJambes <= -80) {
+            else if (angleJambes <= -80) {
                man.l_ankle.bend = man.r_ankle.bend = 0
             }
 
@@ -122,6 +122,9 @@
             man.position.y += (-29.5 - bottom);
 
             // mets les pieds en position initiale si le talon ou la pointe des pieds ne touchent pas le sol
+            if (man.l_ankle.point(6, 2, 0).y != bottom && man.l_ankle.point(-2, 2.5, 0) != bottom) {
+               man.l_ankle.bend = man.r_ankle.bend = 0
+            }
             
             
 

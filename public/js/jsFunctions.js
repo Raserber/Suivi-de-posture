@@ -80,5 +80,5 @@ function toggleOrbitsControls(toggle) {
 
 function rebaseAngle(angle) {
 
-  return angle <= -180 ? angle + 360 : angle
+  return Math.abs(angle) >= 180 ? angle <= 0 ? angle + 360 : angle - 360 : angle
 }
