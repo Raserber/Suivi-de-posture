@@ -226,3 +226,13 @@ textarea {
 
 	z-index: 100000;
 }
+
+#commandPanel {
+
+	font-family: Sans-serif;
+	font-size: 0.75em;
+	font-weight: bold;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	text-shadow: 0 0 0.2em gray;
+}

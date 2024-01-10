@@ -1,8 +1,12 @@
 <!DOCTYPE html>
 <html>
-   <body>
+
+   <head>
+      <title>Mannequin</title>
+
       <link rel="stylesheet" href="./css/notoColorEmojiFont.css">
       <link rel="stylesheet" href="./css/style.css">
+
       <script src="./libs/three.min.js"></script>
       <script src="./libs/OrbitControls.min.js"></script>
       <script src="./libs/axios.min.js"></script>
@@ -11,6 +15,10 @@
       <script src="./js/bottomControlConfiguration.js"></script>
       <script src="./js/initVisualPoints.js"></script>
       <script src="./js/jsFunctions.js"></script>
+      <script src="./js/slider.js" defer></script>
+      <script src="./js/index.js" defer></script>
+   </head>
+   <body>
 
       <div class="panel" style="left: 0; width: 70px">
          <label><input id="toggle_leftPanel" type="checkbox" class="toggle"></label>
@@ -35,9 +43,27 @@
          </span>
       </div>
 
-      <img src="./img/IUT1.png" id="logoIUT1" />
+      <div class="panel" id="commandPanel" style="top: inherit; bottom: 0;left: 0;">
+            <label> Angle Torse
+            <div class="range">
+               <input type="range" id="rangeTorse" oninput="updateValTorse(this.value)"/>
+            </div>
+            </label><br>
 
-      <script src="./js/index.js"></script>
+            <label> Angle Jambes
+            <div class="range">
+               <input type="range" id="rangeJambes" oninput="updateValJambes(this.value)"/>
+            </div>
+            </label><br>
+
+            <label id="labelRangeGenoux"> Angle Genoux
+            <div class="range">
+               <input type="range" id="rangeGenoux" oninput="updateValGenoux(this.value)"/>
+            </div>
+            </label>
+      </div>
+
+      <img src="./img/IUT1.png" id="logoIUT1" />
    </body>
 </html>
 

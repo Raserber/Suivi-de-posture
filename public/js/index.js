@@ -1,4 +1,5 @@
 var angleTorse = 0, angleJambes = 0, angleGenoux = 0
+rangeTorse.value = 50; rangeJambes.value = 50; rangeGenoux.value = 50
 
 // définition des variables correspondant aux boutons et toggle
 toggle_leftPanel = document.getElementById("toggle_leftPanel")
@@ -15,6 +16,11 @@ compteur = document.getElementById("compteur")
 compteurVariable = document.querySelector("#compteur span")
 compteurAlerte = document.querySelector("#compteur div")
 leftPanel = document.getElementById("leftPanel")
+commandPanel = document.getElementById("commandPanel")
+labelRangeGenoux = document.getElementById("labelRangeGenoux")
+rangeTorse = document.getElementById('rangeTorse')
+rangeJambes = document.getElementById('rangeJambes')
+rangeGenoux = document.getElementById('rangeGenoux')
 
 
 // création de la scene Threejs
@@ -45,7 +51,8 @@ man.posture = Mannequin.blend(man.posture, posture(angleTorse, angleJambes, angl
 // man.posture = posture(angleTorse, angleJambes, angleGenoux)
 
 
-toggle_leftPanel.checked ? leftPanel.style.visibility = "visible" : leftPanel.style.visibility = "hidden"            
+toggle_leftPanel.checked ? leftPanel.style.visibility = "visible" : leftPanel.style.visibility = "hidden"
+toggle_leftPanel.checked ? commandPanel.style.visibility = "visible" : commandPanel.style.visibility = "hidden"
 // changements liés aux boutons et toggles
 changementEtatBoutons(angleTorse, angleJambes)        // ./js/jsFunctions.js:45
 toggleRedPoints(toggle_redPoints.checked)             // ./js/initVisualPoints.js:51
@@ -170,4 +177,8 @@ else {
     angleTorse = rebaseAngle(angleTorse)
     angleJambes = rebaseAngle(angleJambes)
     angleGenoux = rebaseAngle(angleGenoux)
+
+    rangeTorse.value = (angleTorse + 180)*100/360
+    rangeJambes.value = (angleJambes + 180)*100/360
+    rangeGenoux.value = (angleGenoux + 180)*100/360
 });
