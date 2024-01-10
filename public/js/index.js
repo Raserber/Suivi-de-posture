@@ -84,19 +84,6 @@ else {
     }
 }
 
-// boucles laissant les pieds en position initiale si l'angle trop grand
-if (man.l_ankle.bend <= -90) {
-    man.l_ankle.bend = man.r_ankle.bend = 0
-}
-
-else if (man.l_ankle.bend >= 90) {
-    man.l_ankle.bend = man.r_ankle.bend = -50
-}
-
-else if (angleJambes <= -80) {
-    man.l_ankle.bend = man.r_ankle.bend = 0
-}
-
 // extraction de la hauteur du point le plus bas du mannequin (./js/bottomControlConfiguration.js)
 var bottom = configBottom()
 
