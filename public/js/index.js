@@ -26,7 +26,7 @@ rangeGenoux = document.getElementById('rangeGenoux')
 // création de la scene Threejs
 createScene();
 
-scene.add(lfeet1, lfeet2, lfeet3, lfeet4, lfeet5, lfeet6, rfeet1, rfeet2, rfeet3, rfeet4, rfeet5, rfeet6, lleg1, lleg2, rleg1, rleg2, torso1, torso2, pelvis1, pelvis2, head1, head2, head3, lfinger1, rfinger1, genoux1, genoux2, genoux3, genoux4)
+scene.add(lfeet1, lfeet2, lfeet3, lfeet4, lfeet5, lfeet6, rfeet1, rfeet2, rfeet3, rfeet4, rfeet5, rfeet6, lleg1, lleg2, rleg1, rleg2, torso1, torso2, pelvis1, pelvis2, head1, head2, head3, lfinger1, rfinger1, genoux1, genoux2, genoux3, genoux4, coude1, coude2)
 
 // creation d'un objet mannequin
 man = new Male();
@@ -132,6 +132,10 @@ genoux1.position.copy(man.l_knee.point(1.25, 0, 0));
 genoux2.position.copy(man.r_knee.point(1.25, 0, 0));
 genoux3.position.copy(man.l_knee.point(-1.25, 0, 0));
 genoux4.position.copy(man.r_knee.point(-1.25, 0, 0));
+
+// affichages des points noires MAINS
+coude1.position.copy(man.l_elbow.point(1, 0, 0));
+coude2.position.copy(man.r_elbow.point(1, 0, 0));
 }
 
 // début de connexion au serveur

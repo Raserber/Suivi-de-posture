@@ -42,5 +42,9 @@ function configBottom() {
         man.l_knee.point(1.25, 0, 0).y,
         man.l_knee.point(-1.25, 0, 0).y,
         man.r_knee.point(1.25, 0, 0).y,
-        man.r_knee.point(-1.25, 0, 0).y)
+        man.r_knee.point(-1.25, 0, 0).y,
+        
+        // coudes
+        man.l_elbow.point(1, 0, 0).y,
+        man.r_elbow.point(1, 0, 0).y)
 }
