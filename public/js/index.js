@@ -3,15 +3,16 @@ rangeTorse.value = 50; rangeJambes.value = 50; rangeGenoux.value = 50
 
 // définition des variables correspondant aux boutons et toggle
 toggle_leftPanel = document.getElementById("toggle_leftPanel")
-toggle_restrain = document.getElementById("toggle_restrain")
-toggle_posture = document.getElementById("toggle_posture")
 toggle_orbitsControls = document.getElementById("toggle_orbitsControls")
 toggle_redPoints = document.getElementById("toggle_redPoints")
 toggle_3capteurs = document.getElementById("toggle_3capteurs")
+toggle_alerteAssis = document.getElementById("toggle_alerteAssis")
 bouton_debout = document.getElementById("debout")
 bouton_assis = document.getElementById("assis")
 bouton_allonge = document.getElementById("allonge")
 bouton_alerte = document.getElementById("alerte")
+bouton_alerteText = document.getElementById('spanTempsDeclenchement')
+bouton_reset = document.getElementById('reset')
 compteur = document.getElementById("compteur")
 compteurVariable = document.querySelector("#compteur span")
 compteurAlerte = document.querySelector("#compteur div")
@@ -35,13 +36,14 @@ man = new Male();
 var controls = new THREE.OrbitControls(camera, renderer.domElement);
 
 //défini l'orientation de la vue
-scene.rotation.y = -1.3
+scene.rotation.y = -1.5
 scene.rotation.x = 0.3
 
 // lance le setInterval (./js/jsFunctions.js:93)
 setTimeInPosition()
 // permet la modification de timeBeforeAlert (./js/jsFunctions.js:126)
 bouton_alerte.addEventListener("click", setTimeBeforeAlert)
+bouton_reset.addEventListener("click", reset)
 
 // fonction d'animation
 function animate(t)

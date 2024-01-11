@@ -28,7 +28,12 @@
          <label><input id="toggle_orbitsControls" type="checkbox" class="toggle"><span>Contrôle camera</span></label><hr>
          <label><input id="toggle_redPoints" type="checkbox" class="toggle"><span>Points de<br>collision</span></label><br>
          <label><input id="toggle_3capteurs" type="checkbox" class="toggle"><span>2 ou 3 capteurs</span></label><hr>
-         <button id="alerte" style="font-size: 12px">Temps déclenchement<br>alerte</button>
+         <button id="alerte" style="font-size: 12px; height: 35px;">
+            Temps déclenchement<br>
+            avant alerte (<span id="spanTempsDeclenchement">10</span><span style="text-transform: lowercase">s</span>)
+         </button>
+         <label><input id="toggle_alerteAssis" type="checkbox" class="toggle"><span>Déclenchement<br>pos assise</span></label><hr>
+         <button id="reset" style="font-size: 12px;">Reset</button>
       
       </div>
 

@@ -48,7 +48,7 @@ return {"version":7,"data":[[0,3.8,0],[CORPS,-90,0],[0,0,-2],[0,0,5],[6,0,JAMBE]
          
 }
 
-// fonction utilisée dans la fonction changementEtatBoutons (même .js, la suivante)
+// fonction utilisée dans la fonction changementEtatBoutons (fonction suivante)
 function changementEtatAssise(angleTorse, angleJambes) {
 
   if (Math.abs(angleJambes) <= 50) {
@@ -81,7 +81,7 @@ switch (changementEtatAssise(angleTorse, angleJambes)) {
 }
 }
 
-// fonction pour activer ou non le déplacement au clique de la souris
+// fonction pour activer ou non le déplacement au click de la souris
 function toggleOrbitsControls(toggle) {
   controls.enabled = toggle
 }
@@ -96,7 +96,7 @@ function rebaseAngle(angle) {
 }
 
 
-previousPosition = -1 // état n-1 de 'etatAssise'
+previousPosition = -1 // état n-1 de 'posActuelle'
 tempsAvantAlerte = 10 // temps défini en dur pouvant être redéfini par l'utilisateur
 
 // fonction lançant un setInterval de 1000ms changeant la valeur de la variable de comptage
@@ -104,16 +104,16 @@ function setTimeInPosition() {
   setInterval(() => {
     time = parseInt(compteurVariable.innerText) // valeur actuelle de comptage
   
-    const etatAssise = changementEtatAssise(angleTorse, angleJambes) // position actuelle
+    const posActuelle = changementEtatAssise(angleTorse, angleJambes) // position actuelle
 
-    if (previousPosition != etatAssise) {
+    if (previousPosition != posActuelle) {
   
       compteurVariable.innerText = time = 0
   
-      previousPosition = etatAssise
+      previousPosition = posActuelle
     }
   
-    else if (etatAssise != 0) {
+    else if ((toggle_alerteAssis.checked && posActuelle == 1) || posActuelle == 2) {
   
       compteurVariable.innerText = time = time + 1
     }
@@ -140,4 +140,22 @@ function setTimeBeforeAlert() {
     tempsAvantAlerte = parseInt(prompt("écrivez une valeur entière positive :"))
 
   } while (tempsAvantAlerte <= 0)
+
+  spanTempsDeclenchement.innerText = tempsAvantAlerte
+}
+
+// met la scene et les toggle en position intiale
+function reset() {
+
+  // reset necessaire de la position
+  scene.rotation.y = -1.5
+  scene.rotation.x = 0.3
+  
+  // remise à la position initiale
+  scene.rotation.y = -1.3
+  scene.rotation.x = 0.3
+
+  toggle_redPoints.checked = false
+  toggle_3capteurs.checked = true
+  toggle_alerteAssis.checked = false
 }
