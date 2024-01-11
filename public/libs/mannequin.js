@@ -1715,6 +1715,7 @@ Mannequin.texHead = new THREE.TextureLoader().load("data:image/png;base64,iVBORw
 
 // limb and body texture
 Mannequin.texLimb = new THREE.TextureLoader().load("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABAAQMAAACQp+OdAAAABlBMVEX////Ly8vsgL9iAAAAHElEQVQoz2OgEPyHAjgDjxoKGWTaRRkYDR/8AAAU9d8hJ6+ZxgAAAABJRU5ErkJggg==");
+// Mannequin.texLimb = new THREE.TextureLoader().load("./img/IUT1_corps.png");
 
 try  {
 	var texTorse = new THREE.TextureLoader().load("./img/IUT1_texture.png");

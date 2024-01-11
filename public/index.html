@@ -5,6 +5,7 @@
       <title>Mannequin</title>
 
       <link rel="stylesheet" href="./css/notoColorEmojiFont.css">
+      <link rel="stylesheet" href="./css/comfortaaFont.css">
       <link rel="stylesheet" href="./css/style.css">
 
       <script src="./libs/three.min.js"></script>
@@ -24,20 +25,19 @@
          <label><input id="toggle_leftPanel" type="checkbox" class="toggle"></label>
       </div>
       <div class="panel" id="leftPanel" style="left: 0; top: 50px">
-         <label><input id="toggle_restrain" type="checkbox" class="toggle"><span>Restrain<br>movements</span></label><br>
-         <label><input id="toggle_orbitsControls" type="checkbox" class="toggle"><span>Orbits controls</span></label><hr>
-         <label><input id="toggle_redPoints" type="checkbox" class="toggle"><span>red points</span></label><br>
-         <label><input id="toggle_3capteurs" type="checkbox" class="toggle"><span>3 capteurs</span></label><hr>
-         <button id="alerte" style="font-size: 12px">Temps avant alerte</button>
+         <label><input id="toggle_orbitsControls" type="checkbox" class="toggle"><span>Contrôle camera</span></label><hr>
+         <label><input id="toggle_redPoints" type="checkbox" class="toggle"><span>Points de<br>collision</span></label><br>
+         <label><input id="toggle_3capteurs" type="checkbox" class="toggle"><span>2 ou 3 capteurs</span></label><hr>
+         <button id="alerte" style="font-size: 12px">Temps déclenchement<br>alerte</button>
       
       </div>
 
       <div class="panel" id="rightPanel" style="right: 0px;">
 	     <span class="button-group">
-			   <button id="debout" class="notButton">Debout</button><br>
-			   <button id="assis" class="notButton buttonActivate">Assis</button><br>
-			   <button id="allonge" class="notButton">Allongé</button><hr>
-            <button id="compteur" class="notButton" style="text-transform: lowercase;">
+			   <button id="debout" class="notButton comfortaa">Debout</button><br>
+			   <button id="assis" class="notButton comfortaa">Assis</button><br>
+			   <button id="allonge" class="notButton comfortaa">Allongé</button><hr>
+            <button id="compteur" class="notButton comfortaa" style="text-transform: lowercase;">
                <span>0</span>s <div style="font-family: 'Noto Color Emoji', sans-serif;"></div>
             </button>
          </span>
@@ -50,13 +50,13 @@
             </div>
             </label><br>
 
-            <label> Angle Jambes
+            <label> Angle Cuisses
             <div class="range">
                <input type="range" id="rangeJambes" oninput="updateValJambes(this.value)"/>
             </div>
             </label><br>
 
-            <label id="labelRangeGenoux"> Angle Genoux
+            <label id="labelRangeGenoux"> Angle tibias
             <div class="range">
                <input type="range" id="rangeGenoux" oninput="updateValGenoux(this.value)"/>
             </div>
