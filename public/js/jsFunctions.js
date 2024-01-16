@@ -32,19 +32,19 @@ function searchAndReturnEndDevice(receiveArray, deviceNumber) {
 // fonction créant un objet javascript "posture" (voir documentation) necessaire à des transitions 'smooth'
 function posture(angleTorse, angleJambes, angleGenoux) {
 
-CORPS = angleTorse
-JAMBE = -(angleJambes-angleTorse)
-GENOU = angleGenoux-angleJambes
+  CORPS = angleTorse
+  JAMBE = -(angleJambes-angleTorse)
+  GENOU = angleGenoux-angleJambes
 
-if (Math.abs(angleGenoux) >= 80) {
-  PIED = 0  
-}
-else {  
-  PIED = -(CORPS - JAMBE + GENOU)
-}
+  if (Math.abs(angleGenoux) >= 80) {
+    PIED = 0  
+  }
+  else {  
+    PIED = -(CORPS - JAMBE + GENOU)
+  }
 
 
-return {"version":7,"data":[[0,3.8,0],[CORPS,-90,0],[0,0,-2],[0,0,5],[6,0,JAMBE],[GENOU],[-6,-6,PIED],[-6,0,JAMBE],[GENOU],[6,6,PIED],[7,-0.6,-5],[15],[5,0,0],[-90,70,75,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[-7,0.6,-5],[15],[-5,0,0],[90,-70,75,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10]]}
+  return {"version":7,"data":[[0,3.8,0],[CORPS,-90,0],[0,0,-2],[0,0,5],[6,0,JAMBE],[GENOU],[-6,-6,PIED],[-6,0,JAMBE],[GENOU],[6,6,PIED],[7,-0.6,-5],[15],[5,0,0],[-90,70,75,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[-7,0.6,-5],[15],[-5,0,0],[90,-70,75,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10]]}
          
 }
 
