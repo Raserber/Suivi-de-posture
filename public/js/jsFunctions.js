@@ -4,7 +4,7 @@ function searchAndReturnEndDevice(receiveArray, deviceNumber) {
   receiveArray = JSON.parse(receiveArray.data)
 
   for (let i=0; i < receiveArray.length; i++) {
-     if (receiveArray[i].devEUI === "f1f2f3430100000" + deviceNumber) {
+     if (receiveArray[i].deviceName === "eid430_" + deviceNumber) {
 
        // Valeurs de receiveArray[i].data sont les composantes du vecteur gravité 'unitaire' (1.57 len)
        var angleX = Math.atan2(-receiveArray[i].data.angleZ, receiveArray[i].data.angleY) - Math.PI/2
