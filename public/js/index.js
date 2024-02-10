@@ -152,7 +152,7 @@ socket.onerror = (e) => {
 socket.addEventListener("message", (event) => {
 
 // extrait la donnée de l'angle qui nous intéresse (./js/jsFunctions.js:02)
-angleTorse = searchAndReturnEndDevice(event, 3).angleZ
+angleTorse = searchAndReturnEndDevice(event, 1).angleZ
 angleJambes = searchAndReturnEndDevice(event, 4).angleZ
 
 // si 2 capteurs demandés, alors angleG = angleJ
