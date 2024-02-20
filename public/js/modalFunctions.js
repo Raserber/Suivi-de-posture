@@ -36,3 +36,15 @@ swal("Numéro du device de torse", {
             swal("Good job!", "You clicked the button!", "success");
           });;
   })
+
+const client = mqtt.connect("ws://broker.esmqx.io:8083/mqtt", {
+  clean: true,
+  connectTimeout: 4000,
+  clientId: 'emqx_test',
+  username: 'emqx_test',
+  password: 'emqx_test',
+});
+
+client.on('error', function (error) {
+  console.log("error")
+})
