@@ -1,5 +1,7 @@
 var angleTorse = 0, angleJambes = 0, angleGenoux = 0
 rangeTorse.value = 50; rangeJambes.value = 50; rangeGenoux.value = 50
+var capteurTorse = 0, capteurCuisses = 0, capteurTibias = 0
+
 
 // définition des variables correspondant aux boutons et toggle
 toggle_leftPanel = document.getElementById("toggle_leftPanel")
@@ -13,6 +15,8 @@ bouton_allonge = document.getElementById("allonge")
 bouton_alerte = document.getElementById("alerte")
 bouton_alerteText = document.getElementById('spanTempsDeclenchement')
 bouton_reset = document.getElementById('reset')
+bouton_changeDevices = document.getElementById('changeDevices')
+bouton_numDevices = document.getElementById('devices')
 compteur = document.getElementById("compteur")
 compteurVariable = document.querySelector("#compteur span")
 compteurAlerte = document.querySelector("#compteur div")
@@ -44,6 +48,8 @@ setTimeInPosition()
 // permet la modification de timeBeforeAlert (./js/jsFunctions.js:126)
 bouton_alerte.addEventListener("click", setTimeBeforeAlert)
 bouton_reset.addEventListener("click", reset)
+bouton_changeDevices.addEventListener("click", changerDevices)
+changerDevices()
 
 // fonction d'animation
 function animate(t)
@@ -141,37 +147,60 @@ coude2.position.copy(man.r_elbow.point(1, 0, 0));
 }
 
 // début de connexion au serveur
-const socket = new WebSocket("ws://192.168.1.30:1880/ws/angles/3_ED");
+var socket
+function connect() {
 
-socket.onerror = (e) => {
+    socket = new WebSocket("ws://192.168.1.30:1880/ws/suiviPosture");
 
-// alert("Connexion au serveur perdu, veuillez recharger la page")
+    socket.onopen = function () {
+
+        swal({
+            title: "Connecté au serveur",
+            text: "Connexion avec le serveur rétabli",
+            icon: "success",
+            timer: 1000
+        })
+    }
+    socket.onclose = function(e) {
+        console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);
+
+        swal({
+            title: "Problèmes de connexion avec le serveur",
+            text: "Tentative de reconnexion automatique",
+            icon: "error"
+        })
+
+        setTimeout(function() {
+          connect();
+        }, 1000);
+      };
+
+    // traite les données qui arrivent
+    socket.addEventListener("message", (event) => {
+
+    // extrait la donnée de l'angle qui nous intéresse (./js/jsFunctions.js:02)
+    angleTorse = searchAndReturnEndDevice(event, capteurTorse).angleZ
+    angleJambes = searchAndReturnEndDevice(event, capteurCuisses).angleZ
+
+    // si 2 capteurs demandés, alors angleG = angleJ
+    if (toggle_3capteurs.checked) {
+
+        angleGenoux = searchAndReturnEndDevice(event, capteurTibias).angleZ
+    } 
+
+    else {
+
+        angleGenoux = angleJambes
+    }
+
+        // transfere la plage de valeurs possibles de +/- 360 à +/- 180 (./js/jsFunctions.js:83)
+        angleTorse = rebaseAngle(angleTorse)
+        angleJambes = rebaseAngle(angleJambes)
+        angleGenoux = rebaseAngle(angleGenoux)
+
+        rangeTorse.value = (angleTorse + 180)*100/360
+        rangeJambes.value = (angleJambes + 180)*100/360
+        rangeGenoux.value = (angleGenoux + 180)*100/360
+    });
 }
-
-// traite les données qui arrivent
-socket.addEventListener("message", (event) => {
-
-// extrait la donnée de l'angle qui nous intéresse (./js/jsFunctions.js:02)
-angleTorse = searchAndReturnEndDevice(event, 1).angleZ
-angleJambes = searchAndReturnEndDevice(event, 4).angleZ
-
-// si 2 capteurs demandés, alors angleG = angleJ
-if (toggle_3capteurs.checked) {
-
-    angleGenoux = searchAndReturnEndDevice(event, 5).angleZ
-} 
-
-else {
-
-    angleGenoux = angleJambes
-}
-
-    // transfere la plage de valeurs possibles de +/- 360 à +/- 180 (./js/jsFunctions.js:83)
-    angleTorse = rebaseAngle(angleTorse)
-    angleJambes = rebaseAngle(angleJambes)
-    angleGenoux = rebaseAngle(angleGenoux)
-
-    rangeTorse.value = (angleTorse + 180)*100/360
-    rangeJambes.value = (angleJambes + 180)*100/360
-    rangeGenoux.value = (angleGenoux + 180)*100/360
-});
+connect()

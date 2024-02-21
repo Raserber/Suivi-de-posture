@@ -159,3 +159,68 @@ function reset() {
   toggle_3capteurs.checked = true
   toggle_alerteAssis.checked = false
 }
+
+
+function changerDevices() {
+
+  swal("Le mannequin est équipé de combien de capteurs ?", {
+    buttons: ["2 capteurs", "3 capteurs"],
+  }).then(value => {
+
+    toggle_3capteurs.checked = value ? true : false
+  
+    swal("Numéro du device de torse", {
+      content: {
+        element: "input",
+        attributes: {
+          placeholder: "1, 2, 3 ...",
+        },
+      },
+    }).then ((value) => {
+  
+      capteurTorse = value
+  
+      swal("Numéro du device de cuisses", {
+          content: {
+              element: "input",
+              attributes: {
+              placeholder: "1, 2, 3 ...",
+              },
+          },
+          }).then ((value) => {
+  
+            capteurCuisses = value
+  
+            if (toggle_3capteurs.checked) {
+  
+              swal("Numéro du device de tibias", {
+                  content: {
+                      element: "input",
+                      attributes: {
+                      placeholder: "1, 2, 3 ...",
+                      },
+                  },
+                  }).then ((value) => {
+  
+                    capteurTibias = value
+        
+                    swal("Données pris en compte",
+                    `Vous pouvez changer les valeurs rentrées (${capteurTorse}, ${capteurCuisses}, ${capteurTibias}) dans le menu de gauche`,
+                    "success");
+                  });
+          }
+            }).then(value => {
+  
+              if (!toggle_3capteurs.checked) {
+  
+                swal("Données pris en compte",
+                `Vous pouvez changer les valeurs rentrées (${capteurTorse}, ${capteurCuisses}) dans le menu de gauche`,
+                "success")
+              }
+  
+              bouton_numDevices.innerText = `${capteurTorse}, ${capteurCuisses}, ${capteurTibias}`
+              toggle_leftPanel.checked = false
+            })
+    })
+  });
+}
