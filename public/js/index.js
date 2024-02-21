@@ -147,22 +147,22 @@ coude2.position.copy(man.r_elbow.point(1, 0, 0));
 }
 
 // début de connexion au serveur
-var socket
+var socket, socketClosed = false
 function connect() {
 
     socket = new WebSocket("ws://192.168.1.30:1880/ws/suiviPosture");
 
     socket.onopen = function () {
 
-        swal({
+        if (socketClosed) swal({
             title: "Connecté au serveur",
             text: "Connexion avec le serveur rétabli",
             icon: "success",
-            timer: 1000
+            timer: 1500
         })
     }
     socket.onclose = function(e) {
-        console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);
+        socketClosed = true
 
         swal({
             title: "Problèmes de connexion avec le serveur",
