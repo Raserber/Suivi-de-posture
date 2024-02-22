@@ -1,11 +1,11 @@
 var angleTorse = 0, angleJambes = 0, angleGenoux = 0
 rangeTorse.value = 50; rangeJambes.value = 50; rangeGenoux.value = 50
 var capteurTorse = -1, capteurCuisses = -1, capteurTibias = -1
-var toggle_3capteurs = false
+var toggle_3capteurs = false, toggle_leftPanel = false
 
 
 // définition des variables correspondant aux boutons et toggle
-toggle_leftPanel = document.getElementById("toggle_leftPanel")
+bouton_toggle_leftPanel = document.getElementById("toggle_leftPanel")
 toggle_orbitsControls = document.getElementById("toggle_orbitsControls")
 toggle_redPoints = document.getElementById("toggle_redPoints")
 toggle_alerteAssis = document.getElementById("toggle_alerteAssis")
@@ -46,6 +46,7 @@ scene.rotation.x = 0.3
 // lance le setInterval (./js/jsFunctions.js:93)
 setTimeInPosition()
 // permet la modification de timeBeforeAlert (./js/jsFunctions.js:126)
+bouton_toggle_leftPanel.addEventListener("click", () => {toggle_leftPanel = !toggle_leftPanel})
 bouton_alerte.addEventListener("click", setTimeBeforeAlert)
 bouton_reset.addEventListener("click", reset)
 bouton_changeDevices.addEventListener("click", changerDevices)
@@ -59,8 +60,8 @@ man.posture = Mannequin.blend(man.posture, posture(angleTorse, angleJambes, angl
 // man.posture = posture(angleTorse, angleJambes, angleGenoux)
 
 
-toggle_leftPanel.checked ? leftPanel.style.visibility = "visible" : leftPanel.style.visibility = "hidden"
-toggle_leftPanel.checked ? commandPanel.style.visibility = "visible" : commandPanel.style.visibility = "hidden"
+toggle_leftPanel ? leftPanel.style.visibility = "visible" : leftPanel.style.visibility = "hidden"
+toggle_leftPanel ? commandPanel.style.visibility = "visible" : commandPanel.style.visibility = "hidden"
 // changements liés aux boutons et toggles
 changementEtatBoutons(angleTorse, angleJambes)        // ./js/jsFunctions.js:45
 toggleRedPoints(toggle_redPoints.checked)             // ./js/initVisualPoints.js:51

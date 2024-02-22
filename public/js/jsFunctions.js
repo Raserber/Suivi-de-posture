@@ -209,7 +209,7 @@ function changerDevices() {
               }
   
               bouton_numDevices.innerText = `${capteurTorse}, ${capteurCuisses}, ${capteurTibias}`
-              toggle_leftPanel.checked = false
+              toggle_leftPanel = false
             })
     })
   });
