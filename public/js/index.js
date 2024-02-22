@@ -1,13 +1,13 @@
 var angleTorse = 0, angleJambes = 0, angleGenoux = 0
 rangeTorse.value = 50; rangeJambes.value = 50; rangeGenoux.value = 50
-var capteurTorse = 0, capteurCuisses = 0, capteurTibias = 0
+var capteurTorse = -1, capteurCuisses = -1, capteurTibias = -1
+var toggle_3capteurs = false
 
 
 // définition des variables correspondant aux boutons et toggle
 toggle_leftPanel = document.getElementById("toggle_leftPanel")
 toggle_orbitsControls = document.getElementById("toggle_orbitsControls")
 toggle_redPoints = document.getElementById("toggle_redPoints")
-toggle_3capteurs = document.getElementById("toggle_3capteurs")
 toggle_alerteAssis = document.getElementById("toggle_alerteAssis")
 bouton_debout = document.getElementById("debout")
 bouton_assis = document.getElementById("assis")
@@ -164,11 +164,13 @@ function connect() {
     socket.onclose = function(e) {
         socketClosed = true
 
-        swal({
-            title: "Problèmes de connexion avec le serveur",
-            text: "Tentative de reconnexion automatique",
+        if (capteurTorse != -1 && capteurCuisses != -1) {
+            swal({
+            title: "Serveur déconnecté: Tentative de reconnexion automatique",
+            text: "Vérifiez la connexion entre le PC et le serveur ...",
             icon: "error"
         })
+        }
 
         setTimeout(function() {
           connect();
@@ -183,7 +185,7 @@ function connect() {
     angleJambes = searchAndReturnEndDevice(event, capteurCuisses).angleZ
 
     // si 2 capteurs demandés, alors angleG = angleJ
-    if (toggle_3capteurs.checked) {
+    if (toggle_3capteurs) {
 
         angleGenoux = searchAndReturnEndDevice(event, capteurTibias).angleZ
     } 
