@@ -9,7 +9,7 @@ body {
     user-select: none;
 }
 
-input[type=checkbox] {
+.panel input[type=checkbox] {
 
 	-webkit-appearance: none;
 	-moz-appearance: none;
@@ -19,7 +19,7 @@ input[type=checkbox] {
 }
 
 
-span.short {
+.panel span.short {
 
 	display: inline-block;
 
@@ -50,7 +50,7 @@ span.short {
 }
 
 
-hr {
+.panel hr {
 
 	height: 1px;
 
@@ -62,7 +62,7 @@ hr {
 }
 
 
-label {
+.panel label {
 
 	cursor: pointer;
 
@@ -74,9 +74,9 @@ label {
 }
 
 
-button,
-label span,
-.button-group {
+.panel button,
+.panel label span,
+.panel .button-group {
 
 	display: inline-block;
 	vertical-align: middle;
@@ -92,13 +92,13 @@ label span,
 	text-shadow: 0 0 0.2em gray;
 }
 
-.button-group {
+.panel .button-group {
 
 	width: 100%;
 }
 
-button,
-.toggle {
+.panel button,
+.panel .toggle {
 
 	height: 24px;
 	width: 56px;
@@ -117,7 +117,7 @@ button,
 }
 
 
-button {
+.panel button {
 
 	height: 28px;
 	width: 100%;
@@ -128,32 +128,32 @@ button {
     font-size: 1em;
 }
 
-button:hover:not(.notButton) {
+.panel button:hover:not(.notButton) {
 
 	cursor: pointer;
 
 	background: seagreen;
 }
 
-.buttonActivate {
+.panel .buttonActivate {
 
 	color: aliceblue;
 	
 	background: seagreen;
 }
 
-.buttonDoubt {
+.panel .buttonDoubt {
 
 	background: moccasin;
 }
 
-.button-group:hover {
+.panel .button-group:hover {
 
 	color: black;
 }
 
 
-.toggle:after {
+.panel .toggle:after {
 
 	content: "";
 
@@ -177,9 +177,9 @@ button:hover:not(.notButton) {
 */
 
 
-:checked+span,
-:checked+span+span,
-:checked+span+span+span {
+.panel :checked+span,
+.panel :checked+span+span,
+.panel :checked+span+span+span {
 
 	color: black;
 	font-weight: bold;
@@ -187,7 +187,7 @@ button:hover:not(.notButton) {
 }
 
 
-.toggle:checked:after {
+.panel .toggle:checked:after {
 
 	border-color: darkgreen;
 	background: seagreen;
@@ -196,7 +196,7 @@ button:hover:not(.notButton) {
 }
 
 
-textarea {
+.panel textarea {
 
 	z-index: -1;
 }
@@ -255,4 +255,9 @@ textarea {
 	font-weight: 700;
 	font-style: normal;
 	text-shadow: none;
-  }
+}
+
+.swal-overlay {
+
+	font-family: "Lato", "Comfortaa";
+}
