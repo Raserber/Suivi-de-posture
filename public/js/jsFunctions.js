@@ -147,17 +147,7 @@ function setTimeBeforeAlert() {
 // met la scene et les toggle en position intiale
 function reset() {
 
-  // reset necessaire de la position
-  scene.rotation.y = -1.5
-  scene.rotation.x = 0.3
-  
-  // remise à la position initiale
-  scene.rotation.y = -1.3
-  scene.rotation.x = 0.3
-
-  toggle_redPoints.checked = false
-  toggle_3capteurs.checked = true
-  toggle_alerteAssis.checked = false
+  location.reload()
 }
 
 
@@ -167,7 +157,7 @@ function changerDevices() {
     buttons: ["2 capteurs", "3 capteurs"],
   }).then(value => {
 
-    toggle_3capteurs.checked = value ? true : false
+    toggle_3capteurs = value ? true : false
   
     swal("Numéro du device de torse", {
       content: {
@@ -191,7 +181,7 @@ function changerDevices() {
   
             capteurCuisses = value
   
-            if (toggle_3capteurs.checked) {
+            if (toggle_3capteurs) {
   
               swal("Numéro du device de tibias", {
                   content: {
@@ -211,7 +201,7 @@ function changerDevices() {
           }
             }).then(value => {
   
-              if (!toggle_3capteurs.checked) {
+              if (!toggle_3capteurs) {
   
                 swal("Données pris en compte",
                 `Vous pouvez changer les valeurs rentrées (${capteurTorse}, ${capteurCuisses}) dans le menu de gauche`,
