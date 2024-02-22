@@ -2,7 +2,7 @@
 <html>
 
    <head>
-      <title>Mannequin</title>
+      <title>Suivi posture</title>
 
       <link rel="stylesheet" href="./css/notoColorEmojiFont.css">
       <link rel="stylesheet" href="./css/comfortaaFont.css">
@@ -26,18 +26,16 @@
          <label><input id="toggle_leftPanel" type="checkbox" class="toggle"></label>
       </div>
       <div class="panel" id="leftPanel" style="left: 0; top: 50px">
-         <label><input id="toggle_orbitsControls" type="checkbox" class="toggle"><span>Contrôle camera</span></label><hr>
-         <label><input id="toggle_redPoints" type="checkbox" class="toggle"><span>Points de<br>collision</span></label><br>
-         <label><input id="toggle_3capteurs" type="checkbox" class="toggle"><span>2 ou 3 capteurs</span></label><hr>
+         <label><input id="toggle_orbitsControls" type="checkbox" class="toggle"><span>camera libre</span></label><br>
+         <label><input id="toggle_redPoints" type="checkbox" class="toggle"><span>Points de<br>collision</span></label><hr>
          <button id="alerte" style="font-size: 12px; height: 35px;">
             Temps déclenchement<br>
             avant alerte (<span id="spanTempsDeclenchement">10</span><span style="text-transform: lowercase">s</span>)
          </button>
          <label><input id="toggle_alerteAssis" type="checkbox" class="toggle"><span>Déclenchement<br>pos assise</span></label><hr>
-         <button id="reset" style="font-size: 12px;">Reset</button>
          <button id="changeDevices" style="font-size: 12px;">changer Devices</button>
-         <button id="devices" class="notButton comfortaa" style="font-size: 12px;"></button>
-      
+         <button id="devices" class="notButton comfortaa" style="font-size: 12px;"></button><hr>
+         <button id="reset" style="font-size: 12px;">reload</button>
       </div>
 
       <div class="panel" id="rightPanel" style="right: 0px;">
