@@ -1,7 +1,8 @@
 module.exports = {
   packagerConfig: {
     asar: true,
-    icon: "./icon/icon"
+    icon: "./icon/icon",
+    executableName: "Suivi de posture"
   },
   rebuildConfig: {},
   makers: [
