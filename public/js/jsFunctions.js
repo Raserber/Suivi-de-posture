@@ -7,14 +7,17 @@ function searchAndReturnEndDevice(receiveArray, deviceNumber) {
      if (receiveArray[i].deviceName === "eid430_" + deviceNumber) {
 
        // Valeurs de receiveArray[i].data sont les composantes du vecteur gravité 'unitaire' (1.57 len)
+       // utilisation de l'angle Y et Z pour calculer l'angleX
        var angleX = Math.atan2(-receiveArray[i].data.angleZ, receiveArray[i].data.angleY) - Math.PI/2
        angleX = (angleX < 0 ? 2*Math.PI + angleX : angleX) * 180/Math.PI
 
        // Valeurs de receiveArray[i].data sont les composantes du vecteur gravité 'unitaire' (1.57 len)
+       // utilisation de l'angle X et Z pour calculer l'angle Y
        var angleY = Math.atan2(receiveArray[i].data.angleX, -receiveArray[i].data.angleZ) - Math.PI/2
        angleY = (angleY < 0 ? 2*Math.PI + angleY : angleY) * 180/Math.PI
 
        // Valeurs de receiveArray[i].data sont les composantes du vecteur gravité 'unitaire' (1.57 len)
+       // utilisation de l'angle X et Y pour calculer l'angleZ
        var angleZ = Math.atan2(receiveArray[i].data.angleX, receiveArray[i].data.angleY) - Math.PI/2
        angleZ = (angleZ < 0 ? 2*Math.PI + angleZ : angleZ) * 180/Math.PI
 
@@ -100,7 +103,7 @@ previousPosition = -1 // état n-1 de 'posActuelle'
 tempsAvantAlerte = 10 // temps défini en dur pouvant être redéfini par l'utilisateur
 
 // fonction lançant un setInterval de 1000ms changeant la valeur de la variable de comptage
-function setTimeInPosition() {
+function setCompteur() {
   setInterval(() => {
     time = parseInt(compteurVariable.innerText) // valeur actuelle de comptage
   
@@ -151,13 +154,13 @@ function reset() {
 }
 
 
-function changerDevices() {
+function choixNumerosCapteurs() {
 
   swal("Le mannequin est équipé de combien de capteurs ?", {
     buttons: ["2 capteurs", "3 capteurs"],
   }).then(value => {
 
-    toggle_3capteurs = value ? true : false
+    bool_3capteurs = value ? true : false
   
     swal("Numéro du device de torse", {
       content: {
@@ -168,7 +171,7 @@ function changerDevices() {
       },
     }).then ((value) => {
   
-      capteurTorse = value
+      numeroCapteurTorse = value
   
       swal("Numéro du device de cuisses", {
           content: {
@@ -179,9 +182,9 @@ function changerDevices() {
           },
           }).then ((value) => {
   
-            capteurCuisses = value
+            numeroCapteurCuisses = value
   
-            if (toggle_3capteurs) {
+            if (bool_3capteurs) {
   
               swal("Numéro du device de tibias", {
                   content: {
@@ -192,24 +195,32 @@ function changerDevices() {
                   },
                   }).then ((value) => {
   
-                    capteurTibias = value
+                    numeroCapteurTibias = value
         
-                    swal("Données pris en compte",
-                    `Vous pouvez changer les valeurs rentrées (${capteurTorse}, ${capteurCuisses}, ${capteurTibias}) dans le menu de gauche`,
-                    "success");
+                    swal({
+                      title: "Données pris en compte",
+                      text: `Vous pouvez changer les valeurs rentrées (${numeroCapteurTorse}, ${numeroCapteurCuisses}, ${numeroCapteurTibias}) dans le menu de gauche`,
+                      icon: "success",
+                      timer: 2575
+                    })
+                    boutonAff_numDevices.innerText = `${numeroCapteurTorse}, ${numeroCapteurCuisses}, ${numeroCapteurTibias}`
+                    boolVisibilite_leftPanel = false
                   });
           }
             }).then(value => {
   
-              if (!toggle_3capteurs) {
-  
-                swal("Données pris en compte",
-                `Vous pouvez changer les valeurs rentrées (${capteurTorse}, ${capteurCuisses}) dans le menu de gauche`,
-                "success")
+              if (!bool_3capteurs) {
+
+                swal({
+                  title: "Données pris en compte",
+                  text: `Vous pouvez changer les valeurs rentrées (${numeroCapteurTorse}, ${numeroCapteurCuisses}) dans le menu de gauche`,
+                  icon: "success",
+                  timer: 2575
+              })
+
+              boutonAff_numDevices.innerText = `${numeroCapteurTorse}, ${numeroCapteurCuisses}, ${numeroCapteurTibias}`
+              boolVisibilite_leftPanel = false
               }
-  
-              bouton_numDevices.innerText = `${capteurTorse}, ${capteurCuisses}, ${capteurTibias}`
-              toggle_leftPanel = false
             })
     })
   });
