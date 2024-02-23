@@ -15,11 +15,15 @@
       <script src="./libs/mannequin.js"></script>
       <script src="./libs/sweetalert.min.js"></script>
 
-      <script src="./js/bottomControlConfiguration.js"></script>
       <script src="./js/initVisualPoints.js"></script>
       <script src="./js/jsFunctions.js"></script>
+      <script src="./js/jsFunctions_Threejs.js"></script>
+
       <script src="./js/slider.js" defer></script>
+      <script src="./js/initVars_DOM.js" defer></script>
+      <script src="./js/initSceneThreejs.js" defer></script>
       <script src="./js/index.js" defer></script>
+      <script src="./js/connexionServeur.js" defer></script>
    </head>
    <body>
 
@@ -32,10 +36,30 @@
             avant alerte (<span id="spanTempsDeclenchement">10</span><span style="text-transform: lowercase">s</span>)
          </button>
          <label><input id="toggle_alerteAssis" type="checkbox" class="toggle"><span>Déclenchement<br>pos assise</span></label><hr>
-         <button id="changeDevices" style="font-size: 12px;">changer Devices</button>
-         <button id="devices" class="notButton comfortaa" style="font-size: 12px;"></button><hr>
-         <button id="reset" style="font-size: 12px;">reload</button>
+         <button id="choixNumerosDevices" style="font-size: 12px;">changer Devices</button>
+         <button id="numbersDevices" class="notButton comfortaa" style="font-size: 12px;"></button><hr>
+         <button id="reload" style="font-size: 12px;">reload</button>
       </div>
+
+      <div class="panel" id="commandPanel" style="top: inherit; bottom: 0;left: 0; width: 170px">
+         <label> Angle Torse
+         <div class="range">
+            <input type="range" id="rangeTorse" oninput="updateValTorse(this.value)"/>
+         </div>
+         </label><br>
+
+         <label> Angle Cuisses
+         <div class="range">
+            <input type="range" id="rangeJambes" oninput="updateValJambes(this.value)"/>
+         </div>
+         </label><br>
+
+         <label> Angle tibias
+         <div class="range">
+            <input type="range" id="rangeGenoux" oninput="updateValGenoux(this.value)"/>
+         </div>
+         </label>
+   </div>
 
       <div class="panel" id="rightPanel" style="right: 0px;">
 	     <span class="button-group">
@@ -46,26 +70,6 @@
                <span>0</span>s <div style="font-family: 'Noto Color Emoji', sans-serif;"></div>
             </button>
          </span>
-      </div>
-
-      <div class="panel" id="commandPanel" style="top: inherit; bottom: 0;left: 0; width: 170px">
-            <label> Angle Torse
-            <div class="range">
-               <input type="range" id="rangeTorse" oninput="updateValTorse(this.value)"/>
-            </div>
-            </label><br>
-
-            <label> Angle Cuisses
-            <div class="range">
-               <input type="range" id="rangeJambes" oninput="updateValJambes(this.value)"/>
-            </div>
-            </label><br>
-
-            <label id="labelRangeGenoux"> Angle tibias
-            <div class="range">
-               <input type="range" id="rangeGenoux" oninput="updateValGenoux(this.value)"/>
-            </div>
-            </label>
       </div>
 
       <img src="./img/IUT1.png" id="logoIUT1" />
