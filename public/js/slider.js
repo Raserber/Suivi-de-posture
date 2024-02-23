@@ -6,7 +6,7 @@ var updateValTorse = function(val) {
 var updateValJambes = function(val) {
     angleJambes = parseInt(val*360/100 - 180)
 
-    if (!toggle_3capteurs) {
+    if (!bool_3capteurs) {
 
         angleGenoux = parseInt(val*360/100 - 180)
         rangeGenoux.value = val
@@ -16,7 +16,7 @@ var updateValJambes = function(val) {
 var updateValGenoux = function(val) {
     angleGenoux = parseInt(val*360/100 - 180)
 
-    if (!toggle_3capteurs) {
+    if (!bool_3capteurs) {
 
         angleJambes = parseInt(val*360/100 - 180)
         rangeJambes.value = val
