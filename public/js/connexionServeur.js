@@ -1,5 +1,5 @@
 // début de connexion au serveur
-var socket, socketClosed = false
+var socket, socketClosed = false, showDeconnexionError = true
 function connect() {
 
     socket = new WebSocket("ws://192.168.1.30:1880/ws/suiviPosture");
@@ -16,11 +16,16 @@ function connect() {
     socket.onclose = function(e) {
         socketClosed = true
 
-        if (numeroCapteurTorse != -1 && numeroCapteurCuisses != -1) {
+        if (numeroCapteurTorse != -1 && numeroCapteurCuisses != -1 && showDeconnexionError) {
             swal({
             title: "Serveur déconnecté: Tentative de reconnexion automatique",
             text: "Vérifiez la connexion entre le PC et le serveur ...",
-            icon: "error"
+            icon: "error",
+            buttons: ["ne plus montrer", "OK"]
+        }).then((state) => {
+
+            console.log(state)
+            showDeconnexionError = state | false
         })
         }
 
