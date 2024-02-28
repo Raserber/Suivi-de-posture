@@ -17,7 +17,9 @@ This project was carried out within the scope of the FAME project (Formation et 
 
 ## System requirements 💻
 
+🚧🚧🚧🚧🚧🚧🚧 *Under construction*
 Since the server cannot be accessed remotely, I've created an end point at `ws://endPoint.iut1-posture.raserber.fr:8001`. You can therefore replace `ws://192.168.1.20:1880` with this end point.
+🚧🚧🚧🚧🚧🚧🚧
 
 ## Installation ⬇️
 
@@ -33,7 +35,7 @@ For devs :
 ## Usage
 
 1. Launch the application.
-3. Select the sensors to be used in the interface. *(8, 4, 2 for the endpoint on raserber.fr)*
+3. Select the sensors to be used in the interface. *(8, 4, 1 for the endpoint 🚧🚧)*
 4. View the 3D mannequin's posture in real time.
 
 > The square at top left is a button opening a configuration menu.
