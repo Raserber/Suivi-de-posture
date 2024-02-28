@@ -82,11 +82,6 @@ switch (changementEtatAssise(angleTorse, angleJambes)) {
 }
 }
 
-// fonction pour activer ou non le déplacement au click de la souris
-function toggleOrbitsControls(toggle) {
-  controls.enabled = toggle
-}
-
 // fonction ramenant une valeur comprise entre +/- 360 à +/- 180
 // necessaire car le Mannequin.blend() (../index.html:84)
 // nécessite des valeurs comprises entre -180 et +180 sinon
@@ -146,7 +141,7 @@ function setTimeBeforeAlert() {
 }
 
 // met la scene et les toggle en position intiale
-function reset() {
+function reload() {
 
   location.reload()
 }
@@ -155,10 +150,10 @@ function reset() {
 function choixNumerosCapteurs() {
 
   swal("Le mannequin est équipé de combien de capteurs ?", {
-    buttons: ["2 capteurs", "3 capteurs"],
+    buttons: ["3 capteurs", "2 capteurs"],
   }).then(value => {
 
-    bool_3capteurs = value ? true : false
+    bool_3capteurs = value ? false : true // true si 3 capteurs, false si 2 capteurs 
   
     swal("Numéro du device de torse", {
       content: {

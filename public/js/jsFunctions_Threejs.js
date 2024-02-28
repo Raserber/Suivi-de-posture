@@ -133,3 +133,8 @@ function changementPositionBras() {
         }
     }
 }
+
+// fonction pour activer ou non le déplacement au click de la souris
+function toggleOrbitsControls(toggle) {
+    controls.enabled = toggle
+  }
