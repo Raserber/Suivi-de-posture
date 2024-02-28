@@ -2,10 +2,13 @@
 
 This project was carried out as part of a work-study project at IUT 1 in Grenoble.
 
+![iut1](public/img/IUT1.png)
+
 It is a web application designed to track and analyze a user's posture using remote sensors. The application uses Three.js for 3D visualization, and is packaged in an Electron application for porting to Windows.
 
 This project was carried out within the scope of the FAME project (Formation et attractivité des métiers de l'électronique) supported by the [UGA](https://www.univ-grenoble-alpes.fr/) as part of a demonstrator showcasing electronics and embedded systems projects. Indeed, the second part of the project is the realization of sensors in embedded systems using STM32 and the LoRaWAN communication protocol. This second part is the "business skills" part that GEII students are developing as part of their training.
 
+![example image](readme_img/1.PNG)
 ## Features 🛫
 
 - Real-time animation of a 3D dummy based on sensor data.
@@ -14,7 +17,7 @@ This project was carried out within the scope of the FAME project (Formation et 
 
 ## System requirements 💻
 
-Since the server cannot be accessed remotely, I've created an end point at [wss://endPoint.iut1-posture.raserber.fr:8001](wss://endPoint.iut1-posture.raserber.fr8001). You can therefore replace `wss://192.168.1.20:1880` with this end point.
+Since the server cannot be accessed remotely, I've created an end point at `wss://endPoint.iut1-posture.raserber.fr:8001`. You can therefore replace `wss://192.168.1.20:1880` with this end point.
 
 ## Installation ⬇️
 
@@ -35,6 +38,7 @@ For devs :
 
 > The square at top left is a button opening a configuration menu.
 
+![example image](readme_img/2.PNG)
 ## Acknowledgements
 
 - [MannequinJS by Boytchev](https://github.com/boytchev/mannequin.js)
