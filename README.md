@@ -14,7 +14,7 @@ This project was carried out within the scope of the FAME project (Formation et 
 
 ## System requirements 💻
 
-Since the server cannot be accessed remotely, I've created an end point at [ws://endPoint.iut1-posture.raserber.fr:8001](ws://endPoint.iut1-posture.raserber.fr8001). You can therefore replace `ws://192.168.1.20:1880` with this end point.
+Since the server cannot be accessed remotely, I've created an end point at [wss://endPoint.iut1-posture.raserber.fr:8001](wss://endPoint.iut1-posture.raserber.fr8001). You can therefore replace `wss://192.168.1.20:1880` with this end point.
 
 ## Installation ⬇️
 

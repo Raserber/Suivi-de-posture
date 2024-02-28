@@ -2,7 +2,7 @@
 var socket, socketClosed = false, showDeconnexionError = true
 function connect() {
 
-    socket = new WebSocket("ws://192.168.1.30:1880/ws/suiviPosture");
+    socket = new WebSocket("wss://192.168.1.30:1880/ws/suiviPosture");
 
     socket.onopen = function () {
 
