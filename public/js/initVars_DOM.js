@@ -34,5 +34,5 @@ compteurVariable = document.querySelector("#compteur span")
 // EventListeners
 toggle_leftPanel.addEventListener("click", () => {boolVisibilite_leftPanel = !boolVisibilite_leftPanel})
 bouton_alerte.addEventListener("click", setTimeBeforeAlert)
-bouton_reload.addEventListener("click", reset)
+bouton_reload.addEventListener("click", reload)
 bouton_choixNumerosDevices.addEventListener("click", choixNumerosCapteurs)
