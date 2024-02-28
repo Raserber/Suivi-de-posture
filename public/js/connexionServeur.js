@@ -1,5 +1,6 @@
 // début de connexion au serveur
-var socket, socketClosed = false, showDeconnexionError = true, socketURL = "wss://192.168.1.30:1880/ws/suiviPosture"
+var socket, socketClosed = false, showDeconnexionError = true
+var socketURL = "wss://192.168.1.30:1880/ws/suiviPosture"
 function connect() {
 
     socket = new WebSocket(socketURL);

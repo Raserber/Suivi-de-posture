@@ -53,10 +53,10 @@ autoUpdater.setFeedURL({
   }
 })
 
+autoUpdater.checkForUpdates()
 setInterval(() => {
 
   autoUpdater.checkForUpdates()
-  console.log("update ?")
 }, 15000)
 
 autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
