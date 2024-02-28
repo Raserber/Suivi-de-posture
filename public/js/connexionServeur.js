@@ -1,8 +1,8 @@
 // début de connexion au serveur
-var socket, socketClosed = false, showDeconnexionError = true
+var socket, socketClosed = false, showDeconnexionError = true, socketURL = "wss://192.168.1.30:1880/ws/suiviPosture"
 function connect() {
 
-    socket = new WebSocket("wss://192.168.1.30:1880/ws/suiviPosture");
+    socket = new WebSocket(socketURL);
 
     socket.onopen = function () {
 
@@ -15,6 +15,8 @@ function connect() {
     }
     socket.onclose = function(e) {
         socketClosed = true
+
+        console.info("Astuce ! Si vous voulez changer l'url vers le quel pointe le socket changez la valeur de la variable 'socketURL'")
 
         if (numeroCapteurTorse != -1 && numeroCapteurCuisses != -1 && showDeconnexionError) {
             swal({
