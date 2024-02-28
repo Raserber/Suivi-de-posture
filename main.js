@@ -47,7 +47,7 @@ app.on("window-all-closed", function () {
 // code. You can also put them in separate files and require them here.
 
 autoUpdater.setFeedURL({
-  url: "https://auto-update.iut1-posture.raserber.fr/",
+  url: "https://github.com/Raserber/UGA_suiviPosture_Frontend/releases/latest/download",
   headers: {
     "Cache-Control": "no-cache"
   }
@@ -58,3 +58,23 @@ setInterval(() => {
   autoUpdater.checkForUpdates()
   console.log("update ?")
 }, 15000)
+
+autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
+  const dialogOpts = {
+    type: 'info',
+    buttons: ['Restart', 'Later'],
+    title: 'Application Update',
+    message: process.platform === 'win32' ? releaseNotes : nomrelease,
+    détail:
+      "Une nouvelle version a été téléchargée. Redémarrez l'application pour appliquer les mises à jour."
+  }
+
+  dialog.showMessageBox(dialogOpts).then((returnValue) => {
+    if (returnValue.response === 0) autoUpdater.quitAndInstall()
+  })
+})
+
+autoUpdater.on('error', (message) => {
+  console.error('There was a problem updating the application')
+  console.error(message)
+})
