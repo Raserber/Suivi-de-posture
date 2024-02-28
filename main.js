@@ -45,3 +45,16 @@ app.on("window-all-closed", function () {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+
+autoUpdater.setFeedURL({
+  url: "https://auto-update.iut1-posture.raserber.fr/",
+  headers: {
+    "Cache-Control": "no-cache"
+  }
+})
+
+setInterval(() => {
+
+  autoUpdater.checkForUpdates()
+  console.log("update ?")
+}, 15000)
