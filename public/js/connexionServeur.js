@@ -1,6 +1,7 @@
 // début de connexion au serveur
 var socket, socketClosed = false, showDeconnexionError = true
-var socketURL = "wss://192.168.1.30:1880/ws/suiviPosture"
+var socketURL = "ws://192.168.1.30:1880/ws/suiviPosture"
+var messages = []
 function connect() {
 
     socket = new WebSocket(socketURL);
@@ -27,7 +28,6 @@ function connect() {
             buttons: ["ne plus montrer", "OK"]
         }).then((state) => {
 
-            console.log(state)
             showDeconnexionError = state | false
         })
         }
@@ -39,15 +39,14 @@ function connect() {
 
     // traite les données qui arrivent
     socket.addEventListener("message", (event) => {
-
     // extrait la donnée de l'angle qui nous intéresse (./js/jsFunctions.js:02)
-    angleTorse = searchAndReturnEndDevice(event, numeroCapteurTorse).angleZ
-    angleJambes = searchAndReturnEndDevice(event, numeroCapteurCuisses).angleZ
+    angleTorse = searchAndReturnEndDevice(event, numeroCapteurTorse).angleZ == -1000 ? angleTorse : searchAndReturnEndDevice(event, numeroCapteurTorse).angleZ
+    angleJambes = searchAndReturnEndDevice(event, numeroCapteurCuisses).angleZ == -1000 ? angleJambes : searchAndReturnEndDevice(event, numeroCapteurCuisses).angleZ
 
     // si 2 capteurs demandés, alors angleG = angleJ
     if (bool_3capteurs) {
 
-        angleGenoux = searchAndReturnEndDevice(event, numeroCapteurTibias).angleZ
+        angleGenoux = searchAndReturnEndDevice(event, numeroCapteurTibias).angleZ == -1000 ? angleGenoux : searchAndReturnEndDevice(event, numeroCapteurTibias).angleZ
     } 
 
     else {

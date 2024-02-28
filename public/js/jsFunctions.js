@@ -3,21 +3,21 @@ function searchAndReturnEndDevice(receiveArray, deviceNumber) {
 
   receiveArray = JSON.parse(receiveArray.data)
 
-    if (receiveArray[0].deviceName === "eid430_" + deviceNumber) {
+    if (receiveArray.deviceName === "eid430_" + deviceNumber) {
 
-      // Valeurs de receiveArray[0].data sont les composantes du vecteur gravité 'unitaire' (1.57 len)
+      // Valeurs de receiveArray.data sont les composantes du vecteur gravité 'unitaire' (1.57 len)
       // utilisation de l'angle Y et Z pour calculer l'angleX
-      var angleX = Math.atan2(-receiveArray[0].data.angleZ, receiveArray[0].data.angleY) - Math.PI/2
+      var angleX = Math.atan2(-receiveArray.data.angleZ, receiveArray.data.angleY) - Math.PI/2
       angleX = (angleX < 0 ? 2*Math.PI + angleX : angleX) * 180/Math.PI
 
-      // Valeurs de receiveArray[0].data sont les composantes du vecteur gravité 'unitaire' (1.57 len)
+      // Valeurs de receiveArray.data sont les composantes du vecteur gravité 'unitaire' (1.57 len)
       // utilisation de l'angle X et Z pour calculer l'angle Y
-      var angleY = Math.atan2(receiveArray[0].data.angleX, -receiveArray[0].data.angleZ) - Math.PI/2
+      var angleY = Math.atan2(receiveArray.data.angleX, -receiveArray.data.angleZ) - Math.PI/2
       angleY = (angleY < 0 ? 2*Math.PI + angleY : angleY) * 180/Math.PI
 
-      // Valeurs de receiveArray[0].data sont les composantes du vecteur gravité 'unitaire' (1.57 len)
+      // Valeurs de receiveArray.data sont les composantes du vecteur gravité 'unitaire' (1.57 len)
       // utilisation de l'angle X et Y pour calculer l'angleZ
-      var angleZ = Math.atan2(receiveArray[0].data.angleX, receiveArray[0].data.angleY) - Math.PI/2
+      var angleZ = Math.atan2(receiveArray.data.angleX, receiveArray.data.angleY) - Math.PI/2
       angleZ = (angleZ < 0 ? 2*Math.PI + angleZ : angleZ) * 180/Math.PI
 
       return {
@@ -27,7 +27,11 @@ function searchAndReturnEndDevice(receiveArray, deviceNumber) {
       };
  }
 
- return 0
+ return {
+  angleX : -1000,
+  angleY : -1000,
+  angleZ : -1000
+ }
 }
 
 // fonction créant un objet javascript "posture" (voir documentation) necessaire à des transitions 'smooth'
