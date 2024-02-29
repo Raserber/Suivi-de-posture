@@ -29,13 +29,13 @@ Since the server cannot be accessed remotely, I've explain how to reproduce the 
 
 For devs :
 1. Clone this repository on your machine.
-3. Run `npm install` to install the dependencies.
+3. Run `npm install` to install the dependencies (which are not minify in ./js.libs/).
 4. Launch the application by running `npm start`.
 
 ## Usage
 
 1. Launch the application.
-3. Select the sensors to be used in the interface. *(8, 4, 1 for the endpoint 🚧🚧)*
+3. Select the sensors to be used in the interface. *(8, 4, 1 for local websocket server)*
 4. View the 3D mannequin's posture in real time.
 
 > The square at top left is a button opening a configuration menu.
