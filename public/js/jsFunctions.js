@@ -135,13 +135,26 @@ function setCompteur() {
 // fonction affichant une boite de dialogue pour parametrer le temps avant alerte
 function setTimeBeforeAlert() {
 
-  do {
+    swal("Nombre de secondes avant alerte", {
+      content: {
+          element: "input",
+          attributes: {
+          placeholder: "10, 20, 30 ...",
+          },
+      },
+      }).then ((value) => {
 
-    tempsAvantAlerte = parseInt(prompt("écrivez une valeur entière positive :"))
+        if (parseInt(value) <= 0 || !parseInt(value)) {
 
-  } while (tempsAvantAlerte <= 0)
+          setTimeBeforeAlert()
+        }
 
-  spanTempsDeclenchement.innerText = tempsAvantAlerte
+        else {
+
+          tempsAvantAlerte = parseInt(value)
+          spanTempsDeclenchement.innerText = tempsAvantAlerte
+        }
+      })
 }
 
 // met la scene et les toggle en position intiale
