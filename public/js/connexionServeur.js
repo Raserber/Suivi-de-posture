@@ -2,13 +2,45 @@
 var socket, socketClosed = false, showDeconnexionError = true
 var socketURL = "ws://192.168.1.30:1880/ws/suiviPosture"
 var messages = []
+
+async function diagnosticDeconnexion() {
+
+    var status;
+
+    const controller = new AbortController()
+    const signal = controller.signal
+    var timeoutBaie = setTimeout(() => { controller.abort("null") }, 100)
+    var timeoutNS = setTimeout(() => { controller.abort("null") }, 200)   
+    var timeoutAS = setTimeout(() => { controller.abort("null") }, 300)
+
+
+    // test ('ping') de connexion au routeur
+    await fetch("http://192.168.1.3/", { signal })
+    .then(response => {clearTimeout(timeoutBaie)})
+    .catch(err => { status = "baieDeconnectee" })
+    if (status) return status;
+    
+    // test ('ping') de connexion au Network Server
+    await fetch("http://192.168.1.20:8080/icon.png", { signal })
+    .then(() => { clearTimeout(timeoutNS) })
+    .catch(() => { status = "networkServerDeconnecte" })
+    if (status) return status;
+
+    // test ('ping') de connexion à l'Application Server
+    await fetch("http://192.168.1.30:1880/favicon.ico", { signal })
+        .then(() => { clearTimeout(timeoutAS); status = "bonneConnexion" })
+        .catch(() => { status = "applicationServerDeconnecte" })
+    if (status) return status;
+}
+
+
 function connect() {
 
     socket = new WebSocket(socketURL);
 
     socket.onopen = function () {
 
-        if (socketClosed) swal({
+        if (socketClosed) Swal.fire({
             title: "Connecté au serveur",
             text: "Connexion avec le serveur rétabli",
             icon: "success",
@@ -18,23 +50,49 @@ function connect() {
     socket.onclose = function(e) {
         socketClosed = true
 
-        console.info("Astuce ! Si vous voulez changer l'url vers le quel pointe le socket changez la valeur de la variable 'socketURL'")
+        var titleAlert, textAlert;
+        diagnosticDeconnexion().then(diagnostic => {
+            
+            // empeche le message d'erreur de s'afficher tant que le choix des capteurs n'a pas été réalisé
+            if (numeroCapteurTorse != -1 && numeroCapteurCuisses != -1 && showDeconnexionError) {
 
-        if (numeroCapteurTorse != -1 && numeroCapteurCuisses != -1 && showDeconnexionError) {
-            swal({
-            title: "Serveur déconnecté: Tentative de reconnexion automatique",
-            text: "Vérifiez la connexion entre le PC et le serveur ...",
-            icon: "error",
-            buttons: ["ne plus montrer", "OK"]
-        }).then((state) => {
-
-            showDeconnexionError = state | false
+                switch (diagnostic) {
+    
+                    case "baieDeconnectee" :
+                        titleAlert = "Problème de connexion entre la baie et l'ordinateur"
+                        textAlert = "Vérifiez le câble ethernet entre l'ordinateur et la baie informatique"
+                        break;
+                    case "networkServerDeconnecte" : 
+                        titleAlert = "Network Server hors ligne"
+                        textAlert = "Vérifiez que le Network Server est allumé, essayez de déconnecter et reconnecter le câble ethernet du NS, de l'allumer et l'éteindre"
+                        break;
+                    case "applicationServerDeconnecte" :
+                        titleAlert = "Application Server hors ligne"
+                        textAlert = "Vérifiez que l'Application Server est allumé, essayez de déconnecter et reconnecter le câble ethernet de l'AS, de l'allumer et l'éteindre"
+                        break;
+                    case "bonneConnexion" :
+                        titleAlert = "Problème de programmation Application Server"
+                        textAlert = "Nous n'arrivons pas à trouver l'accès aux données sur l'application server. Cela peut s'expliquer par un problème de programmation, veuillez contacter un technicien"
+                        break;
+                    default : 
+                        titleAlert = "Problème de connexion"
+                        textAlert = "Tentative de résolution automatique ... Si le problème persite, demander conseil."
+                }
+    
+                Swal.fire({
+                title: titleAlert,
+                text: textAlert,
+                icon: "error",
+                showConfirmButton: true,
+                showCancelButton: true,
+                cancelButtonText: "Ne plus montrer"
+            }).then((result) => { showDeconnexionError = !result.isDismissed })
+            }
+    
+            setTimeout(function() {
+              connect();
+            }, 1000);
         })
-        }
-
-        setTimeout(function() {
-          connect();
-        }, 1000);
       };
 
     // traite les données qui arrivent
