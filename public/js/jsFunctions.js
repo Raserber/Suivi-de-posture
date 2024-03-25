@@ -135,26 +135,22 @@ function setCompteur() {
 // fonction affichant une boite de dialogue pour parametrer le temps avant alerte
 function setTimeBeforeAlert() {
 
-    swal("Nombre de secondes avant alerte", {
-      content: {
-          element: "input",
-          attributes: {
-          placeholder: "10, 20, 30 ...",
-          },
-      },
-      }).then ((value) => {
-
+    Swal.fire({
+      title: "Nombre de secondes avant alerte",
+      input: "text",
+      inputPlaceholder: "10, 20, 30 ...",
+      inputValidator: (value) => {
         if (parseInt(value) <= 0 || !parseInt(value)) {
 
-          setTimeBeforeAlert()
+          return "vous devez sélectionner un temps positif"
         }
 
         else {
-
           tempsAvantAlerte = parseInt(value)
           spanTempsDeclenchement.innerText = tempsAvantAlerte
         }
-      })
+      }
+    })
 }
 
 // met la scene et les toggle en position intiale
@@ -166,72 +162,65 @@ function reload() {
 
 function choixNumerosCapteurs() {
 
-  swal("Le mannequin est équipé de combien de capteurs ?", {
-    buttons: ["3 capteurs", "2 capteurs"],
-  }).then(value => {
+  Swal.fire({
+    title: "Combien de capteurs sont équipés",
+    showDenyButton: true,
+    confirmButtonText: "2 capteurs",
+    denyButtonText: "3 capteurs",
+    icon: "question",
+    allowOutsideClick: false
+  }).then(result => {
 
-    bool_3capteurs = value ? false : true // true si 3 capteurs, false si 2 capteurs 
-  
-    swal("Numéro du device de torse", {
-      content: {
-        element: "input",
-        attributes: {
-          placeholder: "1, 2, 3 ...",
-        },
-      },
-    }).then ((value) => {
-  
-      numeroCapteurTorse = value
-  
-      swal("Numéro du device de cuisses", {
-          content: {
-              element: "input",
-              attributes: {
-              placeholder: "1, 2, 3 ...",
-              },
-          },
-          }).then ((value) => {
-  
-            numeroCapteurCuisses = value
-  
-            if (bool_3capteurs) {
-  
-              swal("Numéro du device de tibias", {
-                  content: {
-                      element: "input",
-                      attributes: {
-                      placeholder: "1, 2, 3 ...",
-                      },
-                  },
-                  }).then ((value) => {
-  
-                    numeroCapteurTibias = value
-        
-                    swal({
-                      title: "Données pris en compte",
-                      text: `Vous pouvez changer les valeurs rentrées (${numeroCapteurTorse}, ${numeroCapteurCuisses}, ${numeroCapteurTibias}) dans le menu de gauche`,
-                      icon: "success",
-                      timer: 2575
-                    })
-                    boutonAff_numDevices.innerText = `${numeroCapteurTorse}, ${numeroCapteurCuisses}, ${numeroCapteurTibias}`
-                    boolVisibilite_leftPanel = false
-                  });
-          }
-            }).then(value => {
-  
-              if (!bool_3capteurs) {
+    bool_3capteurs = !result.isConfirmed // true si 3 capteurs, false si 2 capteurs 
 
-                swal({
-                  title: "Données pris en compte",
-                  text: `Vous pouvez changer les valeurs rentrées (${numeroCapteurTorse}, ${numeroCapteurCuisses}) dans le menu de gauche`,
-                  icon: "success",
-                  timer: 2575
-              })
+    if (result.isConfirmed) {
+      steps = [1, 2]
+    }
+    else {
+      steps = [1, 2, 3]
+    }
 
-              boutonAff_numDevices.innerText = `${numeroCapteurTorse}, ${numeroCapteurCuisses}, ${numeroCapteurTibias}`
-              boolVisibilite_leftPanel = false
-              }
-            })
+    const Queue = Swal.mixin({
+      progressSteps: steps,
+      confirmButtonText: 'Next ➥',
+      // optional classes to avoid backdrop blinking between steps
+      showClass: { backdrop: 'swal2-noanimation' },
+      hideClass: { backdrop: 'swal2-noanimation' },
+      input: "text",
+      inputPlaceholder: "1, 2, 3 ..."
     })
-  });
+    
+    ;(async () => {
+      const {value: torse} = await Queue.fire({
+        title: 'Numéro du capteur du torse',
+        currentProgressStep: 0,
+      })
+      numeroCapteurTorse = torse
+
+      var {value: cuisses} = await Queue.fire({
+        title: 'Numéro du capteur de la cuisse',
+        currentProgressStep: 1,
+      })
+      numeroCapteurCuisses = cuisses
+
+      if (!result.isConfirmed) {
+        const {value: tibias} = await Queue.fire({
+          title: 'Numéro du capteur du tibia',
+          currentProgressStep: 2,
+          confirmButtonText: 'OK',
+        })
+        numeroCapteurTibias = tibias
+      }
+
+      await Swal.fire({
+        title: "Données prise en compte",
+        text: `Vous pouvez changer les valeurs rentrées (${numeroCapteurTorse}, ${numeroCapteurCuisses}${bool_3capteurs ? ", "+numeroCapteurTibias : ""}) dans le menu de gauche`,
+        icon: "success",
+        timer: 3500
+      })
+
+      boutonAff_numDevices.innerText = `${numeroCapteurTorse}, ${numeroCapteurCuisses}${bool_3capteurs ? ", "+numeroCapteurTibias : ""}`
+      boolVisibilite_leftPanel = false
+    })()
+  })
 }
