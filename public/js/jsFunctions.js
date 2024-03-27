@@ -187,7 +187,8 @@ function choixNumerosCapteurs() {
       showClass: { backdrop: 'swal2-noanimation' },
       hideClass: { backdrop: 'swal2-noanimation' },
       input: "text",
-      inputPlaceholder: "1, 2, 3 ..."
+      inputPlaceholder: "1, 2, 3 ...",
+      allowOutsideClick: false
     })
     
     ;(async () => {
@@ -207,7 +208,7 @@ function choixNumerosCapteurs() {
         const {value: tibias} = await Queue.fire({
           title: 'Numéro du capteur du tibia',
           currentProgressStep: 2,
-          confirmButtonText: 'OK',
+          confirmButtonText: 'Ok',
         })
         numeroCapteurTibias = tibias
       }

@@ -44,7 +44,7 @@ For devs :
 ## Acknowledgements
 
 - [MannequinJS by Boytchev](https://github.com/boytchev/mannequin.js)
-- [SweetAlert by t4t5](https://github.com/t4t5/sweetalert)
+- [SweetAlert2](https://github.com/sweetalert2/sweetalert2)
 - <a href="https://www.flaticon.com/fr/icones-gratuites/mannequin" title="mannequin icônes">Mannequin icônes créées par Flat Icons - Flaticon</a>
 ## License
 
