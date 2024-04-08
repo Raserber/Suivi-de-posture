@@ -237,6 +237,27 @@ body {
 	z-index: 100;
 }
 
+#toggle_leftPanel {
+
+	width: 60px;
+	height: 35px;
+
+	left: 0;
+
+	border: solid 1px rgba(0, 0, 0, 0.2);
+	box-shadow: inset 0 0 1em rgba(0, 0, 0, 0.1);
+}
+
+#toggle_leftPanel img {
+
+	position: relative;
+	left: 50%;
+
+	translate: -50%;
+	
+	height: 100%
+}
+
 #commandPanel {
 
 	font-family: Sans-serif;
