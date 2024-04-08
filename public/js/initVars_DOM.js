@@ -4,7 +4,7 @@ var numeroCapteurTorse = -1, numeroCapteurCuisses = -1, numeroCapteurTibias = -1
 var bool_3capteurs = false, boolVisibilite_leftPanel = false
 
 
-// définition des variables correspondant aux boutons et toggle
+// définition des variables correspondant aux boutons et toggle (IHM)
 toggle_leftPanel = document.getElementById("toggle_leftPanel")
 commandPanel = document.getElementById("commandPanel")
 

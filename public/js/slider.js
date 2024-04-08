@@ -1,4 +1,9 @@
 
+/* Ces variables sont directement utlisé dans le fichier index.html dans la
+définition des balises pour update les valeurs de angleTorse en fonction des
+valeurs donnés par l'utilisateur
+*/
+
 var updateValTorse = function(val) {
     angleTorse = parseInt(val*360/100 - 180)
 };

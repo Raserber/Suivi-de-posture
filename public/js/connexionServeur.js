@@ -1,8 +1,11 @@
-// début de connexion au serveur
+// début de connexion au serveur via des websocket
 var socket, socketClosed = false, showDeconnexionError = true
 var socketURL = "ws://192.168.1.30:1880/ws/suiviPosture"
 var messages = []
 
+// fonction qui sera utilisé en cas de problemes de connexion avec le serveur
+// elle sert à donner plus d'information dans la popup que simplement
+// "probleme de connexion" (comme probleme de connexion ethernet, probleme allumage/cablage serveur ...)
 async function diagnosticDeconnexion() {
 
     var status;
@@ -20,7 +23,7 @@ async function diagnosticDeconnexion() {
     .catch(err => { status = "baieDeconnectee" })
     if (status) return status;
     
-    // test ('ping') de connexion au Network Server
+    // test ('ping') de connexion au Network Server à l'adresse 192.168.1.20
     await fetch("http://192.168.1.20:8080/icon.png", { signal })
     .then(() => { clearTimeout(timeoutNS) })
     .catch(() => { status = "networkServerDeconnecte" })
@@ -34,6 +37,7 @@ async function diagnosticDeconnexion() {
 }
 
 
+// fonction lancant la connexion websocket, traitant les erreurs et mettant en forme les angles reçus
 function connect() {
 
     socket = new WebSocket(socketURL);
@@ -97,14 +101,25 @@ function connect() {
 
     // traite les données qui arrivent
     socket.addEventListener("message", (event) => {
-    // extrait la donnée de l'angle qui nous intéresse (./js/jsFunctions.js:02)
-    angleTorse = searchAndReturnEndDevice(event, numeroCapteurTorse).angleZ == -1000 ? angleTorse : searchAndReturnEndDevice(event, numeroCapteurTorse).angleZ
-    angleJambes = searchAndReturnEndDevice(event, numeroCapteurCuisses).angleZ == -1000 ? angleJambes : searchAndReturnEndDevice(event, numeroCapteurCuisses).angleZ
+    // extrait la donnée de l'angle qui nous intéresse (./js/jsFunctions.js)
+    angleTorse_temp = searchAndReturnEndDevice(event, numeroCapteurTorse).angleZ
+    angleJambes_temp = searchAndReturnEndDevice(event, numeroCapteurCuisses).angleZ
+    
+    angleTorse = angleTorse_temp == -1000 ? angleTorse : angleTorse_temp
+    angleJambes = angleJambes_temp == -1000 ? angleJambes : angleJambes_temp
+    /* explication du -1000 :
+        Si la fonction searchAndReturnEndDevice reçoit un message ne contenant pas le endDevice cherché, la fonction renvoit -1000
+        permettant de ne pas changer la valeur de l'angle pour une valeur n'existant pas ce qui ferait crash une partie du programme
+        (La gestion des erreurs étant peu fine par la suite)
+    */
+
 
     // si 2 capteurs demandés, alors angleG = angleJ
     if (bool_3capteurs) {
 
-        angleGenoux = searchAndReturnEndDevice(event, numeroCapteurTibias).angleZ == -1000 ? angleGenoux : searchAndReturnEndDevice(event, numeroCapteurTibias).angleZ
+        angleGenoux_temp = searchAndReturnEndDevice(event, numeroCapteurTibias).angleZ
+        
+        angleGenoux = angleGenoux_temp == -1000 ? angleGenoux : angleGenoux_temp
     } 
 
     else {
@@ -116,6 +131,9 @@ function connect() {
         angleTorse = rebaseAngle(angleTorse)
         angleJambes = rebaseAngle(angleJambes)
         angleGenoux = rebaseAngle(angleGenoux)
+
+        /* La bibliothéque MannequinJS utilise des angles entre +/- 180 alors que nous recevons des angles de +/-360 par le ED
+        */
 
         rangeTorse.value = (angleTorse + 180)*100/360
         rangeJambes.value = (angleJambes + 180)*100/360

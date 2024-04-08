@@ -1,3 +1,4 @@
+// Fonction renvoyant la position Y la plus basse trouvée entre tous les points rouges
 function positionY_pointBas() {
 
     // controle du point le plus bas
