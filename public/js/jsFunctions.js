@@ -35,21 +35,38 @@ function searchAndReturnEndDevice(receiveArray, deviceNumber) {
 }
 
 // fonction créant un objet javascript "posture" (voir documentation) necessaire à des transitions 'smooth'
-function posture(angleTorse, angleJambes, angleGenoux) {
+function posture(angleTorse, angleJambes, angleTibias) {
+
+  /* Les 2 prochains if servent à empécher certains angles qui feraient buguer le mmanequin.
+  Cela ne devrait pas empécher le mannequin de bouger plutôt librement, même dans des positions
+  non possible par un humain
+  */
+
+  if ((Math.abs(angleJambes) + Math.abs(angleTorse) > 180) &&
+  ((angleJambes > 0 && angleTorse < 0) || (angleJambes < 0 && angleTorse > 0))) {
+
+    angleJambes += (angleTorse-(angleJambes-180))%360
+  }
+
+  if ((Math.abs(angleTibias) + Math.abs(angleJambes) > 180) &&
+  ((angleTibias > 0 && angleJambes < 0) || (angleTibias < 0 && angleJambes > 0))) {
+
+    angleTibias += (angleJambes-(angleTibias-180))%360
+  }
 
   CORPS = angleTorse
   JAMBE = -(angleJambes-angleTorse)
-  GENOU = angleGenoux-angleJambes
+  TIBIA = angleTibias-angleJambes
 
-  if (Math.abs(angleGenoux) >= 80) {
+  if (Math.abs(angleTibias) >= 80) {
     PIED = 0  
   }
   else {  
-    PIED = -(CORPS - JAMBE + GENOU)
+    PIED = -(CORPS - JAMBE + TIBIA)
   }
 
 
-  return {"version":7,"data":[[0,3.8,0],[CORPS,-90,0],[0,0,-2],[0,0,5],[6,0,JAMBE],[GENOU],[-6,-6,PIED],[-6,0,JAMBE],[GENOU],[6,6,PIED],[7,-0.6,-5],[15],[5,0,0],[-90,70,75,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[-7,0.6,-5],[15],[-5,0,0],[90,-70,75,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10]]}
+  return {"version":7,"data":[[0,3.8,0],[CORPS,-90,0],[0,0,-2],[0,0,5],[6,0,JAMBE],[TIBIA],[-6,-6,PIED],[-6,0,JAMBE],[TIBIA],[6,6,PIED],[7,-0.6,-5],[15],[5,0,0],[-90,70,75,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[-7,0.6,-5],[15],[-5,0,0],[90,-70,75,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10]]}
          
 }
 

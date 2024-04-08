@@ -1,4 +1,4 @@
-var angleTorse = 0, angleJambes = 0, angleGenoux = 0
+var angleTorse = 0, angleJambes = 0, angleTibias = 0
 rangeTorse.value = 50; rangeJambes.value = 50; rangeGenoux.value = 50
 var numeroCapteurTorse = -1, numeroCapteurCuisses = -1, numeroCapteurTibias = -1
 var bool_3capteurs = false, boolVisibilite_leftPanel = false

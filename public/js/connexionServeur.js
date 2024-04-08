@@ -117,27 +117,27 @@ function connect() {
     // si 2 capteurs demandés, alors angleG = angleJ
     if (bool_3capteurs) {
 
-        angleGenoux_temp = searchAndReturnEndDevice(event, numeroCapteurTibias).angleZ
+        angleTibias_temp = searchAndReturnEndDevice(event, numeroCapteurTibias).angleZ
         
-        angleGenoux = angleGenoux_temp == -1000 ? angleGenoux : angleGenoux_temp
+        angleTibias = angleTibias_temp == -1000 ? angleTibias : angleTibias_temp
     } 
 
     else {
 
-        angleGenoux = angleJambes
+        angleTibias = angleJambes
     }
 
         // transfere la plage de valeurs possibles de +/- 360 à +/- 180 (./js/jsFunctions.js:83)
         angleTorse = rebaseAngle(angleTorse)
         angleJambes = rebaseAngle(angleJambes)
-        angleGenoux = rebaseAngle(angleGenoux)
+        angleTibias = rebaseAngle(angleTibias)
 
         /* La bibliothéque MannequinJS utilise des angles entre +/- 180 alors que nous recevons des angles de +/-360 par le ED
         */
 
         rangeTorse.value = (angleTorse + 180)*100/360
         rangeJambes.value = (angleJambes + 180)*100/360
-        rangeGenoux.value = (angleGenoux + 180)*100/360
+        rangeGenoux.value = (angleTibias + 180)*100/360
     });
 }
 connect()

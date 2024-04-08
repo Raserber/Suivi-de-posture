@@ -13,13 +13,13 @@ var updateValJambes = function(val) {
 
     if (!bool_3capteurs) {
 
-        angleGenoux = parseInt(val*360/100 - 180)
+        angleTibias = parseInt(val*360/100 - 180)
         rangeGenoux.value = val
     }
 };
 
 var updateValGenoux = function(val) {
-    angleGenoux = parseInt(val*360/100 - 180)
+    angleTibias = parseInt(val*360/100 - 180)
 
     if (!bool_3capteurs) {
 
