@@ -4,7 +4,7 @@ This project was carried out as part of a work-study project at IUT 1 in Grenobl
 
 ![iut1](public/img/IUT1.png)
 
-It is a web application designed to track and analyze a user's posture using remote sensors. The application uses Three.js for 3D visualization, and is packaged in an Electron application for porting to Windows.
+It is a web application designed to track and analyze a user's posture using remote sensors. The application uses [Three.js](https://threejs.org/) for 3D visualization, and is packaged in an Electron application for porting to Windows.
 
 This project was carried out within the scope of the FAME project (Formation et attractivité des métiers de l'électronique) supported by the [UGA](https://www.univ-grenoble-alpes.fr/) as part of a demonstrator showcasing electronics and embedded systems projects. Indeed, the second part of the project is the realization of sensors in embedded systems using STM32 and the LoRaWAN communication protocol. This second part is the "business skills" part that GEII students are developing as part of their training.
 
