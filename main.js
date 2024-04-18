@@ -46,35 +46,40 @@ app.on("window-all-closed", function () {
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 
-autoUpdater.setFeedURL({
-  url: "https://github.com/Raserber/UGA_suiviPosture_Frontend/releases/latest/download",
-  headers: {
-    "Cache-Control": "no-cache"
-  }
-})
-
-autoUpdater.checkForUpdates()
-setInterval(() => {
+try {
+  autoUpdater.setFeedURL({
+    url: "https://github.com/Raserber/UGA_suiviPosture_Frontend/releases/latest/download",
+    headers: {
+      "Cache-Control": "no-cache"
+    }
+  })
 
   autoUpdater.checkForUpdates()
-}, 15000)
+  setInterval(() => {
 
-autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
-  const dialogOpts = {
-    type: 'info',
-    buttons: ['Restart', 'Later'],
-    title: 'Application Update',
-    message: process.platform === 'win32' ? releaseNotes : nomrelease,
-    détail:
-      "Une nouvelle version a été téléchargée. Redémarrez l'application pour appliquer les mises à jour."
-  }
+    autoUpdater.checkForUpdates()
+  }, 15000)
 
-  dialog.showMessageBox(dialogOpts).then((returnValue) => {
-    if (returnValue.response === 0) autoUpdater.quitAndInstall()
+  autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
+    const dialogOpts = {
+      type: 'info',
+      buttons: ['Restart', 'Later'],
+      title: 'Application Update',
+      message: process.platform === 'win32' ? releaseNotes : nomrelease,
+      détail:
+        "Une nouvelle version a été téléchargée. Redémarrez l'application pour appliquer les mises à jour."
+    }
+
+    dialog.showMessageBox(dialogOpts).then((returnValue) => {
+      if (returnValue.response === 0) autoUpdater.quitAndInstall()
+    })
   })
-})
 
-autoUpdater.on('error', (message) => {
-  console.error('There was a problem updating the application')
-  console.error(message)
-})
+  autoUpdater.on('error', (message) => {
+    console.error(message)
+  })
+}
+
+catch (e) {
+  console.error(e)
+}
