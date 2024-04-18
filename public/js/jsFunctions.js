@@ -1,8 +1,6 @@
 // fonction prenant en paramêtre le numero de End Device pour effectuer un filtre sur devEUI et renvoyer les données voulues
 function searchAndReturnEndDevice(receiveArray, deviceNumber) {
 
-  receiveArray = JSON.parse(receiveArray.data)
-
     if (receiveArray.deviceName === "eid430_" + deviceNumber) {
 
       // Valeurs de receiveArray.data sont les composantes du vecteur gravité 'unitaire' (1.57 len)
@@ -228,6 +226,13 @@ function choixNumerosCapteurs() {
           confirmButtonText: 'Ok',
         })
         numeroCapteurTibias = tibias
+        window.electronAPI.returnChoosenEndDevices([numeroCapteurTorse, numeroCapteurCuisses, numeroCapteurTibias])
+        console.log([numeroCapteurTorse, numeroCapteurCuisses, numeroCapteurTibias])
+      }
+      
+      else {
+        window.electronAPI.returnChoosenEndDevices([numeroCapteurTorse, numeroCapteurCuisses])
+        console.log([numeroCapteurTorse, numeroCapteurCuisses])
       }
 
       await Swal.fire({

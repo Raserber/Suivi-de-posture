@@ -15,3 +15,13 @@ window.addEventListener('DOMContentLoaded', () => {
     replaceText(`${type}-version`, process.versions[type])
   }
 })
+
+const { contextBridge, ipcRenderer } = require('electron/renderer')
+
+contextBridge.exposeInMainWorld('electronAPI', {
+  // renderer -> Main.js
+  returnChoosenEndDevices: (data) => ipcRenderer.send('return-choosen-end-devices', data),
+  
+  // Main.js -> renderer
+  onAnglesData: (callback) => ipcRenderer.on('angles-data', (_event, value) => callback(value))
+})

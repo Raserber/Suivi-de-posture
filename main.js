@@ -1,12 +1,24 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, autoUpdater, dialog } = require("electron")
+const { app, BrowserWindow, autoUpdater, dialog, ipcMain } = require("electron")
 const path = require("node:path")
+const mqtt = require("mqtt")
+
+const { calculAnglesFiltered } = require("./calculsAngle")
+
+const client = mqtt.connect('mqtt://192.168.1.20');
+const templateTopic = 'application/6/device//#'
+
+var angles = {
+  angleX : 0,
+  angleY : 0,
+  angleZ : 0
+}
 
 if (require("electron-squirrel-startup")) app.quit();
-
+var mainWindow
 function createWindow () {
   // Create the browser window.
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 1900,
     height: 1060,
     webPreferences: {
@@ -34,6 +46,27 @@ app.whenReady().then(() => {
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
+  
+  ipcMain.on("return-choosen-end-devices", (event, data) => {
+
+    data.forEach(device => {
+
+      client.subscribe(templateTopic.replace(/\/\//gm, `/f1f2f3430100000${device}/`))
+    })
+  })
+
+  client.on('message',(topic, message) => {
+      const deviceName = JSON.parse(message).deviceName
+      
+      var data = JSON.parse(message).object
+    
+      angles = calculAnglesFiltered(data)
+    
+      mainWindow.webContents.send("angles-data", {
+        "deviceName": deviceName,
+        "data": angles
+      })
+  });
 })
 
 // Quit when all windows are closed, except on macOS. There, it"s common
@@ -83,3 +116,9 @@ try {
 catch (e) {
   console.error(e)
 }
+
+client.on('connect', () => {
+    console.log(`Is client connected: ${client.connected}`);    
+    if (client.connected === true) {
+    }
+});
