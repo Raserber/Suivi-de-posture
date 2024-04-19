@@ -19,8 +19,6 @@ This project was carried out within the scope of the FAME project (Formation et 
 
 You must have Windows system with x64/x86 arch to install the .exe
 
-Since the server cannot be accessed remotely, I've explain how to reproduce the behavior of the server and its API with recorded data from the real sensors on [websocket.iut1-posture.raserber.fr](https://websocket.iut1-posture.raserber.fr/)
-
 ## Installation ⬇️
 
 1. go to "Releases"
@@ -35,7 +33,7 @@ For devs :
 ## Usage
 
 1. Launch the application.
-3. Select the sensors to be used in the interface. *(8, 4, 1 for local websocket server)*
+3. Select the sensors to be used in the interface.
 4. View the 3D mannequin's posture in real time.
 
 > The square at top left is a button opening a configuration menu.
