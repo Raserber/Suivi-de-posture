@@ -3,10 +3,13 @@ const { app, BrowserWindow, autoUpdater, dialog, ipcMain } = require("electron")
 const path = require("node:path")
 const mqtt = require("mqtt")
 
+var fullscreen = false
+
 const { calculAnglesFiltered } = require("./calculsAngle")
 
 const client = mqtt.connect('mqtt://192.168.1.20');
 const templateTopic = 'application/6/device//#'
+var devicesTopic = []
 
 var angles = {
   angleX : 0,
@@ -47,7 +50,19 @@ app.whenReady().then(() => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
   
+  ipcMain.on("ask-fullscreen", () => {
+    fullscreen = !fullscreen
+    mainWindow.setFullScreen(fullscreen)
+  })
+  
   ipcMain.on("return-choosen-end-devices", (event, data) => {
+    
+    devicesTopic.forEach((topic) => {
+
+      client.unsubscribe(templateTopic.replace(/\/\//gm, `/f1f2f3430100000${topic}/`))
+    })
+    
+    devicesTopic = data
 
     data.forEach(device => {
 
@@ -55,18 +70,6 @@ app.whenReady().then(() => {
     })
   })
 
-  client.on('message',(topic, message) => {
-      const deviceName = JSON.parse(message).deviceName
-      
-      var data = JSON.parse(message).object
-    
-      angles = calculAnglesFiltered(data)
-    
-      mainWindow.webContents.send("angles-data", {
-        "deviceName": deviceName,
-        "data": angles
-      })
-  });
 })
 
 // Quit when all windows are closed, except on macOS. There, it"s common
@@ -81,7 +84,7 @@ app.on("window-all-closed", function () {
 
 try {
   autoUpdater.setFeedURL({
-    url: "https://github.com/Raserber/UGA_suiviPosture_Frontend/releases/latest/download",
+    url: "https://github.com/Raserber/Suivi-de-posture/releases/latest/download",
     headers: {
       "Cache-Control": "no-cache"
     }
@@ -94,18 +97,7 @@ try {
   }, 15000)
 
   autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
-    const dialogOpts = {
-      type: 'info',
-      buttons: ['Restart', 'Later'],
-      title: 'Application Update',
-      message: process.platform === 'win32' ? releaseNotes : nomrelease,
-      détail:
-        "Une nouvelle version a été téléchargée. Redémarrez l'application pour appliquer les mises à jour."
-    }
-
-    dialog.showMessageBox(dialogOpts).then((returnValue) => {
-      if (returnValue.response === 0) autoUpdater.quitAndInstall()
-    })
+    mainWindow.webContents.send("connexion-status", "update")
   })
 
   autoUpdater.on('error', (message) => {
@@ -118,7 +110,48 @@ catch (e) {
 }
 
 client.on('connect', () => {
-    console.log(`Is client connected: ${client.connected}`);    
-    if (client.connected === true) {
-    }
+    mainWindow.webContents.send("connexion-status", "connect")
 });
+
+client.on('message',(topic, message) => {
+  const deviceName = JSON.parse(message).deviceName
+  
+  var data = JSON.parse(message)
+
+  if (data.fPort != 12) {
+
+    return;
+  }
+
+  angles = calculAnglesFiltered(data.object)
+
+  mainWindow.webContents.send("angles-data", {
+    "deviceName": deviceName,
+    "data": angles
+  })
+})
+
+client.on("disconnect", () => {
+  console.log("disconnect")
+  mainWindow.webContents.send("connexion-status", "disconnect")
+})
+
+client.on("close", () => {
+  console.log("close")
+  mainWindow.webContents.send("connexion-status", "close")
+})
+
+client.on("end", () => {
+  console.log("end")
+  mainWindow.webContents.send("connexion-status", "end")
+})
+
+client.on("error", () => {
+  console.log("error")
+  mainWindow.webContents.send("connexion-status", "error")
+})
+
+client.on("reconnect", () => {
+  console.log("reconnect")
+  mainWindow.webContents.send("connexion-status", "reconnect")
+})

@@ -194,6 +194,8 @@ function choixNumerosCapteurs() {
     else {
       steps = [1, 2, 3]
     }
+    
+    dataValidator = [ "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E" ]
 
     const Queue = Swal.mixin({
       progressSteps: steps,
@@ -203,7 +205,13 @@ function choixNumerosCapteurs() {
       hideClass: { backdrop: 'swal2-noanimation' },
       input: "text",
       inputPlaceholder: "1, 2, 3 ...",
-      allowOutsideClick: false
+      allowOutsideClick: false,
+      inputValidator: (data) => {
+
+        if (!dataValidator.includes(data.toUpperCase())) {
+          return "Veuillez donner un chiffre entre 1 et 9, ou une lettre en A et E"
+        }
+      }
     })
     
     ;(async () => {
@@ -227,12 +235,10 @@ function choixNumerosCapteurs() {
         })
         numeroCapteurTibias = tibias
         window.electronAPI.returnChoosenEndDevices([numeroCapteurTorse, numeroCapteurCuisses, numeroCapteurTibias])
-        console.log([numeroCapteurTorse, numeroCapteurCuisses, numeroCapteurTibias])
       }
       
       else {
         window.electronAPI.returnChoosenEndDevices([numeroCapteurTorse, numeroCapteurCuisses])
-        console.log([numeroCapteurTorse, numeroCapteurCuisses])
       }
 
       await Swal.fire({
