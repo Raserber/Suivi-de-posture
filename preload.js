@@ -21,7 +21,9 @@ const { contextBridge, ipcRenderer } = require('electron/renderer')
 contextBridge.exposeInMainWorld('electronAPI', {
   // renderer -> Main.js
   returnChoosenEndDevices: (data) => ipcRenderer.send('return-choosen-end-devices', data),
+  askFullscreen: () => ipcRenderer.send('ask-fullscreen'),
   
   // Main.js -> renderer
-  onAnglesData: (callback) => ipcRenderer.on('angles-data', (_event, value) => callback(value))
+  onAnglesData: (callback) => ipcRenderer.on('angles-data', (_event, value) => callback(value)),
+  onConnexionStatus: (callback) => ipcRenderer.on('connexion-status', (_event, value) => callback(value)),
 })
