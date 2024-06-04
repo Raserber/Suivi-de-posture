@@ -8,7 +8,7 @@ var fullscreen = false
 const { calculAnglesFiltered } = require("./calculsAngle")
 
 const client = mqtt.connect('mqtt://192.168.1.20');
-const templateTopic = 'application/6/device//#'
+const templateTopic = 'application/8/device//#'
 var devicesTopic = []
 
 var angles = {
