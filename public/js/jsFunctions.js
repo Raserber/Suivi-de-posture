@@ -33,49 +33,49 @@ function searchAndReturnEndDevice(receiveArray, deviceNumber) {
 }
 
 // fonction créant un objet javascript "posture" (voir documentation) necessaire à des transitions 'smooth'
-function posture(angleTorse, angleJambes, angleTibias) {
+function posture(angleTorse, angleCuisses, angleJambes) {
 
   /* Les 2 prochains if servent à empécher certains angles qui feraient buguer le mmanequin.
   Cela ne devrait pas empécher le mannequin de bouger plutôt librement, même dans des positions
   non possible par un humain
   */
 
-  if ((Math.abs(angleJambes) + Math.abs(angleTorse) > 180) &&
-  ((angleJambes > 0 && angleTorse < 0) || (angleJambes < 0 && angleTorse > 0))) {
+  if ((Math.abs(angleCuisses) + Math.abs(angleTorse) > 180) &&
+  ((angleCuisses > 0 && angleTorse < 0) || (angleCuisses < 0 && angleTorse > 0))) {
 
-    angleJambes += (angleTorse-(angleJambes-180))%360
+    angleCuisses += (angleTorse-(angleCuisses-180))%360
   }
 
-  if ((Math.abs(angleTibias) + Math.abs(angleJambes) > 180) &&
-  ((angleTibias > 0 && angleJambes < 0) || (angleTibias < 0 && angleJambes > 0))) {
+  if ((Math.abs(angleJambes) + Math.abs(angleCuisses) > 180) &&
+  ((angleJambes > 0 && angleCuisses < 0) || (angleJambes < 0 && angleCuisses > 0))) {
 
-    angleTibias += (angleJambes-(angleTibias-180))%360
+    angleJambes += (angleCuisses-(angleJambes-180))%360
   }
 
   CORPS = angleTorse
-  JAMBE = -(angleJambes-angleTorse)
-  TIBIA = angleTibias-angleJambes
+  CUISSE = -(angleCuisses-angleTorse)
+  TIBIA = angleJambes-angleCuisses
 
-  if (Math.abs(angleTibias) >= 80) {
+  if (Math.abs(angleJambes) >= 80) {
     PIED = 0  
   }
   else {  
-    PIED = -(CORPS - JAMBE + TIBIA)
+    PIED = -(CORPS - CUISSE + TIBIA)
   }
 
 
-  return {"version":7,"data":[[0,3.8,0],[CORPS,-90,0],[0,0,-2],[0,0,5],[6,0,JAMBE],[TIBIA],[-6,-6,PIED],[-6,0,JAMBE],[TIBIA],[6,6,PIED],[7,-0.6,-5],[15],[5,0,0],[-90,70,75,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[-7,0.6,-5],[15],[-5,0,0],[90,-70,75,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10]]}
+  return {"version":7,"data":[[0,3.8,0],[CORPS,-90,0],[0,0,-2],[0,0,5],[6,0,CUISSE],[TIBIA],[-6,-6,PIED],[-6,0,CUISSE],[TIBIA],[6,6,PIED],[7,-0.6,-5],[15],[5,0,0],[-90,70,75,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[-7,0.6,-5],[15],[-5,0,0],[90,-70,75,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10],[0,0,10,0,10,0,10]]}
          
 }
 
 // fonction utilisée dans la fonction changementEtatBoutons (fonction suivante)
-function changementEtatAssise(angleTorse, angleJambes) {
+function changementEtatAssise(angleTorse, angleCuisses) {
 
-  if (Math.abs(angleJambes) <= 50) {
+  if (Math.abs(angleCuisses) <= 50) {
     return 0
   }
 
-  else if (Math.abs(angleTorse) <= 45 && -angleJambes >= 45) {
+  else if (Math.abs(angleTorse) <= 45 && -angleCuisses >= 45) {
     return 1
   }
 
@@ -85,9 +85,9 @@ function changementEtatAssise(angleTorse, angleJambes) {
 }
 
 // fonction attribuant au bon bouton l'état "actif" en fonction de la position de la personne
-function changementEtatBoutons (angleTorse, angleJambes) {
+function changementEtatBoutons (angleTorse, angleCuisses) {
 bouton_debout.classList.remove("buttonActivate"); bouton_assis.classList.remove("buttonActivate"); bouton_allonge.classList.remove("buttonActivate")
-switch (changementEtatAssise(angleTorse, angleJambes)) {
+switch (changementEtatAssise(angleTorse, angleCuisses)) {
 
    case 0 :
       bouton_debout.classList.add("buttonActivate")
@@ -119,7 +119,7 @@ function setCompteur() {
   setInterval(() => {
     time = parseInt(compteurVariable.innerText) // valeur actuelle de comptage
   
-    const posActuelle = changementEtatAssise(angleTorse, angleJambes) // position actuelle
+    const posActuelle = changementEtatAssise(angleTorse, angleCuisses) // position actuelle
 
     if (previousPosition != posActuelle) {
   

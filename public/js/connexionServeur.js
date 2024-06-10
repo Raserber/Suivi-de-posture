@@ -1,6 +1,7 @@
 async function diagnosticDeconnexion() {
 
     var status;
+    var showDeconnexionError = true
 
     const controller = new AbortController()
     const signal = controller.signal
@@ -32,6 +33,8 @@ window.electronAPI.onConnexionStatus((mqttStatus) => {
             icon: "success",
             timer: 1500
         })
+
+        showDeconnexionError = true
     }
     
     if (mqttStatus == "reconnect" ) {
@@ -39,7 +42,7 @@ window.electronAPI.onConnexionStatus((mqttStatus) => {
         diagnosticDeconnexion().then(diagnostic => {
             
             // empeche le message d'erreur de s'afficher tant que le choix des capteurs n'a pas été réalisé
-            if (numeroCapteurTorse != -1 && numeroCapteurCuisses != -1 && !swal.isVisible()) {
+            if (numeroCapteurTorse != -1 && numeroCapteurCuisses != -1 && !swal.isVisible() && showDeconnexionError) {
 
                 switch (diagnostic) {
 
