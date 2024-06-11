@@ -91,10 +91,10 @@ window.electronAPI.onAnglesData((event) => {
     console.log(event)
     // extrait la donnée de l'angle qui nous intéresse (./js/jsFunctions.js)
     angleTorse_temp = searchAndReturnEndDevice(event, numeroCapteurTorse).angleZ
-    angleJambes_temp = searchAndReturnEndDevice(event, numeroCapteurCuisses).angleZ
+    angleCuisses_temp = searchAndReturnEndDevice(event, numeroCapteurCuisses).angleZ
     
     angleTorse = angleTorse_temp == -1000 ? angleTorse : angleTorse_temp
-    angleJambes = angleJambes_temp == -1000 ? angleJambes : angleJambes_temp
+    angleCuisses = angleCuisses_temp == -1000 ? angleCuisses : angleCuisses_temp
     /* explication du -1000 :
         Si la fonction searchAndReturnEndDevice reçoit un message ne contenant pas le endDevice cherché, la fonction renvoit -1000
         permettant de ne pas changer la valeur de l'angle pour une valeur n'existant pas ce qui ferait crash une partie du programme
@@ -105,25 +105,25 @@ window.electronAPI.onAnglesData((event) => {
     // si 2 capteurs demandés, alors angleG = angleJ
     if (bool_3capteurs) {
 
-        angleTibias_temp = searchAndReturnEndDevice(event, numeroCapteurTibias).angleZ
+        angleJambes_temp = searchAndReturnEndDevice(event, numeroCapteurJambes).angleZ
         
-        angleTibias = angleTibias_temp == -1000 ? angleTibias : angleTibias_temp
+        angleJambes = angleJambes_temp == -1000 ? angleJambes : angleJambes_temp
     } 
 
     else {
 
-        angleTibias = angleJambes
+        angleJambes = angleCuisses
     }
 
     // transfere la plage de valeurs possibles de +/- 360 à +/- 180 (./js/jsFunctions.js:83)
     angleTorse = rebaseAngle(angleTorse)
+    angleCuisses = rebaseAngle(angleCuisses)
     angleJambes = rebaseAngle(angleJambes)
-    angleTibias = rebaseAngle(angleTibias)
 
     /* La bibliothéque MannequinJS utilise des angles entre +/- 180 alors que nous recevons des angles de +/-360 par le ED
     */
 
     rangeTorse.value = (angleTorse + 180)*100/360
+    rangeJambes.value = (angleCuisses + 180)*100/360
     rangeJambes.value = (angleJambes + 180)*100/360
-    rangeGenoux.value = (angleTibias + 180)*100/360
 });

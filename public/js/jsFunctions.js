@@ -168,12 +168,6 @@ function setTimeBeforeAlert() {
     })
 }
 
-// met la scene et les toggle en position intiale
-function reload() {
-
-  location.reload()
-}
-
 
 function choixNumerosCapteurs() {
 
@@ -228,13 +222,13 @@ function choixNumerosCapteurs() {
       numeroCapteurCuisses = cuisses
 
       if (!result.isConfirmed) {
-        const {value: tibias} = await Queue.fire({
+        const {value: jambes} = await Queue.fire({
           title: 'Numéro du capteur du tibia',
           currentProgressStep: 2,
           confirmButtonText: 'Ok',
         })
-        numeroCapteurTibias = tibias
-        window.electronAPI.returnChoosenEndDevices([numeroCapteurTorse, numeroCapteurCuisses, numeroCapteurTibias])
+        numeroCapteurJambes = jambes
+        window.electronAPI.returnChoosenEndDevices([numeroCapteurTorse, numeroCapteurCuisses, numeroCapteurJambes])
       }
       
       else {
@@ -243,12 +237,12 @@ function choixNumerosCapteurs() {
 
       await Swal.fire({
         title: "Données prise en compte",
-        text: `Vous pouvez changer les valeurs rentrées (${numeroCapteurTorse}, ${numeroCapteurCuisses}${bool_3capteurs ? ", "+numeroCapteurTibias : ""}) dans le menu de gauche`,
+        text: `Vous pouvez changer les valeurs rentrées (${numeroCapteurTorse}, ${numeroCapteurCuisses}${bool_3capteurs ? ", "+numeroCapteurJambes : ""}) dans le menu de gauche`,
         icon: "success",
         timer: 3500
       })
 
-      boutonAff_numDevices.innerText = `${numeroCapteurTorse}, ${numeroCapteurCuisses}${bool_3capteurs ? ", "+numeroCapteurTibias : ""}`
+      boutonAff_numDevices.innerText = `${numeroCapteurTorse}, ${numeroCapteurCuisses}${bool_3capteurs ? ", "+numeroCapteurJambes : ""}`
       boolVisibilite_leftPanel = false
     })()
   })

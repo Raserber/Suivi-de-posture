@@ -14,7 +14,7 @@ function animate(t)
 
     // changement de position animé
     // fonction 'built-in'/native de la bibliothéque Mannequin.js
-    man.posture = Mannequin.blend(man.posture, posture(angleTorse, angleJambes, angleTibias), 0.03)
+    man.posture = Mannequin.blend(man.posture, posture(angleTorse, angleCuisses, angleJambes), 0.03)
     /* (Se référer à la documentation pour une explication plus précise)
     - man.posture est une variable en lecture et écriture permettant d'accéder à la
     position sous forme d'un objet contenant l'angles de tous les 'joints'/articulations du mannequin.
@@ -39,7 +39,7 @@ function animate(t)
 
     // changements liés aux boutons et toggles
     // ce sotn les fonctions d'IHM du programme en quelque sorte
-    changementEtatBoutons(angleTorse, angleJambes)        // ./js/jsFunctions.js:45
+    changementEtatBoutons(angleTorse, angleCuisses)        // ./js/jsFunctions.js:45
     toggleRedPoints(toggle_redPoints.checked)             // ./js/initVisualPoints.js:51
     toggleOrbitsControls(toggle_orbitsControls.checked)   // ./js/jsFunctions.js:78
 
