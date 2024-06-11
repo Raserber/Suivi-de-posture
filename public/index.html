@@ -27,18 +27,21 @@
    </head>
    <body>
 
-      <div class="panel" id="toggle_leftPanel"><img src="./img/icon.png" /></div>
+      <div class="panel" id="toggle_leftPanel" onclick="boolVisibilite_leftPanel = !boolVisibilite_leftPanel"><img src="./img/icon.png" /></div>
       <div class="panel" id="leftPanel" style="left: 0; top: 50px">
          <label><input id="toggle_orbitsControls" type="checkbox" class="toggle"><span>camera libre</span></label><br>
          <label><input id="toggle_redPoints" type="checkbox" class="toggle"><span>Points de<br>collision</span></label><hr>
-         <button id="alerte" style="font-size: 12px; height: 35px;">
+
+         <button id="alerte" style="font-size: 12px; height: 35px;" onclick="setTimeBeforeAlert()">
             Temps déclenchement<br>
             avant alerte (<span id="spanTempsDeclenchement">10</span><span style="text-transform: lowercase">s</span>)
          </button>
          <label><input id="toggle_alerteAssis" type="checkbox" class="toggle"><span>Déclenchement<br>pos assise</span></label><hr>
-         <button id="choixNumerosDevices" style="font-size: 12px;">changer Devices</button>
+
+         <button id="choixNumerosDevices" style="font-size: 12px;" onclick="choixNumerosCapteurs()">changer Devices</button>
          <button id="numbersDevices" class="notButton comfortaa" style="font-size: 12px;"></button><hr>
-         <button id="reload" style="font-size: 12px;">reload</button>
+
+         <button id="reload" style="font-size: 12px;" onclick="location.reload()">reload</button>
          <button id="fullscreen" style="font-size: 12px;" onclick="window.electronAPI.askFullscreen()">plein écran (F11)</button>
       </div>
 
@@ -51,13 +54,13 @@
 
          <label> Angle Cuisses
          <div class="range">
-            <input type="range" id="rangeJambes" oninput="updateValJambes(this.value)"/>
+            <input type="range" id="rangeCuisses" oninput="updateValCuisses(this.value)"/>
          </div>
          </label><br>
 
-         <label> Angle tibias
+         <label> Angle Jambes
          <div class="range">
-            <input type="range" id="rangeGenoux" oninput="updateValGenoux(this.value)"/>
+            <input type="range" id="rangeJambes" oninput="updateValJambes(this.value)"/>
          </div>
          </label>
    </div>
