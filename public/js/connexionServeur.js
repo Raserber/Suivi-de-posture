@@ -72,7 +72,7 @@ window.electronAPI.onConnexionStatus((mqttStatus) => {
                     showConfirmButton: true,
                     showCancelButton: true,
                     cancelButtonText: "Ne plus montrer"
-                }).then((result) => { showDeconnexionError = !result.isDismissed })
+                }).then((result) => { showDeconnexionError = result.isDismissed == false; })
             }
         })
     }
