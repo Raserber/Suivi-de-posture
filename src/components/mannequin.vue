@@ -1,17 +1,20 @@
 <template>
-
 </template>
   
-  <script>
-    export default {
-      name: "mannequin",
-      props: {
-        name: String
-      },
-      setup(props, context) {
-        return {
-          greetings: "Hello"
-        }
-      }
+<script>
+  import { Male, createStage } from '../mannequinJS/mannequin';
+
+
+  export default {
+    name: "mannequin",
+
+    mounted() {
+      
+      createStage()
+
+      var mannequin = new Male;
+      
+      mannequin.stepOnGround()
     }
-  </script>
+  }
+</script>

@@ -1,6 +1,8 @@
 <template>
-  <p>Welcome to your Electron application.</p>
+  <Mannequin></Mannequin>
 </template>
 
 <script setup>
+import Mannequin from './components/mannequin.vue';
+
 </script>
