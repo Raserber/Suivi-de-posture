@@ -1,9 +1,10 @@
 <template>
-    <v-dialog v-model="store.dialogBrokerMQTT"
+    <v-dialog v-model="store.dialogBrokerMQTT.visible"
           persistent
           max-width="600"
     >
-        <v-window v-model="store.step">
+        <v-window v-model="store.dialogBrokerMQTT.step">
+
             <v-window-item :value="1">
                 <ChoixBroker></ChoixBroker>
             </v-window-item>

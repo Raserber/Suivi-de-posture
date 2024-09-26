@@ -155,7 +155,7 @@
                             if (statue == "connect") {
     
                                 this.loading = false
-                                this.store.dialogBrokerMQTT = false
+                                this.store.dialogBrokerMQTT.visible = false
                             }
                         })
                     }

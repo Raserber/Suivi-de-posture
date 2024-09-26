@@ -2,7 +2,10 @@ import { defineStore } from "pinia";
 
 export const generalStore = defineStore('generalStore', {
     state: () => ({
-      dialogBrokerMQTT: true,
+      dialogBrokerMQTT: {
+        visible: true,
+        step: 1
+      },
       step: 1
     }),
   })
