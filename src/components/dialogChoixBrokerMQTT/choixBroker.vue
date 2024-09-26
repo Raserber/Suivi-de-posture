@@ -1,9 +1,18 @@
 <template>
     <v-card
-        title="Connexion au Broker MQTT"
         color="grey-lighten-2"
         variant="flat"
       >
+        <v-card-title>
+            <v-btn icon variant="text"
+                v-if="store.dialogBrokerMQTT.step > 1"
+                @click="store.dialogBrokerMQTT.step--"
+            >
+                <v-icon>mdi-arrow-left</v-icon>
+            </v-btn>
+            Connexion au Broker MQTT
+        </v-card-title>
+
         <v-form ref="form"
             @submit.prevent="submit"
             validate-on="submit"
@@ -88,7 +97,7 @@
             </v-card-actions>
         </v-form>
       </v-card>
-    </template>
+</template>
     
 <script>
     import { generalStore } from '../../store'
