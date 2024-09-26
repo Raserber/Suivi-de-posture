@@ -1,10 +1,5 @@
 <template>
-<v-dialog
-      v-model="store.dialogBrokerMQTT"
-      persistent
-      max-width="600"
-    >
-      <v-card
+    <v-card
         title="Connexion au Broker MQTT"
         color="grey-lighten-2"
         variant="flat"
@@ -93,126 +88,111 @@
             </v-card-actions>
         </v-form>
       </v-card>
-    </v-dialog>   
-</template>
-
-<script>
-import { generalStore } from '../../store'
+    </template>
     
-    export default {
-        name: "choixBrokerMQTTDialog",
+<script>
+    import { generalStore } from '../../store'
         
-        setup: function() {
-            const store = generalStore()
-
-            return { store }
-        },
-        
-        data: ()=> {
-            return {
-                activatorProps: true,
-                disableForm: false,
-                loading: false,
-                connexionMQTTPreConfiguree: "",
-
-                hostValue: "",
-                portValue: "",
-                topicValue: "",
-                protocolValue: "mqtt://",
-
-                rules: {
-                    host: [
-                        (text) => {
-                            return /^([0-9]{3}\.[0-9]{3}\.[0-9]{1,3}\.[0-9]{1,3})|([a-z][a-zA-Z0-9]{2,}\.[a-zA-Z]{2,})$/.test(text) ? true : "Le host doit être une adresse IP ou une adresse web valide"
-                        }
-                    ],
-                    port: [
-                        (text) => {
-                            return /[0-9]+/.test(text) ? true : "Le port doit être valide"
-                        }
-                    ],
-                    topic: [
-                        (text) => {
-                            return /\#/.test(text) ? true : "Le topic doit contenir '#'"
-                        }
-                    ]
+        export default {
+            name: "choixBroker",
+            
+            setup: function() {
+                const store = generalStore()
+    
+                return { store }
+            },
+            
+            data: ()=> {
+                return {
+                    activatorProps: true,
+                    disableForm: false,
+                    loading: false,
+                    connexionMQTTPreConfiguree: "",
+    
+                    hostValue: "",
+                    portValue: "",
+                    topicValue: "",
+                    protocolValue: "mqtt://",
+    
+                    rules: {
+                        host: [
+                            (text) => {
+                                return /^([0-9]{3}\.[0-9]{3}\.[0-9]{1,3}\.[0-9]{1,3})|([a-z][a-zA-Z0-9]{2,}\.[a-zA-Z]{2,})$/.test(text) ? true : "Le host doit être une adresse IP ou une adresse web valide"
+                            }
+                        ],
+                        port: [
+                            (text) => {
+                                return /[0-9]+/.test(text) ? true : "Le port doit être valide"
+                            }
+                        ],
+                        topic: [
+                            (text) => {
+                                return /\#/.test(text) ? true : "Le topic doit contenir '#'"
+                            }
+                        ]
+                    }
                 }
-            }
-        },
-        
-        methods: {
-            submit: async function (event) {
-                
-                var isValid = (await event).valid
-
-                if (isValid) {
-
-                    window.electronAPI.returnResetMQTT("update")
-
-                    this.loading = true
-
-                    window.electronAPI.returnHostAndTopicMQTT({
-                        host: `${this.protocolValue}${this.hostValue}:${this.portValue}`,
-                        topic : this.topicValue
-                    })
+            },
+            
+            methods: {
+                submit: async function (event) {
                     
-                    window.electronAPI.onStatuesMQTT(statue => {
+                    var isValid = (await event).valid
+    
+                    if (isValid) {
+    
+                        window.electronAPI.returnResetMQTT("update")
+    
+                        this.loading = true
+    
+                        window.electronAPI.returnHostAndTopicMQTT({
+                            host: `${this.protocolValue}${this.hostValue}:${this.portValue}`,
+                            topic : this.topicValue
+                        })
                         
-                        if (statue == "connect") {
-
-                            this.loading = false
-                            this.store.dialogBrokerMQTT = false
-                        }
-                    })
+                        window.electronAPI.onStatuesMQTT(statue => {
+                            
+                            if (statue == "connect") {
+    
+                                this.loading = false
+                                this.store.dialogBrokerMQTT = false
+                            }
+                        })
+                    }
                 }
-            }
-        },
-
-        watch: {
-            connexionMQTTPreConfiguree(newData, oldData) {
-                
-                this.disableForm = true
-
-                if (newData == "Didalab (LoRaWAN)") {
-
-                    this.protocolValue = "mqtt://"
-                    this.hostValue = "192.168.1.20"
-                    this.portValue = "1883"
-                    this.topicValue = "application/8/device/#"
-                }
-                
-                else if (newData == "IoTize (Wifi)") {
+            },
+    
+            watch: {
+                connexionMQTTPreConfiguree(newData, oldData) {
                     
-                    this.protocolValue = "mqtt://"
-                    this.hostValue = "192.168.1.20"
-                    this.portValue = "1883"
-                    this.topicValue = "application/iotize/#"
-                }
-
-                else {
-
-                    this.disableForm = false
-                    this.$refs.form.reset()
-                    this.protocolValue = "mqtt://"
+                    this.disableForm = true
+    
+                    if (newData == "Didalab (LoRaWAN)") {
+    
+                        this.protocolValue = "mqtt://"
+                        this.hostValue = "192.168.1.20"
+                        this.portValue = "1883"
+                        this.topicValue = "application/8/device/#"
+                    }
+                    
+                    else if (newData == "IoTize (Wifi)") {
+                        
+                        this.protocolValue = "mqtt://"
+                        this.hostValue = "192.168.1.20"
+                        this.portValue = "1883"
+                        this.topicValue = "application/iotize/#"
+                    }
+    
+                    else {
+    
+                        this.disableForm = false
+                        this.$refs.form.reset()
+                        this.protocolValue = "mqtt://"
+                    }
                 }
             }
         }
-    }
 </script>
-
-<style scoped>
-.slide-fade-enter-active {
-  transition: all 0.3s ease-out;
-}
-
-.slide-fade-leave-active {
-  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
-}
-
-.slide-fade-enter-from,
-.slide-fade-leave-to {
-  transform: translateX(20px);
-  opacity: 0;
-}
-
+    
+<style>
 </style>
