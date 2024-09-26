@@ -5,11 +5,7 @@ body {
   -moz-user-select: none;
   -o-user-select: none;
   user-select: none;
-}
-
-#app {
-  position: absolute;
-  z-index: 100000;
+  overflow: hidden;
 }
 
 .comfortaa {
