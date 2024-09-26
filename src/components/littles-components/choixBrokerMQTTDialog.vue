@@ -1,6 +1,6 @@
 <template>
 <v-dialog
-      v-model="dialog"
+      v-model="store.dialogBrokerMQTT"
       persistent
       max-width="600"
     >
@@ -12,13 +12,12 @@
         <v-form ref="form"
             @submit.prevent="submit"
             validate-on="submit"
-            v-model="validationValue"
         >
             <v-card-text>
                 <v-row dense>
                     <v-col cols="2">
                         <v-select
-                            :items="['mqtt', 'ws', 'wss']"
+                            :items="['mqtt://', 'ws://', 'wss://']"
                             label="protocole"
                             :disabled="disableForm"
                             v-model="protocolValue"
@@ -55,6 +54,7 @@
                             label="topic MQTT"
                             :disabled="disableForm"
                             v-model="topicValue"
+                            variant="outlined"
                             :rules="rules.topic"
                         ></v-text-field>
                     </v-col>
@@ -97,14 +97,20 @@
 </template>
 
 <script>
+import { generalStore } from '../../store'
     
     export default {
-        name: "choixMQTTDialog",
+        name: "choixBrokerMQTTDialog",
+        
+        setup: function() {
+            const store = generalStore()
+
+            return { store }
+        },
         
         data: ()=> {
             return {
                 activatorProps: true,
-                dialog: true,
                 disableForm: false,
                 loading: false,
                 connexionMQTTPreConfiguree: "",
@@ -112,7 +118,7 @@
                 hostValue: "",
                 portValue: "",
                 topicValue: "",
-                protocolValue: "mqtt",
+                protocolValue: "mqtt://",
 
                 rules: {
                     host: [
@@ -146,7 +152,7 @@
                     this.loading = true
 
                     window.electronAPI.returnHostAndTopicMQTT({
-                        host: `${this.protocolValue}://${this.hostValue}:${this.portValue}`,
+                        host: `${this.protocolValue}${this.hostValue}:${this.portValue}`,
                         topic : this.topicValue
                     })
                     
@@ -155,7 +161,7 @@
                         if (statue == "connect") {
 
                             this.loading = false
-                            this.dialog = false
+                            this.store.dialogBrokerMQTT = false
                         }
                     })
                 }
@@ -169,7 +175,7 @@
 
                 if (newData == "Didalab (LoRaWAN)") {
 
-                    this.protocolValue = "mqtt"
+                    this.protocolValue = "mqtt://"
                     this.hostValue = "192.168.1.20"
                     this.portValue = "1883"
                     this.topicValue = "application/8/device/#"
@@ -177,7 +183,7 @@
                 
                 else if (newData == "IoTize (Wifi)") {
                     
-                    this.protocolValue = "mqtt"
+                    this.protocolValue = "mqtt://"
                     this.hostValue = "192.168.1.20"
                     this.portValue = "1883"
                     this.topicValue = "application/iotize/#"
@@ -187,6 +193,7 @@
 
                     this.disableForm = false
                     this.$refs.form.reset()
+                    this.protocolValue = "mqtt://"
                 }
             }
         }
