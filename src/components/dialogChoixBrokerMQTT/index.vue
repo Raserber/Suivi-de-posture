@@ -10,7 +10,7 @@
             </v-window-item>
             
             <v-window-item :value="2">
-                
+                <ChoixDevices></ChoixDevices>
             </v-window-item>
         </v-window>
     </v-dialog>
@@ -19,11 +19,12 @@
 <script>
 import { generalStore } from '../../store';
 import ChoixBroker from './choixBroker.vue';
+import ChoixDevices from './choixDevices.vue';
 
     export default {
         name: "dialogChoixBrokerMQTT",
 
-        components: { ChoixBroker },
+        components: { ChoixBroker, ChoixDevices },
 
         setup() {
 
