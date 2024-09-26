@@ -1,5 +1,17 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('node:path');
+
+const mqtt = require("mqtt")
+
+// mqtt.connect("192.168.1.20")
+/*ipcMain.on("channel", (event, data) => {
+
+  // do
+})
+
+mainWindow.webContents.send("connexion-status", "connect")
+*/
+
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
