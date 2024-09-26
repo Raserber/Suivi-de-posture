@@ -50,6 +50,11 @@ const vuetify = createVuetify({
   },
   })
 
+import { createPinia } from 'pinia';
+
+const pinia = createPinia()
+
 app.use(vuetify)
+app.use(pinia)
 
 app.mount('#app');
