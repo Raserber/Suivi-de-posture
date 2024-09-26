@@ -45,11 +45,12 @@ const createWindow = () => {
 
   ipcMain.on("returnHostAndTopicMQTT", (event, {host, topic}) => {
     
-    clientMQTT = null;
-    console.log(typeof clientMQTT)
+    if (clientMQTT) {
+      clientMQTT.end()
+      clientMQTT = null
+    }
+
     clientMQTT = mqtt.connect(host)
-    
-    console.log(typeof clientMQTT)
 
     clientMQTT.subscribe(topic)
     
