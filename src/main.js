@@ -3,15 +3,7 @@ const path = require('node:path');
 
 const mqtt = require("mqtt")
 
-// mqtt.connect("192.168.1.20")
-/*ipcMain.on("channel", (event, data) => {
-
-  // do
-})
-
-mainWindow.webContents.send("connexion-status", "connect")
-*/
-
+var clientMQTT = null;
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -35,6 +27,46 @@ const createWindow = () => {
   } else {
     mainWindow.loadFile(path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`));
   }
+
+  ipcMain.on("returnMessageMQTT", (event, data) => {
+
+    clientMQTT.publish(data.topic, data.data)
+  })
+  
+  ipcMain.on("returnResetMQTT", (event, reason) => {
+
+    console.log(reason)
+    
+    if (clientMQTT) {
+
+      clientMQTT.end()
+    }
+  })
+
+  ipcMain.on("returnHostAndTopicMQTT", (event, {host, topic}) => {
+    
+    clientMQTT = null;
+    console.log(typeof clientMQTT)
+    clientMQTT = mqtt.connect(host)
+    
+    console.log(typeof clientMQTT)
+
+    clientMQTT.subscribe(topic)
+    
+    clientMQTT.on("connect", () => {
+  
+      mainWindow.webContents.send("onStatuesMQTT", "connect")
+      console.log("connect")
+    })
+    
+    clientMQTT.on("message", (topic, data) => {
+  
+      mainWindow.webContents.send("onMessageMQTT", {
+        topic: topic,
+        data: data
+      })
+    })
+  })
 };
 
 // This method will be called when Electron has finished
