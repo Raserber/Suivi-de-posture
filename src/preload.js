@@ -6,8 +6,11 @@ const { contextBridge, ipcRenderer } = require('electron/renderer')
 // par convention les "return" sont du front -> back, et les "on" du back -> front
 contextBridge.exposeInMainWorld('electronAPI', {
   // renderer -> Main.js
-  returnAdresseMQTT: (data) => ipcRenderer.send('adresseMQTT', data),
+  returnHostAndTopicMQTT: ({host, topic}) => ipcRenderer.send('returnHostAndTopicMQTT', {host, topic}),
+  returnMessageMQTT: ({topic, message}) => ipcRenderer.send("returnMessageMQTT", {topic, message}),
+  returnResetMQTT: (data) => ipcRenderer.send("returnResetMQTT", data),
   
   // Main.js -> renderer
-  // onAnglesData: (callback) => ipcRenderer.on('angles-data', (_event, value) => callback(value)),
+  onMessageMQTT: (callback) => ipcRenderer.on('onMessageMQTT', (_event, value) => callback(value)),
+  onStatuesMQTT: (callback) => ipcRenderer.on('onStatuesMQTT', (_event, value) => callback(value)),
 })
