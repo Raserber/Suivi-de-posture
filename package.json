@@ -21,6 +21,7 @@
     "@electron-forge/plugin-fuses": "^7.5.0",
     "@electron-forge/plugin-vite": "^7.5.0",
     "@electron/fuses": "^1.8.0",
+    "@mdi/font": "^7.4.47",
     "@vitejs/plugin-vue": "^5.1.4",
     "electron": "32.1.2",
     "sass": "^1.79.3",
@@ -37,6 +38,7 @@
     "electron-squirrel-startup": "^1.0.1",
     "mqtt": "^5.10.1",
     "three": "^0.168.0",
-    "vue": "^3.5.8"
+    "vue": "^3.5.8",
+    "vuetify": "^3.7.2"
   }
 }
