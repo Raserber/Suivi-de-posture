@@ -38,6 +38,7 @@
     "electron-squirrel-startup": "^1.0.1",
     "mqtt": "^5.10.1",
     "pinia": "^2.2.2",
+    "simple-syntax-highlighter": "^3.0.10",
     "three": "^0.168.0",
     "vue": "^3.5.8",
     "vuetify": "^3.7.2"

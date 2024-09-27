@@ -1,5 +1,5 @@
 <template>
-   <v-card>
+   <v-card max-height="200">
         <v-card-title>
             {{ title }}
         </v-card-title>
@@ -8,9 +8,16 @@
             {{ subtitle }}
         </v-card-subtitle>
         
-        <v-card-text>
-            {{ text }}
-        </v-card-text>
+        <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+                variant="outlined"
+                color="primary"
+                @click="dataVisible = true"
+            >
+                <v-icon>mdi-code-json</v-icon>
+            </v-btn>
+        </v-card-actions>
     </v-card>
 </template>
 
@@ -19,11 +26,17 @@
     export default {
 
         name: "MQTTDevice",
-
+        
         props: {
             title: String,
             subtitle: String,
-            text: String
+            data: Object
+        },
+        
+        data: () => {
+            return {
+                dataVisible: false
+            }
         }
     }
 </script>
