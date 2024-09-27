@@ -150,7 +150,7 @@
     
                     if (isValid) {
     
-                        window.electronAPI.returnResetMQTT("update")
+                        window.electronAPI.returnResetMQTT("front:newConnectionMQTT")
     
                         this.loading = true
     
@@ -160,13 +160,14 @@
                         })
                         
                         window.electronAPI.onStatuesMQTT(statue => {
-                            
+                                                
                             if (statue == "connect") {
-    
+
                                 this.loading = false
-                                this.store.dialogBrokerMQTT.visible = false
+                                this.store.dialogBrokerMQTT.step = 2
                             }
                         })
+
                     }
                 }
             },
