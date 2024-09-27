@@ -21,7 +21,7 @@ window.electronAPI.onMessageMQTT(message => {
 
 onBeforeMount(()=> {
 	
-	window.addEventListener('beforeunload', () => { window.electronAPI.returnResetMQTT("beforeUnload") })
+	window.addEventListener('beforeunload', () => { window.electronAPI.returnResetMQTT("front:beforeUnload") })
 })
 
 </script>
