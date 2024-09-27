@@ -22,7 +22,7 @@ import ChoixBroker from './choixBroker.vue';
 import ChoixDevices from './choixDevices.vue';
 
     export default {
-        name: "dialogChoixBrokerMQTT",
+        name: "dialogChoixMQTT",
 
         components: { ChoixBroker, ChoixDevices },
 

@@ -2,12 +2,12 @@
   <Parametres></Parametres>
   <Mannequin></Mannequin>
   
-  <dialogChoixBrokerMQTT></dialogChoixBrokerMQTT>
+  <dialogChoixMQTT></dialogChoixMQTT>
 </template>
 
 <script setup>
 import { onBeforeMount } from 'vue';
-import dialogChoixBrokerMQTT from './components/dialogChoixBrokerMQTT/index.vue';
+import dialogChoixMQTT from './components/dialogChoixMQTT/index.vue';
 import Mannequin from './components/mannequin.vue';
 import Parametres from './components/parametres.vue';
 
