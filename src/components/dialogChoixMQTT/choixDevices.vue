@@ -14,9 +14,9 @@
         </v-card-title>
 
         <v-card-text>
-            <v-row>
-                <v-col v-for="i in 20" cols="4">
-                    <MQTTDevices :title="i" :subtitle="i" :text="i"></MQTTDevices>
+            <v-row dense>
+                <v-col v-for="i in 6" cols="6">
+                    <MQTTDevices :title="'IoTize0061000015' + i" subtitle="application/iotize/IoTize00610000153B/uplink/data"></MQTTDevices>
                 </v-col>
             </v-row>
         </v-card-text>
@@ -37,7 +37,7 @@
 
 <script>
     import { generalStore } from '../../store';
-import MQTTDevices from './MQTTDevices.vue';
+import MQTTDevices from '../dialogChoixMQTT/MQTTDevices.vue';
 
     export default {
     name: "choixDevices",
