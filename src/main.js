@@ -5,6 +5,7 @@ const mqtt = require("mqtt")
 
 var clientMQTT = null;
 
+
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
   app.quit();
@@ -54,17 +55,26 @@ const createWindow = () => {
 
     clientMQTT.subscribe(topic)
     
-    clientMQTT.on("connect", () => {
-  
-      mainWindow.webContents.send("onStatuesMQTT", "connect")
-      console.log("connect")
-    })
+    function returnMQTTEvent(event) {
+      clientMQTT.on(event, () => {
+        mainWindow.webContents.send("onStatuesMQTT", event)
+        console.log(event)
+      }) 
+    }
+    
+    returnMQTTEvent("connect")
+    returnMQTTEvent("reconnect")
+    returnMQTTEvent("close")
+    returnMQTTEvent("disconnect")
+    returnMQTTEvent("offline")
+    returnMQTTEvent("error")
+    returnMQTTEvent("end")
     
     clientMQTT.on("message", (topic, data) => {
   
       mainWindow.webContents.send("onMessageMQTT", {
         topic: topic,
-        data: data
+        data: JSON.parse(data)
       })
     })
   })
