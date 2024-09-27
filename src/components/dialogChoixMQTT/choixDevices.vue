@@ -10,13 +10,13 @@
             >
                 <v-icon>mdi-arrow-left</v-icon>
             </v-btn>
-            Choix des appareils
+            Choix des End Devices
         </v-card-title>
 
         <v-card-text>
             <v-row dense>
-                <v-col v-for="i in 6" cols="6">
-                    <MQTTDevices :title="'IoTize0061000015' + i" subtitle="application/iotize/IoTize00610000153B/uplink/data"></MQTTDevices>
+                <v-col cols="6">
+                    <!-- <MQTTDevice :title="extractUID(topic)" :subtitle="topic" :data="data"></MQTTDevice> -->
                 </v-col>
             </v-row>
         </v-card-text>
@@ -37,17 +37,42 @@
 
 <script>
     import { generalStore } from '../../store';
-import MQTTDevices from '../dialogChoixMQTT/MQTTDevices.vue';
+    import MQTTDevice from '../dialogChoixMQTT/MQTTDevice/index.vue';
 
     export default {
     name: "choixDevices",
+
+    watch: {
+        watchMessagesMQTT: function ({topic, data}) {
+            
+
+        }
+    },
+        
+    // methods: {
+    //     extractUID(topic) {
+            
+    //         const regex = topic.match(/(?:device|iotize)\/([A-Za-z0-9]{10,})/)
+            
+    //         return regex[1] ? regex[1] : topic
+    //     }
+    // },
+
+    computed: {
+        watchMessagesMQTT: function () {
+            return this.store.messageMQTT
+        }
+    },
+
     setup() {
         const store = generalStore();
+        
         return {
             store
         };
     },
-    components: { MQTTDevices }
+
+    components: { MQTTDevice }
 }
 </script>
 

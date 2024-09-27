@@ -10,13 +10,19 @@ import { onBeforeMount } from 'vue';
 import dialogChoixMQTT from './components/dialogChoixMQTT/index.vue';
 import Mannequin from './components/mannequin.vue';
 import Parametres from './components/parametres.vue';
+import { generalStore } from './store';
 
 // window.electronAPI.onDonneesMQTT((mqttStatus) => {})
 // window.electronAPI.returnAdressMQTT()
+const store = generalStore()
 
-window.electronAPI.onMessageMQTT(message => {
+var essai = new managerED
 
-	console.log(message)
+window.electronAPI.onMessageMQTT(({topic, data}) => {
+
+  store.messageMQTT = {topic, data}
+  
+  essai.update(topic, data)
 })
 
 onBeforeMount(()=> {
