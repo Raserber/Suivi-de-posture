@@ -161,7 +161,7 @@
                         
                         window.electronAPI.onStatuesMQTT(statue => {
                                                 
-                            if (statue == "connect") {
+                            if (statue == "connect" && this.store.dialogBrokerMQTT.step == 1) {
 
                                 this.loading = false
                                 this.store.dialogBrokerMQTT.step = 2
