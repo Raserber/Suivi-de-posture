@@ -4,59 +4,56 @@ class endDevice {
 
     this.topic = topic
     this.deviceName = deviceName
-    this.rawData = data
+
+    this.g = 9.80665
+    this.alpha = 0.94
+
     
     this.angleX = 0
     this.angleY = 0
     this.angleZ = 0
     
-    this.updateData()
+    this.updateData(data)
   }
   
   updateData(data) {
     this.rawData = data
+    this.lastTime = Date.now()
 
-    this.dt = this.findKey("dt") | 1000
+    this.dt = this.findKey("dt")
 
-    this.accX = this.accConversion("accX")
-    this.accY = this.accConversion("accY")
-    this.accZ = this.accConversion("accZ")
+    this.accX = this.findKey("accX")
+    this.accY = this.findKey("accY")
+    this.accZ = this.findKey("accZ")
 
-    this.gyrX = this.gyrConversion("gyrX")
-    this.gyrY = this.gyrConversion("gyrY")
-    this.gyrZ = this.gyrConversion("gyrZ")
+    this.gyrX = this.findKey("gyrX")
+    this.gyrY = this.findKey("gyrY")
+    this.gyrZ = this.findKey("gyrZ")
     
     this.calculAngles()
   }
   
-  accConversion(acc) {
-    return this.findKey(acc)/16824
-  }
-   
-  gyrConversion(gyr) {
-    return this.findKey(gyr)/131
-  }
-  
   calculAngles() {
-    const alpha = 0.94
 
-
-    this.angleX = (1 - alpha) * (this.angleX|0 + this.gyrX * this.dt) + alpha * this.calculAngleAcceleration(this.accX)
-    this.angleY = (1 - alpha) * (this.angleY|0 + this.gyrY * this.dt) + alpha * this.calculAngleAcceleration(this.accY)
-    this.angleZ = (1 - alpha) * (this.angleZ|0 + this.gyrX * this.dt) + alpha * this.calculAngleAcceleration(this.accZ)
+    this.angleX = (1 - this.alpha) * (this.angleX + this.gyrX * this.dt) + this.alpha * this.calculAngleAcceleration(this.accX)
+    this.angleY = (1 - this.alpha) * (this.angleY + this.gyrY * this.dt) + this.alpha * this.calculAngleAcceleration(this.accY)
+    this.angleZ = (1 - this.alpha) * (this.angleZ + this.gyrX * this.dt) + this.alpha * this.calculAngleAcceleration(this.accZ)
   }
 
   calculAngleAcceleration(accReference) {
-    let g = 9.80665
-
-    let accelX          = g * this.accX;
-    let accelY          = g * this.accY;
-    let accelZ          = g * this.accZ;
-    let axeReference    = g * accReference;
+    let accelX          = this.g * this.accX;
+    let accelY          = this.g * this.accY;
+    let accelZ          = this.g * this.accZ;
+    let axeReference    = this.g * accReference;
     
     const accelMagnitude = Math.sqrt(accelX * accelX + accelY * accelY + accelZ * accelZ)
     
     return Math.asin(axeReference/accelMagnitude)
+  }
+  
+  time() {
+
+    return Date.now() - this.lastTime
   }
   
   findKey(key) {
@@ -87,7 +84,7 @@ class endDevice {
   }
 }
 
-class managerED {
+export class managerED {
   constructor() {
 
     this.devices = {}
