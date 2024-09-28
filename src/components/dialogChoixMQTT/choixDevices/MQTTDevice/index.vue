@@ -29,8 +29,8 @@
 </template>
 
 <script>
-import { generalStore } from '../../../store';
-import DataViewer from './dataViewer.vue';
+import { generalStore } from '../../../../store';
+import DataViewer from "./dataViewer.vue"
 
     export default {
 

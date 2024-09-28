@@ -1,7 +1,7 @@
 <template>
     <v-dialog v-model="store.dialogBrokerMQTT.visible"
           persistent
-          max-width="600"
+          width="600"
     >
         <v-window v-model="store.dialogBrokerMQTT.step">
 
@@ -19,7 +19,7 @@
 <script>
 import { generalStore } from '../../store';
 import ChoixBroker from './choixBroker/index.vue';
-import ChoixDevices from './choixDevices.vue';
+import ChoixDevices from './choixDevices/index.vue';
 
     export default {
         name: "dialogChoixMQTT",

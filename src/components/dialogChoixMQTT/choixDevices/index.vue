@@ -36,8 +36,8 @@
 </template>
 
 <script>
-    import { generalStore } from '../../store';
-    import MQTTDevice from '../dialogChoixMQTT/MQTTDevice/index.vue';
+    import { generalStore } from '../../../store';
+    import MQTTDevice from './MQTTDevice/index.vue';
 
     export default {
     name: "choixDevices",
