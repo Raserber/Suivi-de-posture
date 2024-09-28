@@ -1,12 +1,12 @@
 <template>
     <v-dialog
         v-model="visible"
-        persistent
     >
-        <v-card>
+        <v-card min-width="600" class="mx-auto">
             <v-card-title>
                 <v-btn
-                    icon="mdi-close" prevent
+                    icon="mdi-close"
+                    size="small"
                     variant="outlined" color="red"
                     @click="visible=false" 
                 ></v-btn>
