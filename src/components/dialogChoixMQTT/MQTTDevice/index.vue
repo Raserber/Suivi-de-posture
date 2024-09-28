@@ -24,7 +24,7 @@
         :subtitle="subtitle"
         :data="data"
         :dataVisible="secondWindowVisible && boutonPress"
-        @closeClick="boutonPress=false"
+        @afterLeave="boutonPress=false"
     ></DataViewer>
 </template>
 

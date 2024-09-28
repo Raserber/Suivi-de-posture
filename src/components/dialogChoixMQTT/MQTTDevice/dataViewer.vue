@@ -5,7 +5,7 @@
     >
         <v-card>
             <v-card-title>
-                <v-btn prevent variant="outlined" color="red" @click="$emit('closeClick')" icon><v-icon>mdi-close</v-icon></v-btn>
+                <v-btn prevent variant="outlined" color="red" @click="visible=false" icon><v-icon>mdi-close</v-icon></v-btn>
 
                 {{ title }} - JSON Object
             </v-card-title>
