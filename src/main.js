@@ -73,7 +73,15 @@ const createWindow = () => {
   
       mainWindow.webContents.send("onMessageMQTT", {
         topic: topic,
-        data: JSON.parse(data)
+        data: () => {
+          try {
+            return JSON.parse(data)
+          }
+          
+          catch(e) {
+            return data
+          }
+        }
       })
     })
   })
