@@ -1,11 +1,11 @@
 <template>
    <v-card max-height="200">
         <v-card-title>
-            {{ title }}
+            {{ device.deviceName }}
         </v-card-title>
         
         <v-card-subtitle>
-            {{ subtitle }}
+            {{ device.topic }}
         </v-card-subtitle>
         
         <v-card-actions>
@@ -21,9 +21,9 @@
     </v-card>
 
     <DataViewer
-        :title="title"
-        :subtitle="subtitle"
-        :data="data"
+        :title="device.deviceName"
+        :subtitle="device.topic"
+        :data="device.rawData"
         :dataVisible="secondWindowVisible && boutonPress"
         @afterLeave="boutonPress=false"
     ></DataViewer>
@@ -55,9 +55,7 @@
 
         props: {
 
-            title: String,
-            subtitle: String,
-            data: Object
+            device: Object
         },
 
         components: { DataViewer }
