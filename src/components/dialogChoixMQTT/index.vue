@@ -18,7 +18,7 @@
 
 <script>
 import { generalStore } from '../../store';
-import ChoixBroker from './choixBroker.vue';
+import ChoixBroker from './choixBroker/index.vue';
 import ChoixDevices from './choixDevices.vue';
 
     export default {
