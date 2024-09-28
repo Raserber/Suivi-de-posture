@@ -71,14 +71,16 @@
                             :items="['Didalab (LoRaWAN)', 'IoTize (Wifi)']"
                             label="Connexion MQTT pré-configurée"
                             variant="outlined"
+                            :disabled="submitting"
                             v-model="connexionMQTTPreConfiguree"
                         ></v-select>
                     </v-col>
                 </v-row>
 
-                <small :style="disableForm ? 'opacity: 1;' : 'opacity: 0;'"
-                    class="text-caption text-medium-emphasis font-italic">
-
+                <small
+                    :style="preConfigSelectionne ? 'opacity: 1;' : 'opacity: 0;'"
+                    class="text-caption text-medium-emphasis font-italic"
+                >
                     Modifications non-autorisées avec "{{ connexionMQTTPreConfiguree }}" sélectionné
                 </small>
             </v-card-text>
@@ -88,7 +90,7 @@
                 <v-btn
                     color="primary"
                     variant="tonal"
-                    :loading="loading"
+                    :loading="submitting"
                     type="submit"
                 >
                     <v-icon start icon="mdi-connection"></v-icon>
@@ -96,6 +98,31 @@
                 </v-btn>
             </v-card-actions>
         </v-form>
+        
+        <v-dialog 
+            v-model="errorAlert"
+            :close-on-content-click="true"
+            transition="dialog-bottom-transition"
+        >
+            <v-card
+              color="error"
+              prepend-icon="$error"
+              title="Impossible de se connecter au serveur"
+              width="500"
+              class="mx-auto"
+              style="$alert-background: none;"
+            >
+                <template v-slot:append>
+                    <v-btn icon variant="text" color="$error">
+                      <v-icon icon="mdi-close"></v-icon>
+                    </v-btn>
+                </template>
+                
+                <v-card-text>
+                    La connexion au serveur n'a pas pu se faire, vérifiez que vous êtes bien connecter à {{ hostValue }}
+                </v-card-text>
+            </v-card>
+        </v-dialog>
       </v-card>
 </template>
     
@@ -114,8 +141,9 @@
             data: ()=> {
                 return {
                     activatorProps: true,
-                    disableForm: false,
-                    loading: false,
+                    preConfigSelectionne: false,
+                    submitting: false,
+                    errorAlert: false,
                     connexionMQTTPreConfiguree: "",
     
                     hostValue: "",
@@ -152,20 +180,11 @@
     
                         window.electronAPI.returnResetMQTT("front:newConnectionMQTT")
     
-                        this.loading = true
+                        this.submitting = true
     
                         window.electronAPI.returnHostAndTopicMQTT({
                             host: `${this.protocolValue}${this.hostValue}:${this.portValue}`,
                             topic : this.topicValue
-                        })
-                        
-                        window.electronAPI.onStatuesMQTT(statue => {
-                                                
-                            if (statue == "connect" && this.store.dialogBrokerMQTT.step == 1) {
-
-                                this.loading = false
-                                this.store.dialogBrokerMQTT.step = 2
-                            }
                         })
 
                     }
@@ -173,9 +192,27 @@
             },
     
             watch: {
+                watchStatutMQTT(statut) {
+                    console.log(statut)
+                    if (this.store.dialogBrokerMQTT.visible && this.submitting) {
+
+                        if (statut == "connect") {
+
+                            this.submitting = false
+                            this.store.dialogBrokerMQTT.step = 2
+                        }
+                        
+                        if (statut == "error") {
+
+                            this.submitting = false
+                            this.errorAlert = true
+                        }
+                    }
+                },
+                
                 connexionMQTTPreConfiguree(newData, oldData) {
                     
-                    this.disableForm = true
+                    this.preConfigSelectionne = true
     
                     if (newData == "Didalab (LoRaWAN)") {
     
@@ -195,10 +232,22 @@
     
                     else {
     
-                        this.disableForm = false
+                        this.preConfigSelectionne = false
                         this.$refs.form.reset()
                         this.protocolValue = "mqtt://"
                     }
+                }
+            },
+            
+            computed: {
+
+                watchStatutMQTT: function () {
+                    return this.store.statutMQTT
+                },
+
+                disableForm: function () {
+
+                    return this.preConfigSelectionne || this.submitting
                 }
             }
         }
