@@ -87,7 +87,7 @@ class endDevice {
 export class managerED {
   constructor() {
 
-    this.devices = {}
+    this.list = {}
   }
   
   update (topic, data) {
@@ -101,14 +101,14 @@ export class managerED {
     var deviceName = data.deviceName ? data.deviceName : undefined
     deviceName = deviceName ? deviceName : matchTopic
     
-    if (this.devices[deviceName]) {
+    if (this.list[deviceName]) {
 
-      this.devices[deviceName].updateData(data)
+      this.list[deviceName].updateData(data)
     }
     
     else {
 
-      this.devices[deviceName] = new endDevice(topic, deviceName, data)
+      this.list[deviceName] = new endDevice(topic, deviceName, data)
     }
   }
 }
