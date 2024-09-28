@@ -12,9 +12,11 @@
           class="mx-auto"
         >
             <template v-slot:append>
-                <v-btn icon variant="text" color="$error">
-                  <v-icon icon="mdi-close"></v-icon>
-                </v-btn>
+                <v-btn
+                    icon="mdi-close"
+                    variant="text"
+                    color="$error"
+                ></v-btn>
             </template>
             
             <v-card-text>
@@ -31,23 +33,24 @@
         name: "messageErreur",
         
         props: {
+
             errorAlert: Boolean,
             hostValue: String
         },
 
-        data: () => {
-            return {
-                visible: false
-            }
-        },
+        data: () => ({
+
+            visible: false
+        }),
 
         watch: {
+
             errorAlert(value) {
+
                 this.visible = value
             }
         }
     }
-
 </script>
 
 <style>

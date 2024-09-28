@@ -1,13 +1,12 @@
-<template>
-</template>
-
 <script>
   import { Male, createStage } from '../mannequinJS/mannequin';
 
   export default {
+
     name: "mannequin",
 
     mounted() {
+
       createStage()
 
       // getStage().scene.rotateX(0.3)
@@ -18,3 +17,6 @@
     },
   }
 </script>
+
+<template>
+</template>

@@ -9,22 +9,20 @@
 <script>
 
   export default {
+
     name: "parametres",
     
-    data: function () {
-      return {
-        affichageMenu : false
-      }
-    },
-    
-    mounted() {
-    }
+    data: () => ({
+
+      affichageMenu : false
+    }),
   }
 </script>
 
 <style lang="scss" scoped>
 
   #menuBouton {
+
     position: absolute;
 
     width: 60px;
@@ -39,7 +37,9 @@
     border: solid 1px rgba(0, 0, 0, 0.2);
     box-shadow: inset 0 0 1em rgba(0, 0, 0, 0.1);
       
+
     img {
+
         position: relative;
         left: 50%;
 

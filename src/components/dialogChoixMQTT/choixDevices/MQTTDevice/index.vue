@@ -19,6 +19,7 @@
             </v-btn>
         </v-card-actions>
     </v-card>
+
     <DataViewer
         :title="title"
         :subtitle="subtitle"
@@ -29,8 +30,8 @@
 </template>
 
 <script>
-import { generalStore } from '../../../../store';
-import DataViewer from "./dataViewer.vue"
+    import { generalStore } from '../../../../store';
+    import DataViewer from "./dataViewer.vue"
 
     export default {
 
@@ -47,13 +48,13 @@ import DataViewer from "./dataViewer.vue"
             }
         },
         
-        data: () => {
-            return {
-                boutonPress: false
-            }
-        },
+        data: () => ({
+
+            boutonPress: false
+        }),
 
         props: {
+
             title: String,
             subtitle: String,
             data: Object

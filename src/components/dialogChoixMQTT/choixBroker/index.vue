@@ -108,16 +108,20 @@
     
 <script>
     import { generalStore } from '../../../store'
-import MessageErreur from './messageErreur.vue'
+    import MessageErreur from './messageErreur.vue'
         
-        export default {
-    name: "choixBroker",
-    setup: function () {
-        const store = generalStore();
-        return { store };
-    },
-    data: () => {
-        return {
+    export default {
+
+        name: "choixBroker",
+
+        setup: function () {
+
+            const store = generalStore();
+            return { store };
+        },
+
+        data: () => ({
+
             activatorProps: true,
             preConfigSelectionne: false,
             submitting: false,
@@ -144,65 +148,84 @@ import MessageErreur from './messageErreur.vue'
                     }
                 ]
             }
-        };
-    },
-    methods: {
-        submit: async function (event) {
-            var isValid = (await event).valid;
-            if (isValid) {
-                window.electronAPI.returnResetMQTT("front:newConnectionMQTT");
-                this.submitting = true;
-                window.electronAPI.returnHostAndTopicMQTT({
-                    host: `${this.protocolValue}${this.hostValue}:${this.portValue}`,
-                    topic: this.topicValue
-                });
-            }
-        }
-    },
-    watch: {
-        watchStatutMQTT(statut) {
-            console.log(statut);
-            if (this.store.dialogBrokerMQTT.visible && this.submitting) {
-                if (statut == "connect") {
-                    this.submitting = false;
-                    this.store.dialogBrokerMQTT.step = 2;
-                }
-                if (statut == "error") {
-                    this.submitting = false;
-                    this.errorAlert = true;
+        }),
+        
+        methods: {
+
+            submit: async function (event) {
+
+                var isValid = (await event).valid;
+
+                if (isValid) {
+
+                    window.electronAPI.returnResetMQTT("front:newConnectionMQTT");
+
+                    this.submitting = true;
+
+                    window.electronAPI.returnHostAndTopicMQTT({
+                        host: `${this.protocolValue}${this.hostValue}:${this.portValue}`,
+                        topic: this.topicValue
+                    });
                 }
             }
         },
-        connexionMQTTPreConfiguree(newData, oldData) {
-            this.preConfigSelectionne = true;
-            if (newData == "Didalab (LoRaWAN)") {
-                this.protocolValue = "mqtt://";
-                this.hostValue = "192.168.1.20";
-                this.portValue = "1883";
-                this.topicValue = "application/8/device/#";
+
+        watch: {
+
+            watchStatutMQTT(statut) {
+
+                if (this.store.dialogBrokerMQTT.visible && this.submitting) {
+
+                    if (statut == "connect") {
+
+                        this.submitting = false;
+                        this.store.dialogBrokerMQTT.step = 2;
+                    }
+                    if (statut == "error") {
+
+                        this.submitting = false;
+                        this.errorAlert = true;
+                    }
+                }
+            },
+
+            connexionMQTTPreConfiguree(newData, oldData) {
+
+                this.preConfigSelectionne = true;
+
+                if (newData == "Didalab (LoRaWAN)") {
+
+                    this.protocolValue = "mqtt://";
+                    this.hostValue = "192.168.1.20";
+                    this.portValue = "1883";
+                    this.topicValue = "application/8/device/#";
+                }
+
+                else if (newData == "IoTize (Wifi)") {
+
+                    this.protocolValue = "mqtt://";
+                    this.hostValue = "192.168.1.20";
+                    this.portValue = "1883";
+                    this.topicValue = "application/iotize/#";
+                }
+
+                else {
+
+                    this.preConfigSelectionne = false;
+                    this.$refs.form.reset();
+                    this.protocolValue = "mqtt://";
+                }
             }
-            else if (newData == "IoTize (Wifi)") {
-                this.protocolValue = "mqtt://";
-                this.hostValue = "192.168.1.20";
-                this.portValue = "1883";
-                this.topicValue = "application/iotize/#";
-            }
-            else {
-                this.preConfigSelectionne = false;
-                this.$refs.form.reset();
-                this.protocolValue = "mqtt://";
-            }
-        }
-    },
-    computed: {
-        watchStatutMQTT: function () {
-            return this.store.statutMQTT;
         },
-        disableForm: function () {
-            return this.preConfigSelectionne || this.submitting;
-        }
-    },
-    components: { MessageErreur }
+
+        computed: {
+
+            watchStatutMQTT: ({ store }) => (store.statutMQTT),
+
+            disableForm: ({ preConfigSelectionne, submitting }) => (preConfigSelectionne || submitting)
+        },
+
+        components: { MessageErreur }
 }
 </script>
     

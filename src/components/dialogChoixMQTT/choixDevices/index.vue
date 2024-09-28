@@ -4,12 +4,13 @@
         variant="flat"
       >
         <v-card-title>
-            <v-btn icon variant="text"
+            <v-btn
+                icon="mdi-arrow-left"
                 v-if="store.dialogBrokerMQTT.step > 1"
                 @click="store.dialogBrokerMQTT.step--"
-            >
-                <v-icon>mdi-arrow-left</v-icon>
-            </v-btn>
+                variant="text"
+            ></v-btn>
+
             Choix des End Devices
         </v-card-title>
 
@@ -40,6 +41,7 @@
     import MQTTDevice from './MQTTDevice/index.vue';
 
     export default {
+
     name: "choixDevices",
 
     setup() {

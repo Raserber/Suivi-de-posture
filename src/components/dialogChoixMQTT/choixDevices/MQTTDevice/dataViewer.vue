@@ -5,7 +5,11 @@
     >
         <v-card>
             <v-card-title>
-                <v-btn prevent variant="outlined" color="red" @click="visible=false" icon><v-icon>mdi-close</v-icon></v-btn>
+                <v-btn
+                    icon="mdi-close" prevent
+                    variant="outlined" color="red"
+                    @click="visible=false" 
+                ></v-btn>
 
                 {{ title }} - JSON Object
             </v-card-title>
@@ -20,9 +24,6 @@
                     {{ data }}
                 </SshPre>
             </v-card-text>
-            <v-card-actions>
-                <v-spacer></v-spacer>
-            </v-card-actions>
         </v-card>
     </v-dialog>
 </template>
@@ -35,13 +36,13 @@
 
         name: "dataViewer",
         
-        data: function () {
-            return {
-                visible: false
-            }
-        },
+        data: () => ({
+
+            visible: false
+        }),
 
         props: {
+
             title: String,
             subtitle: String,
             data: Object,
@@ -56,9 +57,7 @@
             }
         },
 
-        components: {
-            SshPre
-        }
+        components: { SshPre }
     }
 </script>
 
