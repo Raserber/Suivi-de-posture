@@ -2,7 +2,10 @@
     <v-dialog
         v-model="visible"
     >
-        <v-card min-width="600" class="mx-auto">
+        <v-card
+            width="700"
+            class="mx-auto"
+        >
             <v-card-title>
                 <v-btn
                     icon="mdi-close"
@@ -11,19 +14,39 @@
                     @click="visible=false" 
                 ></v-btn>
 
-                {{ title }} - JSON Object
+                {{ device.deviceName }} - JSON Object
+                
+                    <v-chip
+                        variant="outlined"
+                        color="error"
+                        v-if="timer >= 10"
+                    >
+                        {{ timer }}s
+                    </v-chip>
             </v-card-title>
             
             <v-card-subtitle>
                 <v-chip variant="outlined">Topic</v-chip>
-                {{ subtitle }}
+                {{ device.topic }}
             </v-card-subtitle>
             
             <v-card-text>
                 <SshPre language="json">
-                    {{ data }}
+                    {{ device.rawData }}
                 </SshPre>
             </v-card-text>
+            
+            <v-card-actions>
+                <v-chip variant="outlined">
+                    angleX : {{ device.angleX.toFixed(3) }}
+                </v-chip>
+                <v-chip variant="outlined">
+                    angleY : {{ device.angleY.toFixed(3) }}
+                </v-chip>
+                <v-chip variant="outlined">
+                    angleZ : {{ device.angleZ.toFixed(3) }}
+                </v-chip>
+            </v-card-actions>
         </v-card>
     </v-dialog>
 </template>
@@ -43,9 +66,8 @@
 
         props: {
 
-            title: String,
-            subtitle: String,
-            data: Object,
+            device: Object,
+            timer: Number,
             dataVisible: Boolean
         },
 

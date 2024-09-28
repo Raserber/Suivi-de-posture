@@ -1,7 +1,9 @@
+
 class endDevice {
 
   constructor (topic, deviceName, data) {
 
+    this.selected = false
     this.topic = topic
     this.deviceName = deviceName
 
@@ -51,9 +53,9 @@ class endDevice {
     return Math.asin(axeReference/accelMagnitude)
   }
   
-  time() {
+  get time() {
 
-    return Date.now() - this.lastTime
+    return Math.floor((Date.now() - this.lastTime)/1000)
   }
   
   findKey(key) {
@@ -88,10 +90,10 @@ export class managerED {
   constructor() {
 
     this.list = {}
+    this.listSelected = []
   }
   
   update (topic, data) {
-    
     
     // trouves le nom du ED à travers le topic MQTT
     var matchTopic = topic.match(/(?:device|iotize)\/([A-Za-z0-9]{10,})/)
@@ -111,4 +113,43 @@ export class managerED {
       this.list[deviceName] = new endDevice(topic, deviceName, data)
     }
   }
+  
+  select(device) {
+    
+    if (this.listSelected.includes(device.deviceName)) {
+
+      this.listSelected.splice(this.listSelected.indexOf(device.deviceName), 1)
+      this.list[device.deviceName].selected = false
+    }
+    
+    else {
+
+      this.list[device.deviceName].selected = true
+      this.listSelected.push(device.deviceName)
+    }
+    
+    console.log(this.listSelected)
+  }
+  
+  get selectedDevices() {
+    
+    return Object.values(this.list).filter(device => device.selected);
+  }
+
+  removeFirstSelected () {
+
+    this.list[this.listSelected.shift()].selected = false
+  }
+  
+  removeSelected() {
+
+    this.selectedDevices.forEach(device => {
+      
+      this.list[device.deviceName].selected = false
+    })
+    
+    this.listSelected = []
+  }
+  
+  
 }

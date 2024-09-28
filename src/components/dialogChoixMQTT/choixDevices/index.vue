@@ -12,10 +12,34 @@
             ></v-btn>
 
             Choix des End Devices
+            
+            <v-hover v-slot="{isHovering, props}">
+                <v-btn
+                    variant="outlined"
+                    rounded
+                    size="small"
+                    v-bind="props"
+                    :color="store.endDevices.selectedDevices.length >= 2 ? 'success' : ''"
+                    
+                    @click="() => { store.endDevices.removeSelected() }"
+                >
+                    <template v-if="isHovering && store.endDevices.selectedDevices.length != 0">
+                        <small>
+                            <v-icon append>mdi-trash-can</v-icon> Désélectionner
+                        </small>
+                    </template>
+                    <template v-else>
+                        {{ store.endDevices.selectedDevices.length }} sélectionnés
+                    </template>
+                </v-btn>
+            </v-hover>
         </v-card-title>
 
         <v-card-text>
-            <v-data-iterator :items="Object.values(store.endDevices.list)" :page="page" :items-per-page="6">
+            <v-data-iterator
+                :items="Object.values(store.endDevices.list)"
+                :page="page" :items-per-page="6"
+            >
                 <template v-slot:default="{ items }">
                         <v-row dense>
                             <v-col
@@ -33,13 +57,20 @@
         </v-card-text>
 
         <v-card-actions>
+            <small
+                v-if="store.endDevices.selectedDevices.length <= 1"
+                class="text-caption text-medium-emphasis font-italic"
+            >
+                Veuillez sélectionner au moins 2 end devices
+            </small>
             <v-spacer></v-spacer>
             <v-btn
                 color="primary"
                 variant="tonal"
                 type="submit"
+                prepend-icon="mdi-check-circle"
+                :disabled="store.endDevices.selectedDevices.length <= 1"
             >
-                <v-icon start icon="mdi-check-circle"></v-icon>
                 Confirmer
             </v-btn>
         </v-card-actions>
@@ -56,8 +87,7 @@
         
     data: () => ({
         page: 1
-    }),
-
+    }), 
     setup() {
         const store = generalStore();
         
