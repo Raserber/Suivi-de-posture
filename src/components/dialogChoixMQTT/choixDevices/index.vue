@@ -42,28 +42,6 @@
     export default {
     name: "choixDevices",
 
-    watch: {
-        watchMessagesMQTT: function ({topic, data}) {
-            
-
-        }
-    },
-        
-    // methods: {
-    //     extractUID(topic) {
-            
-    //         const regex = topic.match(/(?:device|iotize)\/([A-Za-z0-9]{10,})/)
-            
-    //         return regex[1] ? regex[1] : topic
-    //     }
-    // },
-
-    computed: {
-        watchMessagesMQTT: function () {
-            return this.store.messageMQTT
-        }
-    },
-
     setup() {
         const store = generalStore();
         
