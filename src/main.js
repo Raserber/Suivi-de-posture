@@ -48,7 +48,6 @@ const createWindow = () => {
     
     if (clientMQTT) {
       clientMQTT.end()
-      clientMQTT = null
     }
 
     clientMQTT = mqtt.connect(host)
@@ -57,7 +56,7 @@ const createWindow = () => {
     
     function returnMQTTEvent(event) {
       clientMQTT.on(event, () => {
-        mainWindow.webContents.send("onStatuesMQTT", event)
+        mainWindow.webContents.send("onStatutMQTT", event)
         console.log(event)
       }) 
     }

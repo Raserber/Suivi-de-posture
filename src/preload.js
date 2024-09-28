@@ -12,5 +12,5 @@ contextBridge.exposeInMainWorld('electronAPI', {
   
   // Main.js -> renderer
   onMessageMQTT: (callback) => ipcRenderer.on('onMessageMQTT', (_event, value) => callback(value)),
-  onStatuesMQTT: (callback) => ipcRenderer.on('onStatuesMQTT', (_event, value) => callback(value)),
+  onStatutMQTT: (callback) => ipcRenderer.on('onStatutMQTT', (_event, value) => callback(value)),
 })

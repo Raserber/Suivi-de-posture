@@ -16,13 +16,14 @@ import { generalStore } from './store';
 // window.electronAPI.returnAdressMQTT()
 const store = generalStore()
 
-var essai = new managerED
-
 window.electronAPI.onMessageMQTT(({topic, data}) => {
 
   store.messageMQTT = {topic, data}
-  
-  essai.update(topic, data)
+})
+
+window.electronAPI.onStatutMQTT(statut => {
+
+  store.statutMQTT = statut
 })
 
 onBeforeMount(()=> {
