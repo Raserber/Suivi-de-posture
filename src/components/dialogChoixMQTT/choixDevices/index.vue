@@ -64,7 +64,7 @@
                 type="submit"
                 append-icon="mdi-arrow-right"
                 :disabled="store.endDevices.selectedDevices.length < 1"
-                @click="suivantClick"
+                @click="store.dialogBrokerMQTT.step++"
             >
                 Suivant
             </v-btn>
@@ -84,13 +84,6 @@
         page: 1
     }), 
         
-    methods: {
-        
-        suivantClick: function () {
-
-        }
-    },
-
     setup() {
         const store = generalStore();
         
@@ -108,10 +101,10 @@
 
         watchStatutMQTT: function (statut) {
 
-           if (statut == "end") {
-
-            this.store.endDevices.removeSelected()
-           }
+            if (statut == "end") {
+            
+                this.store.endDevices.reset()
+            }
         }
     },
 
