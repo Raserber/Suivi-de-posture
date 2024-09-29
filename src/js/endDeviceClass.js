@@ -22,7 +22,7 @@ class endDevice {
     this.rawData = data
     this.lastTime = Date.now()
 
-    this.dt = this.findKey("dt")
+    this.dt = this.findKey("dt") | 100
 
     this.accX = this.findKey("accX")
     this.accY = this.findKey("accY")
@@ -114,6 +114,12 @@ export class managerED {
     }
   }
   
+  reset () {
+
+    this.list = {}
+    this.removeSelected()
+  }
+  
   select(device) {
     
     if (this.listSelected.includes(device.deviceName)) {
@@ -150,6 +156,4 @@ export class managerED {
     
     this.listSelected = []
   }
-  
-  
 }
