@@ -9,6 +9,7 @@ export const generalStore = defineStore('generalStore', {
       endDevices: new managerED,
       
       statutMQTT: "",
+      serveurMQTT: "",
       
       dialogBrokerMQTT: {
         visible: true,
