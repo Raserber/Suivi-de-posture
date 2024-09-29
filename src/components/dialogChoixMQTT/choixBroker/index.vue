@@ -162,6 +162,7 @@
 
                     this.submitting = true;
 
+                    this.store.serveurMQTT = `${this.protocolValue}${this.hostValue}:${this.portValue}`
                     window.electronAPI.returnHostAndTopicMQTT({
                         host: `${this.protocolValue}${this.hostValue}:${this.portValue}`,
                         topic: this.topicValue
