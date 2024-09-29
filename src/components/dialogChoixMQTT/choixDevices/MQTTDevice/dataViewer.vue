@@ -4,6 +4,7 @@
     >
         <v-card
             width="700"
+            height="380"
             class="mx-auto"
         >
             <v-card-title>
@@ -26,14 +27,17 @@
             </v-card-title>
             
             <v-card-subtitle>
-                <v-chip variant="outlined">Topic</v-chip>
+                <v-chip variant="outlined">topic</v-chip>
                 {{ device.topic }}
             </v-card-subtitle>
             
             <v-card-text>
-                <SshPre language="json">
-                    {{ device.rawData }}
-                </SshPre>
+                <vue-json-pretty
+                    :data="device.rawData"
+                    show-line
+                    virtual
+                    height="200"
+                ></vue-json-pretty>
             </v-card-text>
             
             <v-card-actions>
@@ -52,8 +56,8 @@
 </template>
 
 <script>
-    import SshPre from 'simple-syntax-highlighter'
-    import 'simple-syntax-highlighter/dist/sshpre.css'
+    import VueJsonPretty from 'vue-json-pretty';
+    import 'vue-json-pretty/lib/styles.css';
 
     export default {
 
@@ -79,7 +83,7 @@
             }
         },
 
-        components: { SshPre }
+        components: { VueJsonPretty }
     }
 </script>
 
