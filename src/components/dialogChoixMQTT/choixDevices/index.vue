@@ -57,21 +57,16 @@
         </v-card-text>
 
         <v-card-actions>
-            <small
-                v-if="store.endDevices.selectedDevices.length <= 1"
-                class="text-caption text-medium-emphasis font-italic"
-            >
-                Veuillez sélectionner au moins 2 end devices
-            </small>
             <v-spacer></v-spacer>
             <v-btn
                 color="primary"
                 variant="tonal"
                 type="submit"
-                prepend-icon="mdi-check-circle"
-                :disabled="store.endDevices.selectedDevices.length <= 1"
+                append-icon="mdi-arrow-right"
+                :disabled="store.endDevices.selectedDevices.length < 1"
+                @click="suivantClick"
             >
-                Confirmer
+                Suivant
             </v-btn>
         </v-card-actions>
       </v-card>
@@ -88,12 +83,36 @@
     data: () => ({
         page: 1
     }), 
+        
+    methods: {
+        
+        suivantClick: function () {
+
+        }
+    },
+
     setup() {
         const store = generalStore();
         
         return {
             store
         };
+    },
+        
+    computed: {
+
+        watchStatutMQTT: ({store}) => (store.statutMQTT)
+    },
+
+    watch: {
+
+        watchStatutMQTT: function (statut) {
+
+           if (statut == "end") {
+
+            this.store.endDevices.removeSelected()
+           }
+        }
     },
 
     components: { MQTTDevice }

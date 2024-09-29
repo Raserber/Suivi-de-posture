@@ -185,6 +185,7 @@
 
                         this.submitting = false;
                         this.errorAlert = true;
+                        window.electronAPI.returnResetMQTT("front:errorDuringGlobalConnect")
                     }
                 }
             },
