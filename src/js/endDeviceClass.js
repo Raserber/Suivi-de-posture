@@ -6,6 +6,7 @@ class endDevice {
     this.selected = false
     this.topic = topic
     this.deviceName = deviceName
+    this.position = undefined
 
     this.g = 9.80665
     this.alpha = 0.94
@@ -133,8 +134,6 @@ export class managerED {
       this.list[device.deviceName].selected = true
       this.listSelected.push(device.deviceName)
     }
-    
-    console.log(this.listSelected)
   }
   
   get selectedDevices() {
@@ -155,5 +154,20 @@ export class managerED {
     })
     
     this.listSelected = []
+  }
+  
+  get torse () {
+
+    return this.selectedDevices.find(device => (typeof device.position != "undefined" ? device.position.includes("torse") : false))
+  }
+  
+  get cuisses () {
+
+    return this.selectedDevices.find(device => (typeof device.position != "undefined" ? device.position.includes("cuisses") : false))
+  }
+  
+  get jambes () {
+
+    return this.selectedDevices.find(device => (typeof device.position != "undefined" ? device.position.includes("jambes") : false))
   }
 }
