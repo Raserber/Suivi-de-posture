@@ -1,8 +1,6 @@
 <template>
     
     <v-card
-        max-height="200"
-        v-bind="props"
     >
         <v-card-title>
             {{ device.deviceName }}
@@ -14,6 +12,8 @@
                 variant="outlined"
                 width="200"
                 v-bind="selectOptions"
+                clearable
+                v-model="store.endDevices.list[device.deviceName].position"
             >
             </v-select>
             

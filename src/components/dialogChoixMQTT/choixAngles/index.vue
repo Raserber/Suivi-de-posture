@@ -20,7 +20,7 @@
                     cols="12"
                     v-for="device in store.endDevices.selectedDevices"
                 >
-                        <MQTTDevice :device="device" :select-options="selectOptions"></MQTTDevice>
+                    <MQTTDevice :device="device" :select-options="{items : items(device.position)}"></MQTTDevice>
                 </v-col>
             </v-row>
         </v-card-text>
@@ -56,23 +56,50 @@
         };
     },
         
-    computed: {
-        selectOptions: function () {
+    methods: {
+        items(position) {
 
             switch (this.store.endDevices.selectedDevices.length) {
 
-                case 1 :
-                    return {items: ['torse']}
-                    break;
-
                 case 2 :
-                    return {items: ['torse', 'cuisses + jambes']}
+                    return [
+                         position == "torse" || !this.selected.includes("torse") ? {
+                            title: "torse",
+                            value: "torse" 
+                        }:
+                        {
+                            title: "cuisses + jambes",
+                            value: ["cuisses", "jambes"]
+                        }
+                    ]
                     break;
 
                 case 3 :
-                    return {items: ['torse', 'cuisses', 'jambes']}
+                    return [
+                        {
+                            title: "torse",
+                            value: "torse"
+                        },
+                        {
+                            title: "cuisses",
+                            value: "cuisses"
+                        },
+                        {
+                            title: "jambes",
+                            value: "jambes"
+                        }
+                    ].filter(option => ((position != null ? position.includes(option) : false) || !this.selected.includes(option)))
                     break;
             }
+            
+            return []
+        },
+    },
+
+    computed : {
+        selected: function () {
+
+            return [this.store.endDevices.torse ? "torse" : '', this.store.endDevices.cuisses ? "cuisses" : '', this.store.endDevices.jambes ? "jambes" : '']
         }
     },
 

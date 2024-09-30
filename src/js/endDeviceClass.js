@@ -6,7 +6,7 @@ class endDevice {
     this.selected = false
     this.topic = topic
     this.deviceName = deviceName
-    this.position = undefined
+    this.position = null
 
     this.g = 9.80665
     this.alpha = 0.94
@@ -158,16 +158,16 @@ export class managerED {
   
   get torse () {
 
-    return this.selectedDevices.find(device => (typeof device.position != "undefined" ? device.position.includes("torse") : false))
+    return this.selectedDevices.find(device => ( device.position != null && device.position != [] ? device.position.includes("torse") : false))
   }
   
   get cuisses () {
 
-    return this.selectedDevices.find(device => (typeof device.position != "undefined" ? device.position.includes("cuisses") : false))
+    return this.selectedDevices.find(device => (device.position != null  && device.position != [] ? device.position.includes("cuisses") : false))
   }
   
   get jambes () {
 
-    return this.selectedDevices.find(device => (typeof device.position != "undefined" ? device.position.includes("jambes") : false))
+    return this.selectedDevices.find(device => (device.position != null && device.position != [] ? device.position.includes("jambes") : false))
   }
 }
