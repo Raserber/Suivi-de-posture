@@ -4,7 +4,7 @@ const path = require('node:path');
 const mqtt = require("mqtt")
 
 var clientMQTT = null;
-
+const eventsMQTT = ["connect", "reconnect", "close", "disconnect", "offline", "error", "end"]
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -44,6 +44,49 @@ const createWindow = () => {
     }
   })
 
+  ipcMain.on("returnTopicsMQTTSelected", (event, {host, selectedTopics}) => {
+    
+    if (clientMQTT) {
+      clientMQTT.end()
+    }
+    
+    clientMQTT = mqtt.connect(host)
+    
+    selectedTopics.forEach(topic => {
+
+      clientMQTT.subscribe(topic)
+    })
+
+    function returnMQTTEvent(event) {
+      clientMQTT.on(event, () => {
+
+        mainWindow.webContents.send("onStatutMQTT", event)
+      }) 
+    }
+    
+    eventsMQTT.forEach(event => returnMQTTEvent(event))
+    
+    clientMQTT.on("message", (topic, data) => {
+      
+      var dataConverted;
+
+      try {
+        dataConverted = JSON.parse(data)
+      }
+      
+      catch(e) {
+
+        dataConverted = data
+        console.log(e)
+      }
+  
+      mainWindow.webContents.send("onMessageMQTT", {
+        topic: topic,
+        data: dataConverted
+      })
+    })
+  })
+  
   ipcMain.on("returnHostAndTopicMQTT", (event, {host, topic}) => {
     
     if (clientMQTT) {
@@ -61,27 +104,26 @@ const createWindow = () => {
       }) 
     }
     
-    returnMQTTEvent("connect")
-    returnMQTTEvent("reconnect")
-    returnMQTTEvent("close")
-    returnMQTTEvent("disconnect")
-    returnMQTTEvent("offline")
-    returnMQTTEvent("error")
-    returnMQTTEvent("end")
+    eventsMQTT.forEach(event => returnMQTTEvent(event))
+
     
     clientMQTT.on("message", (topic, data) => {
-  
+
+      var dataConverted;
+
+      try {
+        dataConverted = JSON.parse(data)
+      }
+      
+      catch(e) {
+
+        dataConverted = data
+        console.log(e)
+      }
+
       mainWindow.webContents.send("onMessageMQTT", {
         topic: topic,
-        data: () => {
-          try {
-            return JSON.parse(data)
-          }
-          
-          catch(e) {
-            return data
-          }
-        }
+        data: dataConverted
       })
     })
   })

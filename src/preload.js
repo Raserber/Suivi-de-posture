@@ -9,6 +9,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
   returnHostAndTopicMQTT: ({host, topic}) => ipcRenderer.send('returnHostAndTopicMQTT', {host, topic}),
   returnMessageMQTT: ({topic, message}) => ipcRenderer.send("returnMessageMQTT", {topic, message}),
   returnResetMQTT: (data) => ipcRenderer.send("returnResetMQTT", data),
+  returnTopicsMQTTSelected: ({host, selectedTopics}) => ipcRenderer.send("returnTopicsMQTTSelected", {host, selectedTopics}),
+   
   
   // Main.js -> renderer
   onMessageMQTT: (callback) => ipcRenderer.on('onMessageMQTT', (_event, value) => callback(value)),

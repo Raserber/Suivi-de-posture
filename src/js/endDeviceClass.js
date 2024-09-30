@@ -7,6 +7,7 @@ class endDevice {
     this.topic = topic
     this.deviceName = deviceName
     this.position = null
+    this.angleWatch = null
 
     this.g = 9.80665
     this.alpha = 0.94
@@ -25,22 +26,22 @@ class endDevice {
 
     this.dt = this.findKey("dt") | 100
 
-    this.accX = this.findKey("accX")
-    this.accY = this.findKey("accY")
-    this.accZ = this.findKey("accZ")
-
-    this.gyrX = this.findKey("gyrX")
-    this.gyrY = this.findKey("gyrY")
-    this.gyrZ = this.findKey("gyrZ")
+    this.accX = this.findKey("accX", data)
+    this.accY = this.findKey("accY", data)
+    this.accZ = this.findKey("accZ", data)
+    
+    this.gyrX = this.findKey("gyrX", data)*(Math.PI/180)
+    this.gyrY = this.findKey("gyrY", data)*(Math.PI/180)
+    this.gyrZ = this.findKey("gyrZ", data)*(Math.PI/180)
     
     this.calculAngles()
   }
   
   calculAngles() {
 
-    this.angleX = (1 - this.alpha) * (this.angleX + this.gyrX * this.dt) + this.alpha * this.calculAngleAcceleration(this.accX)
-    this.angleY = (1 - this.alpha) * (this.angleY + this.gyrY * this.dt) + this.alpha * this.calculAngleAcceleration(this.accY)
-    this.angleZ = (1 - this.alpha) * (this.angleZ + this.gyrX * this.dt) + this.alpha * this.calculAngleAcceleration(this.accZ)
+    this.angleX = (1 - this.alpha) * (this.angleX|0 + this.gyrX * this.dt/1000) + this.alpha * this.calculAngleAcceleration(this.accX)
+    this.angleY = (1 - this.alpha) * (this.angleY|0 + this.gyrY * this.dt/1000) + this.alpha * this.calculAngleAcceleration(this.accY)
+    this.angleZ = (1 - this.alpha) * (this.angleZ|0 + this.gyrX * this.dt/1000) + this.alpha * this.calculAngleAcceleration(this.accZ)
   }
 
   calculAngleAcceleration(accReference) {
@@ -59,8 +60,7 @@ class endDevice {
     return Math.floor((Date.now() - this.lastTime)/1000)
   }
   
-  findKey(key) {
-    var obj = this.rawData
+  findKey(key, obj) {
     // Vérifie si l'objet est valide
     if (typeof obj !== 'object' || obj === null) {
       return undefined;
@@ -75,7 +75,7 @@ class endDevice {
   
       // Si la valeur est un objet, on recherche récursivement
       if (typeof obj[k] === 'object' && obj[k] !== null) {
-        const result = findKey(obj[k], key);
+        const result = this.findKey(key, obj[k]);
         if (result !== undefined) {
           return result;
         }
@@ -92,6 +92,7 @@ export class managerED {
 
     this.list = {}
     this.listSelected = []
+    this.selectedTopics = []
   }
   
   update (topic, data) {
@@ -126,6 +127,7 @@ export class managerED {
     if (this.listSelected.includes(device.deviceName)) {
 
       this.listSelected.splice(this.listSelected.indexOf(device.deviceName), 1)
+      this.selectedTopics.splice(this.selectedDevices.indexOf(device.topic), 1)
       this.list[device.deviceName].selected = false
     }
     
@@ -133,6 +135,7 @@ export class managerED {
 
       this.list[device.deviceName].selected = true
       this.listSelected.push(device.deviceName)
+      this.selectedTopics.push(device.topic)
     }
   }
   
@@ -140,7 +143,7 @@ export class managerED {
     
     return Object.values(this.list).filter(device => device.selected);
   }
-
+  
   removeFirstSelected () {
 
     this.list[this.listSelected.shift()].selected = false
@@ -150,7 +153,7 @@ export class managerED {
 
     this.selectedDevices.forEach(device => {
       
-      this.list[device.deviceName].selected = false
+      device.selected = false
     })
     
     this.listSelected = []
@@ -169,5 +172,37 @@ export class managerED {
   get jambes () {
 
     return this.selectedDevices.find(device => (device.position != null && device.position != [] ? device.position.includes("jambes") : false))
+  }
+  
+  get angleTorse () {
+
+    if (this.torse) {
+      return this.torse[this.torse.angleWatch]
+    }
+    return undefined
+  }
+
+  get angleCuisses () {
+
+    if (this.cuisses) {
+      return this.cuisses[this.cuisses.angleWatch]
+    }
+    return undefined
+  }
+
+  get angleJambes () {
+
+    if (this.jambes) {
+      return this.jambes[this.jambes.angleWatch]
+    }
+    return undefined
+  }
+  
+  removePositions() {
+
+    this.list.forEach(device => {
+      
+      device.position = null
+    })
   }
 }

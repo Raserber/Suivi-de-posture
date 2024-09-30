@@ -4,12 +4,10 @@ import { managerED } from "../js/endDeviceClass";
 export const generalStore = defineStore('generalStore', {
     state: () => ({
       
-      messageMQTT: null,
-      
       endDevices: new managerED,
       
       statutMQTT: "",
-      serveurMQTT: "",
+      hostMQTT: "",
       
       dialogBrokerMQTT: {
         visible: true,

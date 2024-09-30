@@ -108,7 +108,7 @@
     
 <script>
     import { generalStore } from '../../../store'
-    import MessageErreur from './messageErreur.vue'
+    import MessageErreur from '../messageErreur.vue'
         
     export default {
 
@@ -162,7 +162,7 @@
 
                     this.submitting = true;
 
-                    this.store.serveurMQTT = `${this.protocolValue}${this.hostValue}:${this.portValue}`
+                    this.store.hostMQTT = `${this.protocolValue}${this.hostValue}:${this.portValue}`
                     window.electronAPI.returnHostAndTopicMQTT({
                         host: `${this.protocolValue}${this.hostValue}:${this.portValue}`,
                         topic: this.topicValue
@@ -175,7 +175,7 @@
 
             watchStatutMQTT(statut) {
 
-                if (this.store.dialogBrokerMQTT.visible && this.submitting) {
+                if (this.store.dialogBrokerMQTT.visible && this.submitting && this.store.dialogBrokerMQTT.step == 1) {
 
                     if (statut == "connect") {
 
