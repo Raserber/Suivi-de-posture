@@ -92,8 +92,8 @@
                     variant="tonal"
                     :loading="submitting"
                     type="submit"
+                    prepend-icon="mdi-access-point"
                 >
-                    <v-icon start icon="mdi-connection"></v-icon>
                     Connexion
                 </v-btn>
             </v-card-actions>
@@ -158,8 +158,6 @@
 
                 if (isValid) {
 
-                    window.electronAPI.returnResetMQTT("front:newConnectionMQTT");
-
                     this.submitting = true;
 
                     this.store.hostMQTT = `${this.protocolValue}${this.hostValue}:${this.portValue}`
@@ -180,6 +178,7 @@
                     if (statut == "connect") {
 
                         this.submitting = false;
+                        this.store.endDevices.reset()
                         this.store.dialogBrokerMQTT.step = 2;
                     }
                     if (statut == "error") {

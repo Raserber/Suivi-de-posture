@@ -12,14 +12,21 @@
                 variant="outlined"
                 width="200"
                 v-bind="selectOptions"
+                item-title="title"
+                item-value="value"
+                single-line
+                :rules="rules"
                 clearable
-                v-model="store.endDevices.list[device.deviceName].position"
+                v-model="device.position"
             >
             </v-select>
             
             <v-radio-group
                 inline
                 true-icon="mdi-check-circle"
+                label="Angle surveillé"
+                :rules="rules"
+                v-model="device.angleWatch"
             >
                 <v-radio label="Angle X" value="angleX"></v-radio>
                 <v-radio label="Angle Y" value="angleY"></v-radio>
@@ -42,9 +49,15 @@
             return { store };
         },
         
-        methods: {
-            
-        },
+        data: () => ({
+            rules: [
+                value => {
+                    if (value) return true
+
+                    return 'Veuillez saisir une valeur'
+                },
+            ], 
+        }),
 
         props: {
             device: Object,

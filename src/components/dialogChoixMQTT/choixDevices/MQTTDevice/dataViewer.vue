@@ -4,7 +4,8 @@
     >
         <v-card
             width="700"
-            height="380"
+            min-height="380"
+            max-height="400"
             class="mx-auto"
         >
             <v-card-title>
@@ -33,22 +34,39 @@
             
             <v-card-text>
                 <vue-json-pretty
-                    :data="device.rawData"
+                    :data="pause ? rawDataPause : device.rawData"
                     show-line
                     virtual
-                    height="200"
+                    :height="200"
                 ></vue-json-pretty>
             </v-card-text>
             
             <v-card-actions>
+                <small 
+                    v-if="!device.isValid || !device.isValidOptional"
+                    :class="`text-${dataValidity.color} ` + 'text-caption font-italic'"
+                >
+                    {{ dataValidity.phrase }}
+                </small>
+                
+                <v-btn
+                    v-else
+                    :icon="pause ? 'mdi-play-speed' : 'mdi-speedometer'"
+                    variant="outlined"
+                    rounded
+                    color="secondary"
+                    v-model="pause"
+                    @click="pause = !pause"
+                ></v-btn>
+                <v-spacer></v-spacer>
                 <v-chip variant="outlined">
-                    angleX : {{ device.angleX.toFixed(3) }}
+                    angleX : {{ pause ? angleXPause.toFixed(3) : (device.angleX*(180/Math.PI)).toFixed(3) }}
                 </v-chip>
                 <v-chip variant="outlined">
-                    angleY : {{ device.angleY.toFixed(3) }}
+                    angleY : {{ pause ? angleYPause.toFixed(3) : (device.angleY*(180/Math.PI)).toFixed(3) }}
                 </v-chip>
                 <v-chip variant="outlined">
-                    angleZ : {{ device.angleZ.toFixed(3) }}
+                    angleZ : {{ pause ? angleZPause.toFixed(3) : (device.angleZ*(180/Math.PI)).toFixed(3) }}
                 </v-chip>
             </v-card-actions>
         </v-card>
@@ -65,14 +83,20 @@
         
         data: () => ({
 
-            visible: false
+            visible: false,
+            pause: false,
+            rawDataPause: {},
+            angleXPause: 0,
+            angleYPause: 0,
+            angleZPause: 0,
         }),
 
         props: {
 
             device: Object,
             timer: Number,
-            dataVisible: Boolean
+            dataVisible: Boolean,
+            dataValidity: Object
         },
 
         watch: {
@@ -80,6 +104,14 @@
             dataVisible: function (newD, oldD) {
 
                 this.visible = newD
+            },
+
+            pause: function () {
+
+                this.rawDataPause = this.device.rawData
+                this.angleXPause = this.device.angleX*(180/Math.PI)
+                this.angleYPause = this.device.angleY*(180/Math.PI)
+                this.angleZPause = this.device.angleZ*(180/Math.PI)
             }
         },
 
@@ -87,5 +119,9 @@
     }
 </script>
 
-<style>
+<style scoped>
+
+    .vjs-tree {
+        user-select: text;
+    }
 </style>

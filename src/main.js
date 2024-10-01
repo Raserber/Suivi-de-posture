@@ -6,6 +6,16 @@ const mqtt = require("mqtt")
 var clientMQTT = null;
 const eventsMQTT = ["connect", "reconnect", "close", "disconnect", "offline", "error", "end"]
 
+const parseJSON = (inputString, fallback) => {
+  if (inputString) {
+    try {
+      return JSON.parse(inputString);
+    } catch (e) {
+      return fallback;
+    }
+  }
+};
+
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
   app.quit();
@@ -29,9 +39,9 @@ const createWindow = () => {
     mainWindow.loadFile(path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`));
   }
 
-  ipcMain.on("returnMessageMQTT", (event, data) => {
+  ipcMain.on("returnMessageMQTT", (event, {topic, message}) => {
 
-    clientMQTT.publish(data.topic, data.data)
+    clientMQTT.publish(topic, message)
   })
   
   ipcMain.on("returnResetMQTT", (event, reason) => {
@@ -50,39 +60,29 @@ const createWindow = () => {
       clientMQTT.end()
     }
     
-    clientMQTT = mqtt.connect(host)
-    
-    selectedTopics.forEach(topic => {
-
-      clientMQTT.subscribe(topic)
-    })
-
+    clientMQTT = mqtt.connect(host, {manualConnect: true})
+        
     function returnMQTTEvent(event) {
       clientMQTT.on(event, () => {
 
         mainWindow.webContents.send("onStatutMQTT", event)
       }) 
     }
-    
+
     eventsMQTT.forEach(event => returnMQTTEvent(event))
+
+    clientMQTT.connect()
+
+    selectedTopics.forEach(topic => {
+
+      clientMQTT.subscribe(topic)
+    })
     
     clientMQTT.on("message", (topic, data) => {
       
-      var dataConverted;
-
-      try {
-        dataConverted = JSON.parse(data)
-      }
-      
-      catch(e) {
-
-        dataConverted = data
-        console.log(e)
-      }
-  
       mainWindow.webContents.send("onMessageMQTT", {
         topic: topic,
-        data: dataConverted
+        data: parseJSON(data)
       })
     })
   })
@@ -93,10 +93,8 @@ const createWindow = () => {
       clientMQTT.end()
     }
 
-    clientMQTT = mqtt.connect(host)
+    clientMQTT = mqtt.connect(host, {manualConnect: true})
 
-    clientMQTT.subscribe(topic)
-    
     function returnMQTTEvent(event) {
       clientMQTT.on(event, () => {
         mainWindow.webContents.send("onStatutMQTT", event)
@@ -105,25 +103,16 @@ const createWindow = () => {
     }
     
     eventsMQTT.forEach(event => returnMQTTEvent(event))
+    
+    clientMQTT.connect()
 
+    clientMQTT.subscribe(topic)
     
     clientMQTT.on("message", (topic, data) => {
 
-      var dataConverted;
-
-      try {
-        dataConverted = JSON.parse(data)
-      }
-      
-      catch(e) {
-
-        dataConverted = data
-        console.log(e)
-      }
-
       mainWindow.webContents.send("onMessageMQTT", {
         topic: topic,
-        data: dataConverted
+        data: parseJSON(data)
       })
     })
   })

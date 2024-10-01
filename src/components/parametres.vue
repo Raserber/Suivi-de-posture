@@ -1,12 +1,13 @@
 <template>
-   <div id="menuBouton" @click="affichageMenu = !affichageMenu"><img src="../icon/icon.png" /></div>
+   <div id="menuBouton" @click="store.dialogBrokerMQTT.visible = true"><img src="../icon/icon.png" /></div>
 
    <div v-if="affichageMenu">
-     heho
+     {{ store.endDevices }}
    </div>
 </template>
   
 <script>
+  import { generalStore } from '../store';
 
   export default {
 
@@ -16,6 +17,14 @@
 
       affichageMenu : false
     }),
+    
+    setup() {
+      const store = generalStore()
+      
+      return {
+        store
+      }
+    }
   }
 </script>
 

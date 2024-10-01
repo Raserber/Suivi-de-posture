@@ -36,6 +36,11 @@
         </v-card-title>
 
         <v-card-text>
+            <v-empty-state
+                v-if="Object.keys(store.endDevices.list).length == 0"
+                icon="mdi-magnify"
+                title="Il semblerait qu'il n'y ait pas de End devices émettant"
+            ></v-empty-state>
             <v-data-iterator
                 :items="Object.values(store.endDevices.list)"
                 :page="page" :items-per-page="6"
@@ -101,7 +106,7 @@
 
         watchStatutMQTT: function (statut) {
 
-            if (statut == "end") {
+            if (statut == "end" && this.store.dialogBrokerMQTT.step == 2 && this.store.dialogBrokerMQTT.visible) {
             
                 this.store.endDevices.reset()
             }

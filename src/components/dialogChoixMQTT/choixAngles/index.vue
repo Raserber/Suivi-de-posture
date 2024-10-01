@@ -38,11 +38,11 @@
                     color="primary"
                     variant="tonal"
                     type="submit"
-                    prepend-icon="mdi-account-tie-hat"
+                    prepend-icon="mdi-check"
                     :loading="submitting"
                     :disabled="store.endDevices.selectedDevices.length < 1"
                 >
-                    Fin
+                    Valider
                 </v-btn>
             </v-card-actions>
         </v-form>
@@ -98,15 +98,8 @@
             switch (this.store.endDevices.selectedDevices.length) {
 
                 case 1 :
-                    return [
-                        {
-                            title: "corps entier",
-                            value: ["torse", "cuisses", "jambes"]
-                        }, 
-                        { title: "torse", value: "torse" },
-                        { title: "cuisses", value: "cuisses" },
-                        { title: "jambes", value: "jambes" }
-                    ]
+                    return ["corps", "torse", "cuisses", "jambes"]
+
                 case 2 :
                     return [
                          position == "torse" || !this.selected.includes("torse") ? {
@@ -162,6 +155,10 @@
                     this.submitting = false;
                     this.store.dialogBrokerMQTT.visible = false;
                     this.store.dialogBrokerMQTT.step = 1;
+                    
+                    if (this.store.endDevices.corps) {
+                        this.store.endDevices.corps.position = ["torse", "cuisses", "jambes"]
+                    }
                 }
                 if (statut == "error") {
 

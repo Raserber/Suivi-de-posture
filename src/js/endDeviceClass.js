@@ -2,13 +2,12 @@
 class endDevice {
 
   constructor (topic, deviceName, data) {
-
+    
     this.selected = false
     this.topic = topic
     this.deviceName = deviceName
     this.position = null
     this.angleWatch = null
-
     this.g = 9.80665
     this.alpha = 0.94
 
@@ -16,7 +15,6 @@ class endDevice {
     this.angleX = 0
     this.angleY = 0
     this.angleZ = 0
-    
     this.updateData(data)
   }
   
@@ -39,25 +37,46 @@ class endDevice {
   
   calculAngles() {
 
-    this.angleX = (1 - this.alpha) * (this.angleX|0 + this.gyrX * this.dt/1000) + this.alpha * this.calculAngleAcceleration(this.accX)
-    this.angleY = (1 - this.alpha) * (this.angleY|0 + this.gyrY * this.dt/1000) + this.alpha * this.calculAngleAcceleration(this.accY)
-    this.angleZ = (1 - this.alpha) * (this.angleZ|0 + this.gyrX * this.dt/1000) + this.alpha * this.calculAngleAcceleration(this.accZ)
+    this.angleX = (1 - this.alpha) * (this.angleX|0 + this.gyrX * this.dt/1000) + this.alpha * this.calculAngleAcceleration("accX")
+    this.angleY = (1 - this.alpha) * (this.angleY|0 + this.gyrY * this.dt/1000) + this.alpha * this.calculAngleAcceleration("accY")
+    this.angleZ = (1 - this.alpha) * (this.angleZ|0 + this.gyrX * this.dt/1000) + this.alpha * this.calculAngleAcceleration("accZ")
   }
 
   calculAngleAcceleration(accReference) {
     let accelX          = this.g * this.accX;
     let accelY          = this.g * this.accY;
     let accelZ          = this.g * this.accZ;
-    let axeReference    = this.g * accReference;
     
-    const accelMagnitude = Math.sqrt(accelX * accelX + accelY * accelY + accelZ * accelZ)
-    
-    return Math.asin(axeReference/accelMagnitude)
+    if (accReference == "accX") {
+      return Math.atan2(accelX, accelZ);  // Utilisation de atan2
+    }
+
+    else if (accReference == "accY") {
+      return Math.atan2(accelY, accelZ);  // Par exemple si tu veux calculer l'angle autour de Y
+    }
+
+    else {
+      return Math.atan2(accelZ, accelX);  // Cas générique
+    }
   }
   
   get time() {
 
     return Math.floor((Date.now() - this.lastTime)/1000)
+  }
+  
+  get isValid() {
+    return (
+      this.accX && this.accY && this.accZ &&
+      this.gyrX && this.gyrY && this.gyrZ
+    )
+  }
+  
+  get isValidOptional() {
+    return (
+      this.findKey("deviceName", this.rawData) &&
+      this.findKey("dt", this.rawData)
+    )
   }
   
   findKey(key, obj) {
@@ -99,12 +118,19 @@ export class managerED {
     
     // trouves le nom du ED à travers le topic MQTT
     var matchTopic = topic.match(/(?:device|iotize)\/([A-Za-z0-9]{10,})/)
-    matchTopic = matchTopic[1] ? matchTopic[1] : topic
+    try {
+      
+      matchTopic = matchTopic[1]
+    }
+    catch (e) {
+
+      matchTopic = topic
+    }
    
     // ordre préférentiel : data.deviceName > matchTopic[1] > topic
     var deviceName = data.deviceName ? data.deviceName : undefined
     deviceName = deviceName ? deviceName : matchTopic
-    
+
     if (this.list[deviceName]) {
 
       this.list[deviceName].updateData(data)
@@ -173,11 +199,16 @@ export class managerED {
 
     return this.selectedDevices.find(device => (device.position != null && device.position != [] ? device.position.includes("jambes") : false))
   }
+
+  get corps () {
+
+    return this.selectedDevices.find(device => (device.position != null && device.position != [] ? device.position.includes("corps") : false))
+  }
   
   get angleTorse () {
 
     if (this.torse) {
-      return this.torse[this.torse.angleWatch]
+      return this.torse[this.torse.angleWatch]*(180/Math.PI)
     }
     return undefined
   }
@@ -185,7 +216,7 @@ export class managerED {
   get angleCuisses () {
 
     if (this.cuisses) {
-      return this.cuisses[this.cuisses.angleWatch]
+      return this.cuisses[this.cuisses.angleWatch]*(180/Math.PI)
     }
     return undefined
   }
@@ -193,7 +224,7 @@ export class managerED {
   get angleJambes () {
 
     if (this.jambes) {
-      return this.jambes[this.jambes.angleWatch]
+      return this.jambes[this.jambes.angleWatch]*(180/Math.PI)
     }
     return undefined
   }
