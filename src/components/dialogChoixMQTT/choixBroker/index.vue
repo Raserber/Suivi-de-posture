@@ -4,11 +4,10 @@
         variant="flat"
       >
         <v-card-title>
-            <v-btn icon variant="text"
-                v-if="store.dialogBrokerMQTT.step > 1"
-                @click="store.dialogBrokerMQTT.step--"
-            >
-                <v-icon>mdi-arrow-left</v-icon>
+            <v-btn variant="text"
+                @click="store.dialogBrokerMQTT.visible = false"
+                icon="mdi-close"
+                >
             </v-btn>
             Connexion au Broker MQTT
         </v-card-title>
