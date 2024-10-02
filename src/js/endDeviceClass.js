@@ -46,9 +46,9 @@ class endDevice {
     this.vecteurGZ = (1 - this.alpha) * (this.vecteurGZ + this.gyrZ * this.dt/1000) + this.alpha * this.accZ
 
     // je ne sais pas pourquoi ça fonctionne mais ça fonctionne 🧟
-    this.angleX = Math.atan2(-this.pythagore(this.vecteurGZ), this.pythagore(this.vecteurGY)) * 180/Math.PI - 90
-    this.angleY = Math.atan2(this.pythagore(this.vecteurGX), -this.pythagore(this.vecteurGZ)) * 180/Math.PI - 90
-    this.angleZ = Math.atan2(this.pythagore(this.vecteurGX), this.pythagore(this.vecteurGY)) * 180/Math.PI - 90
+    this.angleX = this.rebaseAngle(Math.atan2(-this.pythagore(this.vecteurGZ), this.pythagore(this.vecteurGY)) * 180/Math.PI - 90)
+    this.angleY = this.rebaseAngle(Math.atan2(this.pythagore(this.vecteurGX), -this.pythagore(this.vecteurGZ)) * 180/Math.PI - 90)
+    this.angleZ = this.rebaseAngle(Math.atan2(this.pythagore(this.vecteurGX), this.pythagore(this.vecteurGY)) * 180/Math.PI - 90)
     
   }
 
@@ -61,6 +61,11 @@ class endDevice {
     const accelMagnitude = Math.sqrt(accelX * accelX + accelY * accelY + accelZ * accelZ)
     
     return Math.asin(axeReference/accelMagnitude)
+  }
+
+  rebaseAngle(angle) {
+
+    return Math.abs(angle) >= 180 ? (Math.sign(angle) == 1 ? angle - 360 : angle + 360) : angle
   }
   
   get time() {
