@@ -15,6 +15,9 @@ class endDevice {
     this.angleX = 0
     this.angleY = 0
     this.angleZ = 0
+    this.vecteurGX = 0
+    this.vecteurGY = 0
+    this.vecteurGZ = 0
     this.updateData(data)
   }
   
@@ -37,27 +40,27 @@ class endDevice {
   
   calculAngles() {
 
-    this.angleX = (1 - this.alpha) * (this.angleX|0 + this.gyrX * this.dt/1000) + this.alpha * this.calculAngleAcceleration("accX")
-    this.angleY = (1 - this.alpha) * (this.angleY|0 + this.gyrY * this.dt/1000) + this.alpha * this.calculAngleAcceleration("accY")
-    this.angleZ = (1 - this.alpha) * (this.angleZ|0 + this.gyrX * this.dt/1000) + this.alpha * this.calculAngleAcceleration("accZ")
+    // Vecteurs composantes du vecteur accélération terrestre
+    this.vecteurGX = (1 - this.alpha) * (this.vecteurGX + this.gyrX * this.dt/1000) + this.alpha * this.accX
+    this.vecteurGY = (1 - this.alpha) * (this.vecteurGY + this.gyrY * this.dt/1000) + this.alpha * this.accY
+    this.vecteurGZ = (1 - this.alpha) * (this.vecteurGZ + this.gyrZ * this.dt/1000) + this.alpha * this.accZ
+
+    // je ne sais pas pourquoi ça fonctionne mais ça fonctionne 🧟
+    this.angleX = Math.atan2(-this.pythagore(this.vecteurGZ), this.pythagore(this.vecteurGY)) * 180/Math.PI - 90
+    this.angleY = Math.atan2(this.pythagore(this.vecteurGX), -this.pythagore(this.vecteurGZ)) * 180/Math.PI - 90
+    this.angleZ = Math.atan2(this.pythagore(this.vecteurGX), this.pythagore(this.vecteurGY)) * 180/Math.PI - 90
+    
   }
 
-  calculAngleAcceleration(accReference) {
-    let accelX          = this.g * this.accX;
-    let accelY          = this.g * this.accY;
-    let accelZ          = this.g * this.accZ;
+  pythagore(accReference) {
+    let accelX = this.g * this.vecteurGX;
+    let accelY = this.g * this.vecteurGY;
+    let accelZ = this.g * this.vecteurGZ;
+    const axeReference = this.g * accReference;
     
-    if (accReference == "accX") {
-      return Math.atan2(accelX, accelZ);  // Utilisation de atan2
-    }
-
-    else if (accReference == "accY") {
-      return Math.atan2(accelY, accelZ);  // Par exemple si tu veux calculer l'angle autour de Y
-    }
-
-    else {
-      return Math.atan2(accelZ, accelX);  // Cas générique
-    }
+    const accelMagnitude = Math.sqrt(accelX * accelX + accelY * accelY + accelZ * accelZ)
+    
+    return Math.asin(axeReference/accelMagnitude)
   }
   
   get time() {
@@ -208,7 +211,7 @@ export class managerED {
   get angleTorse () {
 
     if (this.torse) {
-      return this.torse[this.torse.angleWatch]*(180/Math.PI)
+      return this.torse[this.torse.angleWatch]
     }
     return undefined
   }
@@ -216,7 +219,7 @@ export class managerED {
   get angleCuisses () {
 
     if (this.cuisses) {
-      return this.cuisses[this.cuisses.angleWatch]*(180/Math.PI)
+      return this.cuisses[this.cuisses.angleWatch]
     }
     return undefined
   }
@@ -224,7 +227,7 @@ export class managerED {
   get angleJambes () {
 
     if (this.jambes) {
-      return this.jambes[this.jambes.angleWatch]*(180/Math.PI)
+      return this.jambes[this.jambes.angleWatch]
     }
     return undefined
   }
