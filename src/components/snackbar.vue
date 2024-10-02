@@ -1,25 +1,38 @@
 <template>
     <v-snackbar
-      v-model="snackbarError"
-      location="top right"
-      min-width="10"
-      min-heigth="1"
-      timer="warning"
-      transition="slide-x-reverse-transition"
+        v-model="error"
+        :model-value="snackbarError"
+        location="top right"
+        min-width="10"
+        min-heigth="1"
+        timer="warning"
+        transition="slide-x-reverse-transition"
+        :open-delay="500"
     >
-        <v-btn variant="outlined" size="small" color="warning" icon="mdi-wifi-strength-4-alert" :ripple="false"></v-btn>
+        <v-btn
+            variant="outlined" size="small"
+            color="warning" icon="mdi-wifi-strength-4-alert"
+            :ripple="false"
+        ></v-btn>
         Connexion au serveur perdue
     </v-snackbar>
 
     <v-snackbar
-      v-model="snackbarConnect"
-      location="top right"
-      min-width="10"
-      min-heigth="1"
-      timer="success"
-      transition="slide-x-reverse-transition"
+        v-model="connect"
+        :model-value="snackbarConnect"
+        location="top right"
+        min-width="10"
+        min-heigth="1"
+        timer="success"
+        transition="slide-x-reverse-transition"
+        :open-delay="500"
     >
-        <v-btn variant="outlined" size="small" color="success" icon="mdi-wifi-check" :ripple="false"></v-btn>
+        <v-btn
+            variant="outlined" size="small"
+            color="success" icon="mdi-wifi-check"
+            :ripple="false"
+        ></v-btn>
+        
         Connexion rétablie
     </v-snackbar>
 </template>
@@ -30,11 +43,9 @@
     export default {
         name: "messageConnexionPerdue",
 
-        components: { VSonner },
-
         data: () => ({
-            snackbarError: false,
-            snackbarConnect: false
+            error: true,
+            connect: true
         }),
 
         setup() {
@@ -50,18 +61,20 @@
                 console.log(statut, oldStatut)
                 if (statut == "error" && oldStatut == "connect") {
 
-                    this.snackbarError = true
+                    this.error = true
                 }
 
                 else if (statut == "connect" && oldStatut == "reconnect") {
 
-                    this.snackbarConnect = true
+                    this.connect = true
                 }
             }
         },
 
         computed: {
-            watchStatutMQTT: ({store}) => (store.statutMQTT)
+            watchStatutMQTT: ({store}) => (store.statutMQTT),
+            snackbarError: ({error, snackbarConnect}) => (error && !snackbarConnect),
+            snackbarConnect: ({connect, snackbarError}) => (connect && !snackbarError),
         }
     }
 </script>
