@@ -1,7 +1,7 @@
 <script>
   import { Male, createStage, getStage, blend, getGroundLevel } from '../mannequinJS/mannequin';
-  import { customPosture, positionY_pointBas } from '../js/mannequinFonctions';
-import { generalStore } from '../store';
+  import { customPosture } from '../js/mannequinFonctions';
+  import { generalStore } from '../store';
 
   export default {
 
@@ -14,13 +14,12 @@ import { generalStore } from '../store';
     mounted() {
 
       createStage(this.animate)
-      // getStage().scene.translateY(-0.25)
+      getStage().camera.position.set(5, 1.5, 0)
     },
-    
-
     
     methods: {
       animate: function (t) {
+
         if (!this.store.dialogBrokerMQTT.visible) {
           
           if (Math.abs(this.store.endDevices.angleTorse) < 160) {
@@ -32,10 +31,12 @@ import { generalStore } from '../store';
           }
           
           else {
+
             this.mannequin.posture = customPosture(this.store.endDevices.angleTorse|0, this.store.endDevices.angleCuisses|0, this.store.endDevices.angleJambes|0)
           }
 
           this.mannequin.position.y += this.ground()
+          this.changementPositionBras()
         }
       },
 
@@ -74,9 +75,9 @@ import { generalStore } from '../store';
           this.mannequin.pelvis.point(-1.5, -4, 0).y,
 
           // tête
-          this.mannequin.head.point(-3.5, 4, 0).y,
-          this.mannequin.head.point(3, 1.75, 0).y,
-          this.mannequin.head.point(0, 7, 0).y,
+          this.mannequin.head.point(-4, 10, 0).y,
+          this.mannequin.head.point(4.5, 8, 0).y,
+          this.mannequin.head.point(0, 11, 0).y,
 
           // genoux
           this.mannequin.l_knee.point(1.25, 0, 0).y,
@@ -88,17 +89,42 @@ import { generalStore } from '../store';
           this.mannequin.l_elbow.point(1, 0, 0).y,
           this.mannequin.r_elbow.point(1, 0, 0).y)
 
-        return (getGroundLevel()-bottom-0.04);
+        return (getGroundLevel()-bottom);
+      },
+
+      changementPositionBras: function () {
+        
+        if (this.mannequin.l_wrist.point(1, 5, 0).y <= getGroundLevel() || this.mannequin.l_wrist.point(1, 2, -1.5).y <= getGroundLevel()) {
+
+          while (this.mannequin.l_wrist.point(1, 5, 0).y <= getGroundLevel()-0.04 || this.mannequin.l_wrist.point(1, 2, -1.5).y <= getGroundLevel()-0.04) {
+            this.mannequin.l_arm.raise   += 0.4
+            this.mannequin.r_arm.raise   += 0.4
+            this.mannequin.l_elbow.bend  += this.mannequin.l_elbow.bend >= 90 ? 0 : 0.01
+            this.mannequin.r_elbow.bend  += this.mannequin.r_elbow.bend >= 90 ? 0 : 0.01
+    
+        }
+        }
+        
+        // boucle descendant les bras si loin du sol
+        else {
+            
+            if (this.mannequin.l_arm.raise > 0) {
+                this.mannequin.l_arm.raise   -= 0.3 + this.mannequin.l_arm.raise * 0.005
+                this.mannequin.r_arm.raise   -= 0.3 + this.mannequin.r_arm.raise * 0.005
+            }
+        
+            else if (this.mannequin.l_elbow.bend > 15) {
+                
+                this.mannequin.l_elbow.bend  -= 0.6 + this.mannequin.l_elbow.bend * 0.02
+                this.mannequin.r_elbow.bend  -= 0.6 + this.mannequin.r_elbow.bend * 0.02
+            }
+    }
       }
     },
     
     setup() {
 
       const store = generalStore()
-      
-      getStage().scene.rotateX(0.3)
-      getStage().scene.rotateY(-1.5)
-
 
       return { store }
     }
