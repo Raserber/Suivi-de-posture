@@ -58,6 +58,7 @@ const createWindow = () => {
     
     if (clientMQTT) {
       clientMQTT.end()
+      clientMQTT = null
     }
     
     clientMQTT = mqtt.connect(host, {manualConnect: true})
@@ -72,7 +73,7 @@ const createWindow = () => {
     eventsMQTT.forEach(event => returnMQTTEvent(event))
 
     clientMQTT.connect()
-
+    
     selectedTopics.forEach(topic => {
 
       clientMQTT.subscribe(topic)
@@ -91,6 +92,7 @@ const createWindow = () => {
     
     if (clientMQTT) {
       clientMQTT.end()
+      clientMQTT = null
     }
 
     clientMQTT = mqtt.connect(host, {manualConnect: true})

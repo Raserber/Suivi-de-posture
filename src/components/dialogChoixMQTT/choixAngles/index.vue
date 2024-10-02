@@ -74,7 +74,8 @@
         
     data: () => ({
         errorAlert: false,
-        submitting: false
+        submitting: false,
+        timeoutSubmitting: null
     }),
         
     methods: {
@@ -90,6 +91,14 @@
                     host: this.store.hostMQTT,
                     selectedTopics: [...this.store.endDevices.selectedTopics]
                 })
+
+                this.timeoutSubmitting =  setTimeout(() => {
+                    console.log("timeout pop")
+                    window.electronAPI.returnTopicsMQTTSelected({
+                    host: this.store.hostMQTT,
+                    selectedTopics: [...this.store.endDevices.selectedTopics]
+                })
+                }, 20000);
             }
         },
 
@@ -149,6 +158,8 @@
         watchStatutMQTT(statut) {
 
             if (this.store.dialogBrokerMQTT.visible && this.submitting && this.store.dialogBrokerMQTT.step == 3) {
+
+                clearTimeout(this.timeoutNoConnectNoError)
 
                 if (statut == "connect") {
 

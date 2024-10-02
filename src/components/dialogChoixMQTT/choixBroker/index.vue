@@ -125,6 +125,7 @@
             activatorProps: true,
             preConfigSelectionne: false,
             submitting: false,
+            timeoutSubmitting: null,
             errorAlert: false,
             connexionMQTTPreConfiguree: "",
             hostValue: "",
@@ -165,6 +166,14 @@
                         host: `${this.protocolValue}${this.hostValue}:${this.portValue}`,
                         topic: this.topicValue
                     });
+
+                    this.timeoutSubmitting = setTimeout(() => {
+                        console.log("timeout pop")
+                        window.electronAPI.returnHostAndTopicMQTT({
+                            host: `${this.protocolValue}${this.hostValue}:${this.portValue}`,
+                            topic: this.topicValue
+                        });
+                    }, 20000)
                 }
             }
         },
@@ -174,6 +183,8 @@
             watchStatutMQTT(statut) {
 
                 if (this.store.dialogBrokerMQTT.visible && this.submitting && this.store.dialogBrokerMQTT.step == 1) {
+
+                    clearTimeout(this.timeoutSubmitting)
 
                     if (statut == "connect") {
 
