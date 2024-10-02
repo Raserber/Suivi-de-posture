@@ -159,7 +159,7 @@
 
             if (this.store.dialogBrokerMQTT.visible && this.submitting && this.store.dialogBrokerMQTT.step == 3) {
 
-                clearTimeout(this.timeoutNoConnectNoError)
+                clearTimeout(this.timeoutSubmitting)
 
                 if (statut == "connect") {
 
