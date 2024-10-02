@@ -10,7 +10,7 @@ export const generalStore = defineStore('generalStore', {
       hostMQTT: "",
       
       dialogBrokerMQTT: {
-        visible: true,
+        visible: false,
         step: 1
       },
     }),
