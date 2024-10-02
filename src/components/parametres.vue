@@ -1,9 +1,6 @@
 <template>
    <div id="menuBouton" @click="store.dialogBrokerMQTT.visible = true"><img src="../icon/icon.png" /></div>
 
-   <div v-if="affichageMenu">
-     {{ store.endDevices }}
-   </div>
 </template>
   
 <script>
@@ -34,8 +31,8 @@
 
     position: absolute;
 
-    width: 60px;
-    height: 40px;
+    width: 80px;
+    height: 50px;
 
     left: 0;
 
