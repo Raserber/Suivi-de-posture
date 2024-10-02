@@ -60,13 +60,13 @@
                 ></v-btn>
                 <v-spacer></v-spacer>
                 <v-chip variant="outlined">
-                    angleX : {{ pause ? angleXPause.toFixed(3) : (device.angleX*(180/Math.PI)).toFixed(3) }}
+                    angleX : {{ pause ? angleXPause.toFixed(3) : device.angleX.toFixed(3) }}
                 </v-chip>
                 <v-chip variant="outlined">
-                    angleY : {{ pause ? angleYPause.toFixed(3) : (device.angleY*(180/Math.PI)).toFixed(3) }}
+                    angleY : {{ pause ? angleYPause.toFixed(3) : device.angleY.toFixed(3) }}
                 </v-chip>
                 <v-chip variant="outlined">
-                    angleZ : {{ pause ? angleZPause.toFixed(3) : (device.angleZ*(180/Math.PI)).toFixed(3) }}
+                    angleZ : {{ pause ? angleZPause.toFixed(3) : device.angleZ.toFixed(3) }}
                 </v-chip>
             </v-card-actions>
         </v-card>
@@ -109,9 +109,9 @@
             pause: function () {
 
                 this.rawDataPause = this.device.rawData
-                this.angleXPause = this.device.angleX*(180/Math.PI)
-                this.angleYPause = this.device.angleY*(180/Math.PI)
-                this.angleZPause = this.device.angleZ*(180/Math.PI)
+                this.angleXPause = this.device.angleX
+                this.angleYPause = this.device.angleY
+                this.angleZPause = this.device.angleZ
             }
         },
 

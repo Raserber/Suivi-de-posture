@@ -21,15 +21,6 @@ window.electronAPI.onMessageMQTT(({topic, data}) => {
     if (data) {
       
       store.endDevices.update(topic, data)
-      
-      window.electronAPI.returnMessageMQTT({
-        topic: "test/test",
-        message: JSON.stringify({
-          angleX: store.endDevices.cuisses.angleX,
-          angleY: store.endDevices.cuisses.angleY,
-          angleZ: store.endDevices.cuisses.angleZ,
-        })
-      })
     }
 })
 
