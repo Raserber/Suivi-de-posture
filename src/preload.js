@@ -10,6 +10,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   returnMessageMQTT: ({topic, message}) => ipcRenderer.send("returnMessageMQTT", {topic, message}),
   returnResetMQTT: (data) => ipcRenderer.send("returnResetMQTT", data),
   returnTopicsMQTTSelected: ({host, selectedTopics}) => ipcRenderer.send("returnTopicsMQTTSelected", {host, selectedTopics}),
+  returnAskFullscreen: (data) => ipcRenderer.send("returnAskFullscreen", data),
    
   
   // Main.js -> renderer

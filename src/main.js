@@ -39,6 +39,11 @@ const createWindow = () => {
     mainWindow.loadFile(path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`));
   }
 
+  ipcMain.on("returnAskFullscreen", (event, isFullscreen) => {
+
+    mainWindow.setFullScreen(isFullscreen)
+  })
+
   ipcMain.on("returnMessageMQTT", (event, {topic, message}) => {
 
     clientMQTT.publish(topic, message)

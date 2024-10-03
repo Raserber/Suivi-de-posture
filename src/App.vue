@@ -5,6 +5,7 @@
   <dialogChoixMQTT></dialogChoixMQTT>
   <notifications></notifications>
 
+  <Informations></Informations>
   <v-img
     id="logoIUT1"
     src="./src/img/IUT1.png"
@@ -18,6 +19,7 @@ import Mannequin from './components/mannequin.vue';
 import Parametres from './components/parametres.vue';
 import notifications from './components/notifications/index.vue';
 import { generalStore } from './store';
+import Informations from './components/informations.vue';
 
 // window.electronAPI.onDonneesMQTT((mqttStatus) => {})
 // window.electronAPI.returnAdressMQTT()
@@ -36,6 +38,22 @@ window.electronAPI.onStatutMQTT(statut => {
   store.statutMQTT = statut
 })
 
+window.addEventListener("keydown", (event) => {
+
+  if (event.key == "F11") {
+
+    event.preventDefault()
+    window.electronAPI.returnAskFullscreen(!store.isFullscreen)
+    store.isFullscreen = !store.isFullscreen
+  }
+  
+  else if (event.key == "r" && event.ctrlKey) {
+
+    window.electronAPI.returnAskFullscreen(false)
+    store.isFullscreen = false
+  }
+});
+
 onBeforeMount(()=> {
 	
 	window.addEventListener('beforeunload', () => { window.electronAPI.returnResetMQTT("front:beforeUnload") })
@@ -47,17 +65,17 @@ onBeforeMount(()=> {
 
 #logoIUT1 {
 
-position: absolute;
-bottom: 0px;
-right: 0px;
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
 
-margin: 1.75vw;
+  margin: 1.75vw;
 
-width: 25vw;
-min-width: 200px;
+  width: 25vw;
+  min-width: 200px;
 
-filter: drop-shadow(rgba(255,255,255,0.25) 0px 0px 7px);
+  filter: drop-shadow(rgba(255,255,255,0.25) 0px 0px 7px);
 
-z-index: 100;
+  z-index: 100;
 }
 </style>

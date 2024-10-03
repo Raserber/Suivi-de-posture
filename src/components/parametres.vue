@@ -54,8 +54,15 @@
 
       <v-btn
         size="large"
-        icon="mdi-cog"
+        :icon="store.isFullscreen ? 'mdi-fullscreen-exit' : 'mdi-fullscreen'"
         key="4"
+        @click="askFullscreen"
+      ></v-btn>
+
+      <v-btn
+        size="large"
+        icon="mdi-cog"
+        key="5"
       ></v-btn>
   </v-speed-dial>
 </template>
@@ -86,6 +93,11 @@
 
         this.store.dialogBrokerMQTT.visible = true
         this.store.dialogBrokerMQTT.step = step
+      },
+
+      askFullscreen: function () {
+        window.electronAPI.returnAskFullscreen(!this.store.isFullscreen)
+        this.store.isFullscreen = !this.store.isFullscreen
       }
     },
 
@@ -108,9 +120,13 @@
   margin-top: 8px;
   margin-left: 12px;
 
-  border-radius: 1em;
-  border: solid 1px rgba(0, 0, 0, 0.2);
-  box-shadow: inset 0 0 1em rgba(0, 0, 0, 0.1);
+	background: rgba(100, 100, 100, 0.1);
+
+	border: solid 1px rgba(0, 0, 0, 0.05);
+	border-radius: 1em;
+	box-shadow: inset 0 0 0.1em rgba(0, 0, 0, 0.1);
+
+	backdrop-filter: blur(0.3em);
   
 
   img {

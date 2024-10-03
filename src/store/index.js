@@ -3,6 +3,9 @@ import { managerED } from "../js/endDeviceClass";
 
 export const generalStore = defineStore('generalStore', {
     state: () => ({
+
+      isFullscreen: false,
+      timerPosition: 10,
       
       endDevices: new managerED,
       
