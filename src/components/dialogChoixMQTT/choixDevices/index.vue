@@ -7,7 +7,7 @@
             <v-btn
                 icon="mdi-arrow-left"
                 v-if="store.dialogBrokerMQTT.step > 1"
-                @click="store.dialogBrokerMQTT.step--;this.store.endDevices.reset()"
+                @click="clickBack"
                 variant="text"
             ></v-btn>
 
@@ -29,7 +29,7 @@
                         </small>
                     </template>
                     <template v-else>
-                        {{ store.endDevices.selectedDevices.length }} sélectionnés
+                        {{ store.endDevices.selectedDevices.length }} sélectionné{{ store.endDevices.selectedDevices.length <= 1 ? '' : 's'}}
                     </template>
                 </v-btn>
             </v-hover>
@@ -67,7 +67,7 @@
                 color="primary"
                 variant="tonal"
                 type="submit"
-                append-icon="mdi-arrow-right"
+                prepend-icon="mdi-robot"
                 :disabled="store.endDevices.selectedDevices.length < 1"
                 @click="store.dialogBrokerMQTT.step++"
             >
@@ -88,6 +88,15 @@
     data: () => ({
         page: 1
     }), 
+        
+    methods: {
+        clickBack: function () {
+
+            this.store.dialogBrokerMQTT.step--
+            window.electronAPI.returnResetMQTT('front:backOnDevices')
+            console.log('test')
+        }
+    },
         
     setup() {
         const store = generalStore();
