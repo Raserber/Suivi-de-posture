@@ -44,8 +44,8 @@
         name: "messageConnexionPerdue",
 
         data: () => ({
-            error: true,
-            connect: true
+            error: false,
+            connect: false
         }),
 
         setup() {
