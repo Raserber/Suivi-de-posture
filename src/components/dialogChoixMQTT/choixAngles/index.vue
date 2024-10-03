@@ -11,6 +11,12 @@
                 variant="text"
             ></v-btn>
 
+            <v-btn
+                variant="tonal"
+                :ripple="false"
+                color="purple-darken-3"
+                icon="mdi-rotate-orbit"
+            ></v-btn>
             Affectations des End Devices
         </v-card-title>
 
@@ -38,7 +44,7 @@
                     color="primary"
                     variant="tonal"
                     type="submit"
-                    prepend-icon="mdi-check"
+                    prepend-icon="mdi-rotate-orbit"
                     :loading="submitting"
                     :disabled="store.endDevices.selectedDevices.length < 1"
                 >

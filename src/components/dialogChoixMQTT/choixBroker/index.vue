@@ -9,6 +9,13 @@
                 icon="mdi-close"
                 >
             </v-btn>
+
+            <v-btn
+                variant="tonal"
+                :ripple="false"
+                color="purple-darken-3"
+                icon="mdi-access-point"
+            ></v-btn>
             Connexion au Broker MQTT
         </v-card-title>
 
@@ -91,7 +98,7 @@
                     variant="tonal"
                     :loading="submitting"
                     type="submit"
-                    prepend-icon="mdi-access-point"
+                    prepend-icon="mdi-connection"
                 >
                     Connexion
                 </v-btn>

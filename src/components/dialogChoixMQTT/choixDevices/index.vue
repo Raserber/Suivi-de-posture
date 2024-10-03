@@ -11,6 +11,13 @@
                 variant="text"
             ></v-btn>
 
+            <v-btn
+                variant="tonal"
+                :ripple="false"
+                color="purple-darken-3"
+                icon="mdi-robot"
+            ></v-btn>
+
             Choix des End Devices
             
             <v-hover v-slot="{isHovering, props}">
@@ -67,7 +74,7 @@
                 color="primary"
                 variant="tonal"
                 type="submit"
-                prepend-icon="mdi-robot"
+                append-icon="mdi-arrow-right"
                 :disabled="store.endDevices.selectedDevices.length < 1"
                 @click="store.dialogBrokerMQTT.step++"
             >
@@ -94,7 +101,6 @@
 
             this.store.dialogBrokerMQTT.step--
             window.electronAPI.returnResetMQTT('front:backOnDevices')
-            console.log('test')
         }
     },
         
