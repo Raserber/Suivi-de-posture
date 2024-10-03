@@ -2,61 +2,61 @@
 
      <v-speed-dial
       location="bottom center"
-      transition="fade-transition"
+      transition="slide-y-transition"
      >
       <template v-slot:activator="{ props: activatorProps }">
         <v-btn
           id="menuBouton"
           v-bind="activatorProps"
         >
+          <v-badge
+            :class="notConnected ? 'ping': ''"
+            color="error"
+            v-if="notConnected"
+          >
+            <img src="../icon/icon.png" />
+          </v-badge>
+            
+          <img src="../icon/icon.png" v-else/>
+        </v-btn>
+      </template>
+
+      <v-btn
+        size="large"
+        icon=""
+        key="1"
+        @click="openDialogMQTT(1)"
+      >
         <v-badge
-          :tag="store.statutMQTT != 'connect' ? 'parametresBouton': ''"
           color="error"
-          :model-value="store.statutMQTT != 'connect'"
+          :class="notConnected ? 'ping': ''"
+          :model-value="notConnected"
         >
-          <img src="../icon/icon.png" />
+          <v-icon>mdi-access-point</v-icon>
         </v-badge>
       </v-btn>
-    </template>
 
-    <v-tooltip text="Connexion MQTT" key="1">
-      <template v-slot:activator="{ props }">
-        <v-badge
-          color="error"
-          dot
-          :model-value="store.statutMQTT != 'connect'"
-        >
-          <v-btn
-            size="large"
-            v-bind="props"
-            icon="mdi-connection"
-            @click="store.dialogBrokerMQTT.visible = true;store.dialogBrokerMQTT.step = 1"
-          ></v-btn>
-        </v-badge>
-      </template>
-    </v-tooltip>
+      <v-btn
+        size="large"
+        icon="mdi-robot"
+        key="2"
+        :disabled="notConnected"
+        @click="openDialogMQTT(2)"
+      ></v-btn>
 
-    <v-tooltip text="Choix End Devices" key="2">
-      <template v-slot:activator="{ props }">
-        <v-btn
-          size="large"
-          v-bind="props"
-          icon="mdi-robot"
-          :disabled="store.statutMQTT != 'connect'"
-          @click="store.dialogBrokerMQTT.visible = true;store.dialogBrokerMQTT.step = 2"
-        ></v-btn>
-      </template>
-    </v-tooltip>
+      <v-btn
+        size="large"
+        icon="mdi-rotate-orbit"
+        key="3"
+        :disabled="notConnected || store.endDevices.selectedDevices.length == 0"
+        @click="openDialogMQTT(3)"
+      ></v-btn>
 
-    <v-tooltip text="Paramètres" key="3">
-      <template v-slot:activator="{ props }">
-        <v-btn
-          size="large"
-          v-bind="props"
-          icon="mdi-cog"
-        ></v-btn>
-      </template>
-    </v-tooltip>
+      <v-btn
+        size="large"
+        icon="mdi-cog"
+        key="4"
+      ></v-btn>
   </v-speed-dial>
 </template>
   
@@ -78,6 +78,19 @@
       return {
         store
       }
+    },
+
+    methods: {
+
+      openDialogMQTT: function (step) {
+
+        this.store.dialogBrokerMQTT.visible = true
+        this.store.dialogBrokerMQTT.step = step
+      }
+    },
+
+    computed: {
+      notConnected: ({store}) => (store.statutMQTT != 'connect')
     }
   }
 </script>
@@ -111,7 +124,7 @@
   }
 }
 
-  parametresBouton {
+  .ping {
     .v-badge__badge {
 	    -webkit-animation: ping 4s ease-in-out infinite forwards;
 	    animation: ping 4s ease-in-out infinite forwards;
@@ -134,52 +147,58 @@
 @-webkit-keyframes ping {
   
   0% {
-    opacity: 0;
-  }
-
-  79% {
-    opacity: 0;
-  }
-
-  80% {
     -webkit-transform: scale(0.2);
-            transform: scale(0.2);
+    transform: scale(0.2);
     opacity: 0.8;
   }
-  96% {
+  
+  16% {
     -webkit-transform: scale(1.2);
-            transform: scale(1.2);
+    transform: scale(1.2);
     opacity: 0;
   }
-  100% {
+
+  20% {
     -webkit-transform: scale(2.2);
-            transform: scale(2.2);
+    transform: scale(2.2);
+    opacity: 0;
+  }
+  
+  21% {
+    opacity: 0;
+  }
+  
+
+  100% {
     opacity: 0;
   }
 }
 @keyframes ping {
   
   0% {
-    opacity: 0;
+    -webkit-transform: scale(0.2);
+    transform: scale(0.2);
+    opacity: 0.8;
   }
   
-  79% {
+  16% {
+    -webkit-transform: scale(1.2);
+    transform: scale(1.2);
     opacity: 0;
   }
 
-  80% {
-    -webkit-transform: scale(0.2);
-            transform: scale(0.2);
-    opacity: 0.8;
-  }
-  96% {
-    -webkit-transform: scale(1.2);
-            transform: scale(1.2);
+  20% {
+    -webkit-transform: scale(2.2);
+    transform: scale(2.2);
     opacity: 0;
   }
+  
+  21% {
+    opacity: 0;
+  }
+  
+
   100% {
-    -webkit-transform: scale(2.2);
-            transform: scale(2.2);
     opacity: 0;
   }
 }
