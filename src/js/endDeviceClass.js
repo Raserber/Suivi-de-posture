@@ -75,8 +75,8 @@ class endDevice {
   
   get isValid() {
     return (
-      this.accX && this.accY && this.accZ &&
-      this.gyrX && this.gyrY && this.gyrZ
+      this.accX != undefined && this.accY != undefined && this.accZ != undefined &&
+      this.gyrX != undefined && this.gyrY != undefined && this.gyrZ != undefined
     )
   }
   
