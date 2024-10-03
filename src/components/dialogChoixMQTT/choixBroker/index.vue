@@ -141,7 +141,7 @@
             rules: {
                 host: [
                     (text) => {
-                        return /^([0-9]{3}\.[0-9]{3}\.[0-9]{1,3}\.[0-9]{1,3})|([a-z][a-zA-Z0-9]{2,}\.[a-zA-Z]{2,})$/.test(text) ? true : "Le host doit être une adresse IP ou une adresse web valide";
+                        return /^([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})|([a-z][a-zA-Z0-9]{2,}\.[a-zA-Z]{2,})$/.test(text) ? true : "Le host doit être une adresse IP ou une adresse web valide";
                     }
                 ],
                 port: [
@@ -168,6 +168,8 @@
                     this.submitting = true;
 
                     this.store.hostMQTT = `${this.protocolValue}${this.hostValue}:${this.portValue}`
+                    this.store.generalTopicMQTT = this.topicValue
+                    
                     window.electronAPI.returnHostAndTopicMQTT({
                         host: `${this.protocolValue}${this.hostValue}:${this.portValue}`,
                         topic: this.topicValue

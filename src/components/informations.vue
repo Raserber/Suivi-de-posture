@@ -63,7 +63,7 @@
 
             setInterval(()=>{
 
-                if (this.isAllonge) {
+                if (this.isAllonge && !this.store.dialogBrokerMQTT.visible) {
 
                     this.timer++
                 }
