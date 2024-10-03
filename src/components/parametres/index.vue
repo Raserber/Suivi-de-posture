@@ -68,7 +68,7 @@
 </template>
   
 <script>
-  import { generalStore } from '../store';
+  import { generalStore } from '../../store';
 
   export default {
 
@@ -90,6 +90,11 @@
     methods: {
 
       openDialogMQTT: function (step) {
+
+        window.electronAPI.returnHostAndTopicMQTT({
+            host: this.store.hostMQTT,
+            topic: this.store.generalTopicMQTT
+        });
 
         this.store.dialogBrokerMQTT.visible = true
         this.store.dialogBrokerMQTT.step = step

@@ -16,7 +16,7 @@
 import { onBeforeMount } from 'vue';
 import dialogChoixMQTT from './components/dialogChoixMQTT/index.vue';
 import Mannequin from './components/mannequin.vue';
-import Parametres from './components/parametres.vue';
+import Parametres from './components/parametres/index.vue';
 import notifications from './components/notifications/index.vue';
 import { generalStore } from './store';
 import Informations from './components/informations.vue';
