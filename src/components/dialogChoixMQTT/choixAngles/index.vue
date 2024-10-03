@@ -159,9 +159,9 @@
 
             if (this.store.dialogBrokerMQTT.visible && this.submitting && this.store.dialogBrokerMQTT.step == 3) {
 
-                clearTimeout(this.timeoutSubmitting)
-
                 if (statut == "connect") {
+
+                    clearTimeout(this.timeoutSubmitting)
 
                     this.submitting = false;
                     this.store.dialogBrokerMQTT.visible = false;
@@ -172,6 +172,8 @@
                     }
                 }
                 if (statut == "error") {
+
+                    clearTimeout(this.timeoutSubmitting)
 
                     this.submitting = false;
                     this.errorAlert = true;

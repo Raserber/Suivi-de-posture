@@ -183,15 +183,17 @@
 
                 if (this.store.dialogBrokerMQTT.visible && this.submitting && this.store.dialogBrokerMQTT.step == 1) {
 
-                    clearTimeout(this.timeoutSubmitting)
-
                     if (statut == "connect") {
+
+                        clearTimeout(this.timeoutSubmitting)
 
                         this.submitting = false;
                         this.store.endDevices.reset()
                         this.store.dialogBrokerMQTT.step = 2;
                     }
                     if (statut == "error") {
+
+                        clearTimeout(this.timeoutSubmitting)
 
                         this.submitting = false;
                         this.errorAlert = true;
