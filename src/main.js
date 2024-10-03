@@ -67,6 +67,7 @@ const createWindow = () => {
       clientMQTT.on(event, () => {
 
         mainWindow.webContents.send("onStatutMQTT", event)
+        console.log(event)
       }) 
     }
 
