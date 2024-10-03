@@ -14,10 +14,10 @@
             color="error"
             v-if="notConnected"
           >
-            <img src="../icon/icon.png" />
+            <img src="../../icon/icon.png" />
           </v-badge>
             
-          <img src="../icon/icon.png" v-else/>
+          <img src="../../icon/icon.png" v-else/>
         </v-btn>
       </template>
 
@@ -63,28 +63,34 @@
         size="large"
         icon="mdi-cog"
         key="5"
+        @click="openSettings = true"
       ></v-btn>
   </v-speed-dial>
+
+  <Settings
+    :is-visible="openSettings"
+    @afterLeave="openSettings=false"
+  ></Settings>
 </template>
   
 <script>
   import { generalStore } from '../../store';
+  import Settings from './settings.vue';
 
   export default {
-
     name: "parametres",
-    
+
     data: () => ({
 
-      affichageMenu : false
+        affichageMenu: false,
+        openSettings: false
     }),
-    
+
     setup() {
-      const store = generalStore()
-      
-      return {
-        store
-      }
+
+        const store = generalStore();
+
+        return { store };
     },
 
     methods: {
@@ -92,6 +98,7 @@
       openDialogMQTT: function (step) {
 
         window.electronAPI.returnHostAndTopicMQTT({
+
             host: this.store.hostMQTT,
             topic: this.store.generalTopicMQTT
         });
@@ -101,18 +108,23 @@
       },
 
       askFullscreen: function () {
-        window.electronAPI.returnAskFullscreen(!this.store.isFullscreen)
-        this.store.isFullscreen = !this.store.isFullscreen
+
+          window.electronAPI.returnAskFullscreen(!this.store.isFullscreen)
+          this.store.isFullscreen = !this.store.isFullscreen
       }
     },
 
     computed: {
-      notConnected: ({store}) => (store.statutMQTT != 'connect')
-    }
-  }
+
+        notConnected: ({ store }) => (store.statutMQTT != 'connect')
+    },
+
+    components: { Settings }
+}
 </script>
 
 <style lang="scss">
+
 #menuBouton {
 
   position: absolute;

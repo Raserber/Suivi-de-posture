@@ -63,7 +63,7 @@
 
             setInterval(()=>{
 
-                if (this.isAllonge && !this.store.dialogBrokerMQTT.visible) {
+                if ((this.isAllonge || (this.store.declenchementPosAssise && this.isAssis)) && !this.store.dialogBrokerMQTT.visible) {
 
                     this.timer++
                 }
@@ -94,8 +94,11 @@
         }),
 
         watch: {
-            etat: function () {
-                    this.timer = 0
+            etat: function (nValue, oldValue) {
+                    if (!(nValue == "assis" && oldValue == "allonge") && !(nValue == "allonge" && oldValue == "assis")) {
+
+                        this.timer = 0
+                    }
             }
         },
 

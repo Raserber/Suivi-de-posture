@@ -6,6 +6,7 @@ export const generalStore = defineStore('generalStore', {
 
       isFullscreen: false,
       timerPosition: 10,
+      declenchementPosAssise: false,
       
       endDevices: new managerED,
       
