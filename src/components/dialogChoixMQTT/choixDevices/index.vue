@@ -7,7 +7,7 @@
             <v-btn
                 icon="mdi-arrow-left"
                 v-if="store.dialogBrokerMQTT.step > 1"
-                @click="store.dialogBrokerMQTT.step--"
+                @click="store.dialogBrokerMQTT.step--;this.store.endDevices.reset()"
                 variant="text"
             ></v-btn>
 
