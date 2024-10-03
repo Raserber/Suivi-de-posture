@@ -84,7 +84,7 @@
                 var vars = [
                     "accX", "accY", "accZ", "gyrX", "gyrY", "gyrZ", 
                 ]
-                var undefinedVars = vars.filter(value => (!this.device[value]))
+                var undefinedVars = vars.filter(value => (this.device[value] == undefined))
                 var options = ["deviceName", "dt"].filter(value => (!this.device.rawData[value]))
                 
                 if (undefinedVars.length != 0) {

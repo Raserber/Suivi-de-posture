@@ -21,19 +21,11 @@
       animate: function (t) {
 
         if (!this.store.dialogBrokerMQTT.visible) {
-          
-          if (Math.abs(this.store.endDevices.angleTorse) < 160) {
 
-            this.mannequin.posture = blend(
-            this.mannequin.posture,
-            customPosture(this.store.endDevices.angleTorse|0, this.store.endDevices.angleCuisses|0, this.store.endDevices.angleJambes|0),
-            0.05)
-          }
-          
-          else {
-
-            this.mannequin.posture = customPosture(this.store.endDevices.angleTorse|0, this.store.endDevices.angleCuisses|0, this.store.endDevices.angleJambes|0)
-          }
+          this.mannequin.posture = blend(
+          this.mannequin.posture,
+          customPosture(this.store.endDevices.angleTorse, this.store.endDevices.angleCuisses, this.store.endDevices.angleJambes),
+          0.05)
 
           this.mannequin.position.y += this.ground()
           this.changementPositionBras()

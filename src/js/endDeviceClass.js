@@ -218,7 +218,7 @@ export class managerED {
     if (this.torse) {
       return this.torse[this.torse.angleWatch]
     }
-    return undefined
+    return 0
   }
 
   get angleCuisses () {
@@ -226,7 +226,7 @@ export class managerED {
     if (this.cuisses) {
       return this.cuisses[this.cuisses.angleWatch]
     }
-    return undefined
+    return 0
   }
 
   get angleJambes () {
@@ -234,7 +234,7 @@ export class managerED {
     if (this.jambes) {
       return this.jambes[this.jambes.angleWatch]
     }
-    return undefined
+    return 0
   }
   
   removePositions() {
