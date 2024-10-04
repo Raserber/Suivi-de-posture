@@ -1,7 +1,7 @@
 {
   "name": "frontPosture",
   "productName": "frontPosture",
-  "version": "7.0.0",
+  "version": "7.1.0",
   "description": "My Electron application description",
   "main": ".vite/build/main.js",
   "scripts": {
@@ -37,7 +37,6 @@
   "dependencies": {
     "bufferutil": "^4.0.8",
     "electron-squirrel-startup": "^1.0.1",
-    "electron-updater": "^6.3.9",
     "mqtt": "^5.10.1",
     "pinia": "^2.2.2",
     "three": "^0.168.0",

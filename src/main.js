@@ -154,3 +154,36 @@ app.on('window-all-closed', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
+
+autoUpdater.setFeedURL({
+  url: "https://github.com/Raserber/Suivi-de-posture/releases/latest/download",
+  headers: {
+    "Cache-Control": "no-cache"
+  }
+})
+
+autoUpdater.checkForUpdates()
+setInterval(() => {
+
+  autoUpdater.checkForUpdates()
+}, 15000)
+
+autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
+  const dialogOpts = {
+    type: 'info',
+    buttons: ['Restart', 'Later'],
+    title: 'Application Update',
+    message: process.platform === 'win32' ? releaseNotes : nomrelease,
+    détail:
+      "Une nouvelle version a été téléchargée. Redémarrez l'application pour appliquer les mises à jour."
+  }
+
+  dialog.showMessageBox(dialogOpts).then((returnValue) => {
+    if (returnValue.response === 0) autoUpdater.quitAndInstall()
+  })
+})
+
+autoUpdater.on('error', (message) => {
+  console.error('There was a problem updating the application')
+  console.error(message)
+})
