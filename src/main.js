@@ -1,7 +1,8 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
-const path = require('node:path');
+import { app, BrowserWindow, autoUpdater, dialog, ipcMain } from 'electron';
+import path from 'node:path';
+import started from 'electron-squirrel-startup'
 
-const mqtt = require("mqtt")
+import mqtt from "mqtt";
 
 var clientMQTT = null;
 const eventsMQTT = ["connect", "reconnect", "close", "disconnect", "offline", "error", "end"]
@@ -17,7 +18,7 @@ const parseJSON = (inputString, fallback) => {
 };
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
-if (require('electron-squirrel-startup')) {
+if (started) {
   app.quit();
 }
 
@@ -30,6 +31,7 @@ const createWindow = () => {
       preload: path.join(__dirname, 'preload.js'),
     },
     autoHideMenuBar: true,
+    icon: path.join(__dirname, "public/icon.png")
   });
 
   // and load the index.html of the app.

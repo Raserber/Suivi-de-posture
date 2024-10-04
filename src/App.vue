@@ -8,7 +8,7 @@
   <Informations></Informations>
   <v-img
     id="logoIUT1"
-    src="./src/img/IUT1.png"
+    src="IUT1.png"
   ></v-img>
 </template>
 

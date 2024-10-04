@@ -20,7 +20,7 @@
     methods: {
       animate: function (t) {
 
-        if (!this.store.dialogBrokerMQTT.visible) {
+        if (!this.store.dialogBrokerMQTT.visible && this.store.hostMQTT != "") {
 
           this.mannequin.posture = blend(
           this.mannequin.posture,

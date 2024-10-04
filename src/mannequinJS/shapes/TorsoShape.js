@@ -2,7 +2,9 @@ import { TextureLoader } from 'three';
 import { BODY_COLORS, cos, cossers, sin } from '../globals.js';
 import { ParametricShape } from './ParametricShape.js';
 
-const texture = new TextureLoader().load("./src/img/IUT1_texture.png")
+import IUT1_texture from "../../img/IUT1_texture.png"
+
+const texture = new TextureLoader().load(IUT1_texture)
 // torso shape as parametric surface
 class TorsoShape extends ParametricShape {
 
