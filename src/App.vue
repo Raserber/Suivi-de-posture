@@ -6,10 +6,17 @@
   <notifications></notifications>
 
   <Informations></Informations>
-  <v-img
-    id="logoIUT1"
+  <v-container
+    id="logos"
+  >
+  <v-img 
     src="IUT1.png"
   ></v-img>
+  <v-img
+    src="FAME.png"
+  >
+  </v-img>
+  </v-container>
 </template>
 
 <script setup>
@@ -24,13 +31,14 @@ import Informations from './components/informations.vue';
 // window.electronAPI.onDonneesMQTT((mqttStatus) => {})
 // window.electronAPI.returnAdressMQTT()
 const store = generalStore()
+var lastTime = 0
 
 window.electronAPI.onMessageMQTT(({topic, data}) => {
 
-    if (data) {
-      
-      store.endDevices.update(topic, data)
-    }
+  if (data) {
+    
+    store.endDevices.update(topic, data)
+  }
 })
 
 window.electronAPI.onStatutMQTT(statut => {
@@ -63,7 +71,7 @@ onBeforeMount(()=> {
 
 <style>
 
-#logoIUT1 {
+#logos {
 
   position: absolute;
   bottom: 0px;
