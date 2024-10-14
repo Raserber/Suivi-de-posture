@@ -18,6 +18,8 @@ class endDevice {
     this.vecteurGX = 0
     this.vecteurGY = 0
     this.vecteurGZ = 0
+    this.conversionAcc = 0
+    this.conversionGyr = 0
     this.updateData(data)
   }
   
@@ -35,6 +37,17 @@ class endDevice {
     this.gyrY = this.findKey("gyrY", data)*(Math.PI/180)
     this.gyrZ = this.findKey("gyrZ", data)*(Math.PI/180)
     
+    this.conversionAcc = this.findKey("conversionAcc", data)
+    this.conversionGyr = this.findKey("conversionGyr", data)
+    
+    this.accX = this.conversionAcc ? this.accX/this.conversionAcc : this.accX
+    this.accY = this.conversionAcc ? this.accY/this.conversionAcc : this.accY
+    this.accZ = this.conversionAcc ? this.accZ/this.conversionAcc : this.accZ
+
+    this.gyrX = this.conversionGyr ? this.gyrX/this.conversionGyr : this.gyrX
+    this.gyrY = this.conversionGyr ? this.gyrY/this.conversionGyr : this.gyrY
+    this.gyrZ = this.conversionGyr ? this.gyrZ/this.conversionGyr : this.gyrZ
+
     this.calculAngles()
   }
   
