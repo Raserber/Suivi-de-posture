@@ -175,6 +175,9 @@
                         topic: this.topicValue
                     });
 
+                    // si MQTT event "connect" ou "error" n'est pas renvoyé
+                    // il est possible que ce soit dû au fait que le main.js s'est bien connecté
+                    // mais n'a pas renvoyé de statut. Dans ce cas là : reconnexion au bout de 20s
                     this.timeoutSubmitting = setTimeout(() => {
                         console.log("timeout pop")
                         window.electronAPI.returnHostAndTopicMQTT({

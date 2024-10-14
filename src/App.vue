@@ -11,6 +11,7 @@
   >
   <v-img 
     src="IUT1.png"
+    style="margin-bottom: 15px;"
   ></v-img>
   <v-img
     src="FAME.png"

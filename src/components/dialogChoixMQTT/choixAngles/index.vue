@@ -6,21 +6,24 @@
         <v-card-title>
             <v-btn
                 icon="mdi-arrow-left"
-                v-if="store.dialogBrokerMQTT.step > 1"
-                @click="store.dialogBrokerMQTT.step--;$refs.form2.reset()"
                 variant="text"
+                v-if="store.dialogBrokerMQTT.step > 1"
+                :disabled="submitting"
+                @click="store.dialogBrokerMQTT.step--;$refs.form2.reset()"
             ></v-btn>
 
             <v-btn
+                icon="mdi-rotate-orbit"
+                color="purple-darken-3"
                 variant="tonal"
                 :ripple="false"
-                color="purple-darken-3"
-                icon="mdi-rotate-orbit"
             ></v-btn>
+
             Affectations des End Devices
         </v-card-title>
 
-        <v-form ref="form2"
+        <v-form
+            ref="form2"
             @submit.prevent="submit"
             validate-on="input"
         >
@@ -32,7 +35,8 @@
                     >
                         <MQTTDevice
                             :disabled="submitting"
-                            :device="device" :select-options="{items : items(device.position)}"
+                            :device="device"
+                            :select-options="{items : items(device.position)}"
                         ></MQTTDevice>
                     </v-col>
                 </v-row>
@@ -43,10 +47,10 @@
                 <v-btn
                     color="primary"
                     variant="tonal"
-                    type="submit"
                     prepend-icon="mdi-rotate-orbit"
-                    :loading="submitting"
+                    type="submit"
                     :disabled="store.endDevices.selectedDevices.length < 1"
+                    :loading="submitting"
                 >
                     Valider
                 </v-btn>
@@ -71,20 +75,21 @@
     name: "choixDevices",
         
     setup() {
+
         const store = generalStore();
         
-        return {
-            store
-        };
+        return { store };
     },
         
     data: () => ({
+
         errorAlert: false,
         submitting: false,
         timeoutSubmitting: null
     }),
         
     methods: {
+
         submit : async function (event) {
             
             const isValid = (await event).valid
@@ -98,6 +103,9 @@
                     selectedTopics: [...this.store.endDevices.selectedTopics]
                 })
 
+                // si MQTT event "connect" ou "error" n'est pas renvoyé
+                // il est possible que ce soit dû au fait que le main.js s'est bien connecté
+                // mais n'a pas renvoyé de statut. Dans ce cas là : reconnexion au bout de 20s
                 this.timeoutSubmitting =  setTimeout(() => {
                     console.log("timeout pop")
                     window.electronAPI.returnTopicsMQTTSelected({
