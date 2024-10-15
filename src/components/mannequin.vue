@@ -24,7 +24,10 @@
 
           this.mannequin.posture = blend(
           this.mannequin.posture,
-          customPosture(this.store.endDevices.angleTorse, this.store.endDevices.angleCuisses, this.store.endDevices.angleJambes),
+          customPosture(this.store.endDevices.angleTorse,
+            this.store.endDevices.angleCuisseGauche, this.store.endDevices.angleCuisseDroite,
+            this.store.endDevices.angleJambeGauche, this.store.endDevices.angleJambeDroite
+            ),
           0.05)
 
           this.mannequin.position.y += this.ground()

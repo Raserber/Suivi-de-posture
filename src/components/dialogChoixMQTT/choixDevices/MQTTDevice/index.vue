@@ -122,7 +122,7 @@
 
                 this.store.endDevices.select(this.device)
                 
-                if (this.store.endDevices.selectedDevices.length > 3) {
+                if (this.store.endDevices.selectedDevices.length > 5) {
 
                     this.store.endDevices.removeFirstSelected()
                 }

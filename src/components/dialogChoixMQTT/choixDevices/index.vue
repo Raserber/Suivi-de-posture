@@ -75,7 +75,7 @@
                 variant="tonal"
                 type="submit"
                 append-icon="mdi-arrow-right"
-                :disabled="store.endDevices.selectedDevices.length < 1"
+                :disabled="store.endDevices.selectedDevices.length < 1 || store.endDevices.selectedDevices.length == 4"
                 @click="store.dialogBrokerMQTT.step++"
             >
                 Suivant

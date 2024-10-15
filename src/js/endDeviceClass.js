@@ -205,25 +205,50 @@ export class managerED {
     
     this.listSelected = []
   }
+
+  searchPosition(position) {
+
+    return this.selectedDevices.find(device => ( device.position != null && device.position != [] ? device.position.includes(position) : false))
+  }
   
   get torse () {
 
-    return this.selectedDevices.find(device => ( device.position != null && device.position != [] ? device.position.includes("torse") : false))
+    return this.searchPosition("torse")
   }
   
   get cuisses () {
-
-    return this.selectedDevices.find(device => (device.position != null  && device.position != [] ? device.position.includes("cuisses") : false))
+    
+    return this.searchPosition("cuisses")
   }
   
   get jambes () {
 
-    return this.selectedDevices.find(device => (device.position != null && device.position != [] ? device.position.includes("jambes") : false))
+    return this.searchPosition("jambes")
+  }
+
+  get cuisseGauche () {
+
+    return this.searchPosition("cuisseGauche")
+  }
+
+  get cuisseDroite () {
+
+    return this.searchPosition("cuisseDroite")
+  }
+  
+  get jambeGauche () {
+
+    return this.searchPosition("jambeGauche")
+  }
+
+  get jambeDroite () {
+
+    return this.searchPosition("jambeDroite")
   }
 
   get corps () {
 
-    return this.selectedDevices.find(device => (device.position != null && device.position != [] ? device.position.includes("corps") : false))
+    return this.searchPosition("corps")
   }
   
   get angleTorse () {
@@ -248,6 +273,38 @@ export class managerED {
       return this.jambes[this.jambes.angleWatch]
     }
     return 0
+  }
+
+  get angleCuisseGauche () {
+
+    if (this.cuisseGauche) {
+      return this.cuisseGauche[this.cuisseGauche.angleWatch]
+    }
+    return this.angleCuisses
+  }
+
+  get angleCuisseDroite () {
+
+    if (this.cuisseDroite) {
+      return this.cuisseDroite[this.cuisseDroite.angleWatch]
+    }
+    return this.angleCuisses
+  }
+
+  get angleJambeDroite () {
+
+    if (this.jambeDroite) {
+      return this.jambeDroite[this.jambeDroite.angleWatch]
+    }
+    return this.angleJambes
+  }
+
+  get angleJambeGauche () {
+
+    if (this.jambeGauche) {
+      return this.jambeGauche[this.jambeGauche.angleWatch]
+    }
+    return this.angleJambes
   }
   
   removePositions() {

@@ -30,7 +30,7 @@
             <v-card-text>
                 <v-row dense>
                     <v-col
-                        cols="12"
+                        :cols="this.store.endDevices.selectedDevices.length <= 3 ? '12' : '6'"
                         v-for="device in store.endDevices.selectedDevices"
                     >
                         <MQTTDevice
@@ -118,6 +118,8 @@
 
         items(position) {
 
+            this.$emit("dialogWidth", 600)
+
             switch (this.store.endDevices.selectedDevices.length) {
 
                 case 1 :
@@ -152,6 +154,17 @@
                         }
                     ].filter(option => ((position != null ? position.includes(option.value) : false) || !this.selected.includes(option.value))))
                     break;
+                
+                case 5 :
+                    this.$emit("dialogWidth", 1200)
+                    return ([
+                        "torse",
+                        "cuisseGauche",
+                        "cuisseDroite",
+                        "jambeGauche",
+                        "jambeDroite"
+                    ].filter(option => ((position != null ? position.includes(option) : false) || !this.selected.includes(option))))
+                    break;
             }
             
             return []
@@ -161,7 +174,11 @@
     computed : {
         selected: function () {
 
-            return [this.store.endDevices.torse ? "torse" : '', this.store.endDevices.cuisses ? "cuisses" : '', this.store.endDevices.jambes ? "jambes" : '']
+            return [
+                this.store.endDevices.torse ? "torse" : '', this.store.endDevices.cuisses ? "cuisses" : '', this.store.endDevices.jambes ? "jambes" : '',
+                this.store.endDevices.cuisseGauche ? "cuisseGauche" : '', this.store.endDevices.cuisseDroite ? "cuisseDroite" : '',
+                this.store.endDevices.jambeGauche ? "jambeGauche" : '', this.store.endDevices.jambeDroite ? "jambeDroite" : '',
+            ]
         },
         
         watchStatutMQTT: ({ store }) => (store.statutMQTT)
@@ -175,6 +192,7 @@
 
                 if (statut == "connect") {
 
+                    this.$emit("dialogWidth", 600)
                     clearTimeout(this.timeoutSubmitting)
 
                     this.submitting = false;
@@ -186,7 +204,8 @@
                     }
                 }
                 if (statut == "error") {
-
+                    
+                    this.$emit("dialogWidth", 600)
                     clearTimeout(this.timeoutSubmitting)
 
                     this.submitting = false;

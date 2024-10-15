@@ -2,7 +2,7 @@
     <v-dialog
         v-model="store.dialogBrokerMQTT.visible"
         persistent
-        width="600"
+        :width="store.dialogBrokerMQTT.step == 3 ? dialogWidth : 600"
     >
         <v-window v-model="store.dialogBrokerMQTT.step">
 
@@ -15,7 +15,9 @@
             </v-window-item>
 
             <v-window-item :value="3">
-                <ChoixAngles></ChoixAngles>
+                <ChoixAngles
+                    @dialogWidth="changeDialogWidth"
+                ></ChoixAngles>
             </v-window-item>
  
         </v-window>
@@ -32,12 +34,24 @@
 
         name: "dialogChoixMQTT",
 
+        data: () => ({
+            dialogWidth: 600
+        }),
+
         setup() {
 
             const store = generalStore()
 
             return {
                 store
+            }
+        },
+
+        methods: {
+
+            changeDialogWidth: function (width) {
+
+                this.dialogWidth = width
             }
         },
 
