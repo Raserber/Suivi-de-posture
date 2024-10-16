@@ -1,7 +1,7 @@
 {
   "name": "frontPosture",
   "productName": "frontPosture",
-  "version": "7.2.0-alpha2",
+  "version": "7.2.0-alpha3",
   "description": "My Electron application description",
   "main": ".vite/build/main.js",
   "scripts": {

@@ -14,7 +14,7 @@
     mounted() {
 
       createStage(this.animate)
-      getStage().camera.position.set(5, 2, 2)
+      getStage().camera.position.set(4, 2, 1.5)
     },
     
     methods: {
