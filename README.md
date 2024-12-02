@@ -55,7 +55,9 @@ The MQTT messages must:
     "gyrX": [Double](deg/s),
     "gyrY": [Double](deg/s),
     "gyrZ": [Double](deg/s)
-    // These values are used in the data fusion algorithm to calculate angleX, angleY, and angleZ.
+    // These values are used in the
+    // data fusion algorithm to calculate
+    // angleX, angleY, and angleZ.
 }
 
 ```
@@ -63,10 +65,14 @@ The MQTT messages must:
 
 ```JSON
 {
-    "deviceName": String, // The name to be displayed
-    "dt": [Number](ms) // Delta time between each measurement (should be less than 2000ms for good results). If not specified, it defaults to 100ms. It's strongly recommended to set this in your MQTT message.
+    "deviceName": [String], // The name to be displayed
+    "dt": [Number](ms)  // Delta time between each measurement
+    "conversionAcc" : [Double] // optionnal, permit to convert from raw data : acc = raw_acc/conversionAcc
+    "conversionGyr" : [Double] // gyr = raw_gyr/conversionGyr
 }
 ```
+*The delta time should be less than 2000ms for good results. If it is not specified the default value is 100ms. It's strongly recommended to set this in your MQTT message.*
+
 
 > The square at top left is a button opening a configuration menu.
 
