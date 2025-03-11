@@ -50,6 +50,7 @@
                 <v-btn
                     color="primary"
                     prepend-icon="mdi-content-save"
+                    @click="visible = false"
                 >
                     Sauvegarder
                 </v-btn>
