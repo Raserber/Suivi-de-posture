@@ -108,11 +108,11 @@
 
             etat: function () {
 
-                if (Math.abs(this.store.endDevices.angleCuisses) <= 50) {
+                if (Math.min(Math.abs(this.store.endDevices.angleCuisseGauche), Math.abs(this.store.endDevices.angleCuisseDroite)) <= 50) {
                     return "debout"
                 }
 
-                else if (Math.abs(this.store.endDevices.angleTorse) <= 45 && -this.store.endDevices.angleCuisses >= 45) {
+                else if ((Math.abs(this.store.endDevices.angleTorse) <= 45) && ((this.store.endDevices.angleCuisseGauche <= -45) || (this.store.endDevices.angleCuisseDroite <= -45))) {
                     return "assis"
                 }
 
