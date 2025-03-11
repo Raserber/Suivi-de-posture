@@ -38,6 +38,7 @@ import Snackbar from './snackbar.vue';
             }
             else if (statut == "connect" && oldStatut == "reconnect") {
                 this.connect = true;
+                this.error = false
             }
         }
     },
