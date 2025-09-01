@@ -36,8 +36,8 @@
   "license": "MIT",
   "dependencies": {
     "bufferutil": "^4.0.8",
-    "electron-json-storage": "^4.6.0",
     "electron-squirrel-startup": "^1.0.1",
+    "electron-store": "^10.1.0",
     "mqtt": "^5.10.1",
     "pinia": "^2.2.2",
     "three": "^0.168.0",
