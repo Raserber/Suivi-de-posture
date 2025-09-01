@@ -100,7 +100,7 @@
                 
                 window.electronAPI.returnTopicsMQTTSelected({
                     host: this.store.hostMQTT,
-                    selectedTopics: [...this.store.endDevices.selectedTopics, "+/+/data/batterie"]
+                    selectedTopics: [...this.store.endDevices.selectedTopics, "FAME/+/data/batterie"]
                 })
 
                 // si MQTT event "connect" ou "error" n'est pas renvoyé
@@ -110,7 +110,7 @@
                     console.log("timeout pop")
                     window.electronAPI.returnTopicsMQTTSelected({
                     host: this.store.hostMQTT,
-                    selectedTopics: [...this.store.endDevices.selectedTopics, "+/+/data/batterie"]
+                    selectedTopics: [...this.store.endDevices.selectedTopics, "FAME/+/data/batterie"]
                 })
                 }, 20000);
             }
