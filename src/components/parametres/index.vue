@@ -65,6 +65,14 @@
         key="5"
         @click="openSettings = true"
       ></v-btn>
+
+      <v-btn
+        size="large"
+        icon="mdi-github"
+        key="6"
+        target="_blank"
+        href="https://github.com/Raserber/Suivi-de-posture"
+      ></v-btn>
   </v-speed-dial>
 
   <Settings
