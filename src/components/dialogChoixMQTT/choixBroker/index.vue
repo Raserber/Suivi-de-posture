@@ -74,7 +74,7 @@
                     <v-col cols="7">
                         <v-select
                             clearable
-                            :items="['Didalab (LoRaWAN)', 'IoTize (Wifi)', 'STM32 (BLE)']"
+                            :items="['STM32 (BLE)', 'Didalab (LoRaWAN)', 'IoTize (Wifi)']"
                             label="Connexion MQTT pré-configurée"
                             variant="outlined"
                             :disabled="submitting"
@@ -237,7 +237,7 @@
                 else if (newData == "STM32 (BLE)") {
 
                     this.protocolValue = "mqtt://";
-                    this.hostValue = "192.168.1.219";
+                    this.hostValue = "raspberrypi.local";
                     this.portValue = "1883";
                     this.topicValue = "FAME/+/data/capteurs/#";
                 }
