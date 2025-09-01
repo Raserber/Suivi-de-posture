@@ -9,6 +9,7 @@ export const generalStore = defineStore('generalStore', {
       declenchementPosAssise: false,
       
       endDevices: new managerED,
+      pourcentageBatterie : -1,
       
       statutMQTT: "",
       hostMQTT: "",

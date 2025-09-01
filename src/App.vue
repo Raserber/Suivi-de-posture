@@ -1,5 +1,6 @@
 <template>
   <Parametres></Parametres>
+  <Batterie></Batterie>
   <Mannequin></Mannequin>
   
   <dialogChoixMQTT></dialogChoixMQTT>
@@ -28,6 +29,7 @@ import Parametres from './components/parametres/index.vue';
 import notifications from './components/notifications/index.vue';
 import { generalStore } from './store';
 import Informations from './components/informations.vue';
+import Batterie from './components/batterie.vue';
 
 // window.electronAPI.onDonneesMQTT((mqttStatus) => {})
 // window.electronAPI.returnAdressMQTT()
@@ -36,7 +38,12 @@ var lastTime = 0
 
 window.electronAPI.onMessageMQTT(({topic, data}) => {
 
-  if (data) {
+  if (topic.includes("batterie")) {
+
+    store.pourcentageBatterie = data.pourcentage
+  }
+
+  else if (data) {
     
     store.endDevices.update(topic, data)
   }
