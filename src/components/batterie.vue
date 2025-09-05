@@ -1,6 +1,6 @@
 <template>
     <v-btn
-        v-if="store.pourcentageBatterie != -1"
+    v-if="store.pourcentageBatterie != -1"
         id="batterie"
     >
         
@@ -8,7 +8,7 @@
             :start="true" size="x-large"
             color="blue-grey-darken-1"
         >    
-            mdi-battery-{{ store.pourcentageBatterie%10 < 5 ? store.pourcentageBatterie-store.pourcentageBatterie%10 : store.pourcentageBatterie+10-store.pourcentageBatterie%10 }}-bluetooth
+            mdi-battery-{{ store.pourcentageBatterie <= 9 ? 10 : (store.pourcentageBatterie%10 < 5 ? store.pourcentageBatterie-store.pourcentageBatterie%10 : store.pourcentageBatterie+10-store.pourcentageBatterie%10) }}-bluetooth
         </v-icon>
         <span color="blue-grey-darken-1" style="font-weight: 800;">{{store.pourcentageBatterie}}%</span>
     </v-btn>
