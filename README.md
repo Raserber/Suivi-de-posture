@@ -17,6 +17,16 @@ This project was carried out within the scope of the [FAME project](https://iut1
 - Real-time animation of a 3D dummy based on sensor data.
 - Intuitive user interface for viewing posture data.
 
+## Composition of this project
+
+This project is composed of 3 main GitHub repository :
+- [Raserber/Suivi-de-posture](https://github.com/Raserber/Suivi-de-posture) *(this repository)* : Windows application (ElectronJS)
+- [Raserber/Suivi-de-posture-raspberrypi](https://github.com/Raserber/Suivi-de-posture-raspberrypi) : BLE Gateway on RPI 4B (Python)
+- [Raserber/Suivi-de-posture-STM32](https://github.com/Raserber/Suivi-de-posture-STM32) : Embedded system on STM32WB55 with BLE capacity (Clang)
+
+And 1 additional GitHub repository : 
+- [Raserber/Suivi-de-posture-kicad](https://github.com/Raserber/Suivi-de-posture-kicad) : Kicad files of the PCB designed with the STM32WB55 and the captors
+
 ## System Requirements 💻
 
 To install the `.exe`, you must have a Windows system with x64/x86 architecture.
