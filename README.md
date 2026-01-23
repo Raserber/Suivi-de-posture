@@ -2,7 +2,7 @@
 
 This project was developed as part of a work-study program at IUT 1 in Grenoble during my internship.
 
-![iut1](public/IUT1.png)
+![iut1](public/IUT1.png) <img alt="FAME" src="https://github.com/user-attachments/assets/65c347b5-5d12-48b8-a15a-988530869aa0" />
 
 It is a web application designed to track and analyze a user's posture using remote sensors. The application uses [Three.js](https://threejs.org/) ([MannequinJS by Boytchev](https://github.com/boytchev/mannequin.js)) for 3D visualization and is packaged in an Electron application for deployment on Windows.
 
