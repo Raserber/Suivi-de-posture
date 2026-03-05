@@ -6,6 +6,15 @@ This project was developed as part of a work-study program at IUT 1 in Grenoble 
 
 It is a web application designed to track and analyze a user's posture using remote sensors. The application uses [Three.js](https://threejs.org/) ([MannequinJS by Boytchev](https://github.com/boytchev/mannequin.js)) for 3D visualization and is packaged in an Electron application for deployment on Windows.
 
+<div align="center">
+    <a href="https://www.youtube.com/watch?v=Z49ukXigbd4">
+        <img width="1920" height="871" alt="image" src="https://github.com/user-attachments/assets/b4e4e397-165d-4687-a2d1-6df177119fb6" />
+    </a>
+    https://www.youtube.com/watch?v=Z49ukXigbd4 (4min35)
+</div>
+
+<br>
+
 This project was carried out within the scope of the [FAME project](https://iut1.univ-grenoble-alpes.fr/actualites/projet-fame-un-boost-pour-les-metiers-de-l-electronique-a-l-iut1--1439817.kjsp) (Formation et attractivité des métiers de l'électronique), supported by the [UGA](https://www.univ-grenoble-alpes.fr/), as part of a demonstrator showcasing electronics and embedded systems projects. The second part of the project involves creating sensors for embedded systems using STM32 and the LoRaWAN communication protocol. This aspect focuses on the "business skills" GEII students develop during their training.
 
 ![example image](readme_img/1.PNG)
